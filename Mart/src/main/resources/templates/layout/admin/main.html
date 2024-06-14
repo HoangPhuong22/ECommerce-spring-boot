@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Tona-Mart Admin </title>
+    <meta
+            content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+            name="viewport"
+    />
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="76x76" th:href="@{/user/assets/favicon/apple-touch-icon.png}" />
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/user/assets/favicon/favicon-32x32.png}" />
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/user/assets/favicon/favicon-16x16.png}" />
+    <link rel="manifest" th:href="@{/user/assets/favicon/site.webmanifest}" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <!-- Fonts and icons -->
+    <script th:src="@{/admin/assets/js/plugin/webfont/webfont.min.js}"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var fontsUrl = /*[[@{/admin/assets/css/fonts.min.css}]]*/ 'default';
+        WebFont.load({
+            google: { families: ["Public Sans:300,400,500,600,700"] },
+            custom: {
+                families: [
+                    "Font Awesome 5 Solid",
+                    "Font Awesome 5 Regular",
+                    "Font Awesome 5 Brands",
+                    "simple-line-icons",
+                ],
+                urls: [fontsUrl],
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            },
+        });
+        /*]]>*/
+    </script>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" th:href="@{/admin/assets/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/admin/assets/css/plugins.min.css}"/>
+    <link rel="stylesheet" th:href="@{/admin/assets/css/kaiadmin.min.css}"/>
+
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link rel="stylesheet" th:href="@{/admin/assets/css/demo.css}" />
+
+    <script th:src="@{/admin/assets/js/test.js}"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <div layout:insert="~{layout/admin/sidebar :: sidebar}"></div>
+        <!-- End Sidebar -->
+
+        <div class="main-panel">
+            <div class="main-header" layout:insert="~{layout/admin/header :: header}">
+            </div>
+
+            <div class="container">
+                <div class="page-inner" layout:fragment="content">
+                </div>
+            </div>
+            <div layout:insert="~{layout/admin/footer :: footer}"></div>
+        </div>
+
+<!--        &lt;!&ndash; Custom template | don't include it in your project! &ndash;&gt;-->
+<!--        <div class="custom-template" layout:insert="~{layout/admin/custom-template :: custom-template}">-->
+<!--        </div>-->
+<!--        &lt;!&ndash; End Custom template &ndash;&gt;-->
+    </div>
+
+    <!--   Core JS Files   -->
+    <script th:src="@{/admin/assets/js/core/jquery-3.7.1.min.js}"></script>
+    <script th:src="@{/admin/assets/js/core/popper.min.js}"></script>
+    <script th:src="@{/admin/assets/js/core/bootstrap.min.js}"></script>
+
+    <!-- jQuery Scrollbar -->
+    <script th:src="@{/admin/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
+
+    <!-- Chart JS -->
+    <script th:src="@{/admin/assets/js/plugin/chart.js/chart.min.js}"></script>
+
+    <!-- jQuery Sparkline -->
+    <script th:src="@{/admin/assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js}"></script>
+
+    <!-- Chart Circle -->
+    <script th:src="@{/admin/assets/js/plugin/chart-circle/circles.min.js}"></script>
+
+    <!-- Datatables -->
+    <script th:src="@{/admin/assets/js/plugin/datatables/datatables.min.js}"></script>
+
+    <!-- jQuery Vector Maps -->
+    <script th:src="@{/admin/assets/js/plugin/jsvectormap/jsvectormap.min.js}"></script>
+    <script th:src="@{/admin/assets/js/plugin/jsvectormap/world.js}"></script>
+
+    <!-- Sweet Alert -->
+    <script th:src="@{/admin/assets/js/plugin/sweetalert/sweetalert.min.js}"></script>
+
+    <!-- Kaiadmin JS -->
+    <script th:src="@{/admin/assets/js/kaiadmin.min.js}"></script>
+
+    <script>
+        $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
+            type: "line",
+            height: "70",
+            width: "100%",
+            lineWidth: "2",
+            lineColor: "#177dff",
+            fillColor: "rgba(23, 125, 255, 0.14)",
+        });
+
+        $("#lineChart2").sparkline([99, 125, 122, 105, 110, 124, 115], {
+            type: "line",
+            height: "70",
+            width: "100%",
+            lineWidth: "2",
+            lineColor: "#f3545d",
+            fillColor: "rgba(243, 84, 93, .14)",
+        });
+
+        $("#lineChart3").sparkline([105, 103, 123, 100, 95, 105, 115], {
+            type: "line",
+            height: "70",
+            width: "100%",
+            lineWidth: "2",
+            lineColor: "#ffa534",
+            fillColor: "rgba(255, 165, 52, .14)",
+        });
+    </script>
+</body>
+</html>

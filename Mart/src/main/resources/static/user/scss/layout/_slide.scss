@@ -1,0 +1,75 @@
+@use "../abstracts";
+.slide {
+  margin: 30px 0;
+  overflow: hidden;
+  width: 100%;
+  height: 350px;
+  position: relative;
+  border-radius: 10px;
+  @include abstracts.screen(lg) {
+    height: 250px;
+  }
+  @include abstracts.screen(sm) {
+    height: 150px;
+  }
+  &__list {
+    z-index: 7;
+    display: flex; // Hiển thị ảnh theo chiều ngang
+    transition: transform 0.5s ease-in-out; // Thêm hiệu ứng chuyển đổi mượt mà
+    height: 100%;
+  }
+  &__list a {
+    height: 100%;
+    flex-shrink: 0; // Không co lại
+    width: 100%; // Mỗi ảnh chiếm 100% chiều rộng container
+  }
+  &__white {
+    background-color: #fff !important;
+  }
+  &__action {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+    justify-content: space-between;
+    @include abstracts.screen(lg) {
+      bottom: 8px;
+    }
+    &-hover {
+      color: #fff;
+      padding: 0 20px;
+      font-size: 2rem;
+      @include abstracts.screen(sm) {
+        font-size: 1.4rem;
+      }
+      cursor: pointer;
+    }
+  }
+  &__action-btn {
+    display: flex;
+    gap: 10px;
+  }
+  &__btn-hover {
+    width: 13px;
+    height: 13px;
+    border: 1px solid #ccc;
+    border-radius: 999px;
+    background-color: rgba(183, 179, 179, 0.5);
+    @include abstracts.screen(sm) {
+      width: 8px;
+      height: 8px;
+    }
+    &:hover {
+      background: #fff;
+      cursor: pointer;
+    }
+  }
+  &__image {
+    width: 100%;
+    height: inherit;
+    object-fit: cover;
+  }
+}

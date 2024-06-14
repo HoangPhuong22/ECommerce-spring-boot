@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tona Mart</title>
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="76x76" th:href="@{/user/assets/favicon/apple-touch-icon.png}" />
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/user/assets/favicon/favicon-32x32.png}" />
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/user/assets/favicon/favicon-16x16.png}" />
+    <link rel="manifest" th:href="@{/user/assets/favicon/site.webmanifest}" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <!-- Fonts -->
+    <link rel="stylesheet" th:href="@{/user/assets/fonts/stylesheet.css}" />
+
+    <!-- Styles -->
+    <link rel="stylesheet" th:href="@{/user/assets/css/main.css}" />
+
+    <!-- Scripts -->
+    <script th:src="@{/user/assets/js/scripts.js}"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header" class="header" layout:insert="~{layout/user/header :: header}"></header>
+
+    <!-- MAIN -->
+    <main class="container home">
+        <div layout:fragment="content"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="footer" layout:insert="~{layout/user/footer :: footer}"></footer>
+</body>
+</html>

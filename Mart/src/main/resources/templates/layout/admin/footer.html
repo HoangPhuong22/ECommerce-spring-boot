@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+<footer layout:fragment="footer" class="footer">
+    <div class="container-fluid d-flex justify-content-between">
+        <nav class="pull-left">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{https://www.facebook.com/Hoang.Phuong3183/}">
+                        Liên hệ
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{https://www.facebook.com/Hoang.Phuong3183/}"> Trợ giúp </a>
+                </li>
+                <li class="nav-item">
+                    <!--           Email         -->
+                    <a class="nav-link" href="mailto:phuongkaito3183@gmail.com">Liên hệ với chúng tôi</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="copyright">
+            2024, chủ quyền sản phẩm <i class="fa fa-heart heart text-danger"></i> thuộc
+            <a th:href="@{https://www.facebook.com/Hoang.Phuong3183/}">Hoàng Phương</a>
+        </div>
+    </div>
+</footer>
