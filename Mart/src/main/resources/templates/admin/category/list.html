@@ -8,15 +8,17 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex align-items-center">
-                <h4 class="card-title">Quản lý danh mục</h4>
-                <button
-                        class="btn btn-primary btn-round ms-auto"
-                        data-bs-toggle="modal"
-                        data-bs-target="#addRowModal"
-                >
-                    <i class="fa fa-plus"></i>
-                    Thêm danh mục
-                </button>
+                <h4 class="card-title">Quản lý danh mục con</h4>
+                <a href="/admin/category/add" style="margin-left: auto">
+                    <button
+                            class="btn btn-primary btn-round ms-auto"
+                            data-bs-toggle="modal"
+                            data-bs-target="#addRowModal"
+                    >
+                        <i class="fa fa-plus"></i>
+                        Thêm mới
+                    </button>
+                </a>
             </div>
         </div>
         <div class="card-body">
@@ -30,7 +32,7 @@
                         <th>STT</th>
                         <th>Tên danh mục</th>
                         <th>Số lượng sản phẩm</th>
-                        <th style="text-align: center">Thao tác</th>
+                        <th>Thao tác</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -40,24 +42,27 @@
                         <td>0</td>
                         <td>
                             <div class="form-button-action">
-                                <button
+                                <a
                                         type="button"
                                         data-bs-toggle="tooltip"
                                         title=""
                                         class="btn btn-link btn-primary btn-lg"
                                         data-original-title="Edit Task"
+                                        th:href="@{'/admin/category/edit/' + ${category.id}}"
                                 >
                                     <i class="fa fa-edit"></i>
-                                </button>
-                                <button
+                                </a>
+                                <a
                                         type="button"
                                         data-bs-toggle="tooltip"
                                         title=""
                                         class="btn btn-link btn-danger"
                                         data-original-title="Remove"
+                                        th:href="@{'/admin/category/delete/' + ${category.id}}"
+                                        onclick="if(!confirm('Bạn có chắc chắn muốn xóa không?')) return false;"
                                 >
                                     <i class="fa fa-times"></i>
-                                </button>
+                                </a>
                             </div>
                         </td>
                     </tr>

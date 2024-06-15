@@ -377,9 +377,11 @@ INSERT INTO tbl_category (name, parent_id) VALUES
 ('Nồi áp suất', @parent_id);
 
 -- Thêm dữ liệu cho các danh mục con của "Thời trang"
-INSERT INTO tbl_category (name, parent_id) VALUES ('Quần áo nam', (SELECT id FROM tbl_category WHERE name = 'Thời trang'));
-INSERT INTO tbl_category (name, parent_id) VALUES ('Quần áo nữ', (SELECT id FROM tbl_category WHERE name = 'Thời trang'));
-INSERT INTO tbl_category (name, parent_id) VALUES ('Phụ kiện thời trang', (SELECT id FROM tbl_category WHERE name = 'Thời trang'));
-INSERT INTO tbl_category (name, parent_id) VALUES ('Giày dép', (SELECT id FROM tbl_category WHERE name = 'Thời trang'));
-INSERT INTO tbl_category (name, parent_id) VALUES ('Túi xách', (SELECT id FROM tbl_category WHERE name = 'Thời trang'));
+SET @parent_id = (SELECT id FROM tbl_category WHERE name = 'Thời trang');
+INSERT INTO tbl_category (name, parent_id) VALUES
+-- Thêm các danh mục con cho Thời trang tại đây, ví dụ:
+('Áo sơ mi', @parent_id),
+('Quần jean', @parent_id),
+('Giày dép', @parent_id);
+
 

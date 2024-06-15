@@ -1,4 +1,8 @@
 document.addEventListener("DOMContentLoaded", function() {
+    // Lưu URL hiện tại vào localStorage
+    var currentUrl = window.location.pathname;
+    localStorage.setItem('activeLink', currentUrl);
+
     // Khôi phục trạng thái active từ localStorage
     var activeLink = localStorage.getItem('activeLink');
     if (activeLink) {
