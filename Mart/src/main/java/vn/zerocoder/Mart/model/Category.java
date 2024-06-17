@@ -37,4 +37,17 @@ public class Category {
             CascadeType.REFRESH
     }, fetch = FetchType.LAZY)
     private List<Category> children;
+
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE,
+            CascadeType.DETACH,
+            CascadeType.REFRESH
+    }, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "tbl_variation_category",
+            joinColumns = @JoinColumn(name = "category_id"),
+            inverseJoinColumns = @JoinColumn(name = "variation_id")
+    )
+    private List<Variation> variations;
 }

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin/main.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm danh mục</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="page-header">
+        <h3 class="fw-bold mb-3">Thương hiệu</h3>
+        <ul class="breadcrumbs mb-3">
+            <li class="nav-home">
+                <a href="/admin">
+                    <i class="icon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/brands">Thương hiệu</a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/brands/edit">Chỉnh sửa</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h4 class="card-title">Chỉnh sửa thương hiệu</h4>
+            </div>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/admin/brands/edit}" method="post" th:object="${brand}">
+                <div class="row">
+                    <input type="hidden" th:field="*{id}"/>
+                    <div class="form-group">
+                        <label for="name">Tên thương hiệu</label>
+                        <input th:field="*{name}" type="text" class="form-control" id="name" placeholder="Nhập tên thương hiệu" />
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label for="comment">Mô tả thương hiệu</label>
+                        <textarea class="form-control" id="comment" rows="5" th:field="*{description}" placeholder="Nhập mô tả thương hiệu"></textarea>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">
+                    </div>
+                </div>
+                <div class="card-action">
+                    <input type="submit" class="btn btn-success" value="Chấp nhận"/>
+                    <a href="/admin/brands" class="btn btn-danger">Quay lại</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

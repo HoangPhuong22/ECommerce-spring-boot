@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin/main.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm danh mục</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="page-header">
+        <h3 class="fw-bold mb-3">Biến thể sản phẩm</h3>
+        <ul class="breadcrumbs mb-3">
+            <li class="nav-home">
+                <a href="/admin">
+                    <i class="icon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/products/variation">Biến thể sản phẩm</a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/products/variation/edit">Chỉnh sửa</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h4 class="card-title">Chỉnh sửa biến thể</h4>
+            </div>
+        </div>
+        <div class="card-body">
+            <form th:action="@{'/admin/products/variation/edit/' + ${variationRequest.id}}" method="post" th:object="${variationRequest}">
+                <div class="row">
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect2">Chọn danh mục</label>
+                        <select multiple class="form-select form-control" id="exampleFormControlSelect2" th:field="*{category}">
+                            <option th:each="item : ${categories}"
+                                    th:value="${item.id}"
+                                    th:text="${item.name}"
+                                    th:selected="${categoryIds.contains(item.id)}"></option>
+                        </select>
+
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Tên biến thể</label>
+                        <input th:field="*{name}" type="text" class="form-control" id="name" placeholder="Nhập tên biến thể" />
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                        </small>
+                    </div>
+                </div>
+                <div class="card-action">
+                    <input type="submit" class="btn btn-success" value="Chỉnh sửa"/>
+                    <a href="/admin/products/variation" class="btn btn-danger">Quay lại</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h4 class="card-title">Tất cả danh mục lớn</h4>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="add-row" class="display table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Tên danh mục</th>
+                        <th>Số lượng danh mục con</th>
+                        <th>Số lượng sản phẩm</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="category, iterStat : ${categories}">
+                        <td th:text="${iterStat.count}"></td>
+                        <td th:text="${category.name}"></td>
+                        <td th:text="${category.children.size()}"></td>
+                        <td>0</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

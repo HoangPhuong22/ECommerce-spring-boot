@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import vn.zerocoder.Mart.dto.request.CategoryRequest;
 import vn.zerocoder.Mart.dto.response.CategoryResponse;
+import vn.zerocoder.Mart.dto.response.VariationResponse;
 import vn.zerocoder.Mart.model.Category;
 import vn.zerocoder.Mart.repository.CategoryRepository;
 import vn.zerocoder.Mart.service.CategoryService;
@@ -79,6 +80,10 @@ public class CategoryImpl implements CategoryService {
         return categories.stream().map(category -> CategoryResponse.builder()
                 .id(category.getId())
                 .name(category.getName())
+                .variations(category.getVariations().stream().map(variation -> VariationResponse.builder()
+                        .id(variation.getId())
+                        .name(variation.getName())
+                        .build()).toList())
                 .build()).toList();
     }
 
@@ -89,6 +94,10 @@ public class CategoryImpl implements CategoryService {
         return categories.stream().map(category -> CategoryResponse.builder()
                 .id(category.getId())
                 .name(category.getName())
+                .variations(category.getVariations().stream().map(variation -> VariationResponse.builder()
+                        .id(variation.getId())
+                        .name(variation.getName())
+                        .build()).toList())
                 .build()).toList();
     }
 
@@ -99,6 +108,10 @@ public class CategoryImpl implements CategoryService {
         return categories.stream().map(category -> CategoryResponse.builder()
                 .id(category.getId())
                 .name(category.getName())
+                .variations(category.getVariations().stream().map(variation -> VariationResponse.builder()
+                        .id(variation.getId())
+                        .name(variation.getName())
+                        .build()).toList())
                 .children(category.getChildren().stream().map(child -> CategoryResponse.builder()
                         .name(child.getName())
                         .build()).toList())

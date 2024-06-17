@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin/main.html}"
+>
+<div layout:fragment="content">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h4 class="card-title">Quản lí biến thể sản phẩm</h4>
+                <a href="/admin/products/variation/add" style="margin-left: auto">
+                    <button
+                            class="btn btn-primary btn-round ms-auto"
+                            data-bs-toggle="modal"
+                            data-bs-target="#addRowModal"
+                    >
+                        <i class="fa fa-plus"></i>
+                        Thêm mới
+                    </button>
+                </a>
+            </div>
+        </div>
+        <div class="card-header">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table
+                            class="display table table-striped table-hover"
+                    >
+                        <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên thông số</th>
+                            <th>Thao tác</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="variation, iteStat : ${variations}">
+                            <td th:text="${iteStat.count}"></td>
+                            <td th:text="${variation.name}"></td>
+                            <td>
+                                0
+                            </td>
+                            <td>
+                                <div class="form-button-action">
+                                    <a
+                                            type="button"
+                                            data-bs-toggle="tooltip"
+                                            title=""
+                                            class="btn btn-link btn-primary btn-lg"
+                                            data-original-title="Edit Task"
+                                            th:href="@{'/admin/products/variation/edit/' + ${variation.id}}"
+                                    >
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a
+                                            type="button"
+                                            data-bs-toggle="tooltip"
+                                            title=""
+                                            class="btn btn-link btn-danger"
+                                            data-original-title="Remove"
+                                            th:href="@{'/admin/products/variation/delete/' + ${variation.id}}"
+                                            onclick="if(!confirm('Bạn có chắc chắn muốn xóa không?')) return false;"
+                                    >
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <span class="card-title">Chi tiết biến thể từng danh mục</span>
+            </div>
+        </div>
+        <div th:each="category: ${categories}" th:if="${category.variations != null and category.variations.size() > 0}">
+            <div class="card-header">
+                <div class="d-flex align-items-center">
+                    <span class="h5 text-primary" th:text="${category.name}"></span>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table
+                            id="add-row"
+                            class="display table table-striped table-hover"
+                    >
+                        <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên thông số</th>
+                            <th>Các giá trị</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="variation, iteStat : ${category.variations}">
+                            <td th:text="${iteStat.count}"></td>
+                            <td th:text="${variation.name}"></td>
+                            <td>
+                                0
+                            </td>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

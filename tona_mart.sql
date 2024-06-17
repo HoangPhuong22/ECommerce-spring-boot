@@ -166,7 +166,7 @@ CREATE TABLE tbl_product_configuration (
 	product_id BIGINT,
     variation_option_id BIGINT,
     PRIMARY KEY(product_id, variation_option_id),
-    FOREIGN KEY (product_id) REFERENCES tbl_product(id),
+    FOREIGN KEY (product_id) REFERENCES tbl_product_detail(id),
     FOREIGN KEY (variation_option_id) REFERENCES tbl_variation_option(id)
 );
 
@@ -344,6 +344,17 @@ CREATE TABLE tbl_review (
     FOREIGN KEY (user_id) REFERENCES tbl_user(id)
 );
 
+
+
+
+
+
+
+
+
+#. CHUẨN HÓA DỮ LIỆU
+
+
 -- Thêm dữ liệu cho các danh mục lớn
 INSERT INTO tbl_category (name, parent_id) VALUES ('Công nghệ', NULL);
 INSERT INTO tbl_category (name, parent_id) VALUES ('Gia dụng', NULL);
@@ -376,6 +387,7 @@ INSERT INTO tbl_category (name, parent_id) VALUES
 ('Ấm siêu tốc', @parent_id),
 ('Nồi áp suất', @parent_id);
 
+
 -- Thêm dữ liệu cho các danh mục con của "Thời trang"
 SET @parent_id = (SELECT id FROM tbl_category WHERE name = 'Thời trang');
 INSERT INTO tbl_category (name, parent_id) VALUES
@@ -383,5 +395,47 @@ INSERT INTO tbl_category (name, parent_id) VALUES
 ('Áo sơ mi', @parent_id),
 ('Quần jean', @parent_id),
 ('Giày dép', @parent_id);
+
+
+-- Thêm dữ liệu mẫu cho bảng tbl_brand
+INSERT INTO tbl_brand (name, description) VALUES 
+('Apple', 'Thương hiệu công nghệ nổi tiếng của Mỹ'),
+('Samsung', 'Thương hiệu công nghệ lớn của Hàn Quốc'),
+('Sony', 'Thương hiệu điện tử nổi tiếng của Nhật Bản'),
+('LG', 'Thương hiệu điện tử và gia dụng lớn của Hàn Quốc'),
+('Panasonic', 'Thương hiệu điện tử và gia dụng nổi tiếng của Nhật Bản'),
+('Nike', 'Thương hiệu thời trang thể thao nổi tiếng của Mỹ'),
+('Adidas', 'Thương hiệu thời trang thể thao nổi tiếng của Đức'),
+('Philips', 'Thương hiệu điện tử và gia dụng nổi tiếng của Hà Lan'),
+('Bose', 'Thương hiệu âm thanh cao cấp của Mỹ'),
+('Dell', 'Thương hiệu máy tính nổi tiếng của Mỹ');
+
+
+-- Thêm dữ liệu mẫu cho bảng tbl_variation
+INSERT INTO tbl_variation (name) VALUES 
+('Color'),
+('Size'),
+('Ram'),
+('Power');
+
+
+-- Thêm dữ liệu mẫu cho bảng tbl_variation_category
+SET @tech_id = (SELECT id FROM tbl_category WHERE name = 'Công Nghệ');
+SET @ram_id = (SELECT id FROM tbl_variation WHERE name = 'Ram');
+INSERT INTO tbl_variation_category (category_id, variation_id) VALUES 
+(@tech_id, @ram_id);
+
+
+SET @fashion_id = (SELECT id FROM tbl_category WHERE name = 'Thời Trang');
+SET @color_id = (SELECT id FROM tbl_variation WHERE name = 'Color');
+SET @size_id = (SELECT id FROM tbl_variation WHERE name = 'Size');
+INSERT INTO tbl_variation_category (category_id, variation_id) VALUES 
+(@fashion_id, @color_id),
+(@fashion_id, @size_id);
+
+SET @houseware_id  = (SELECT id FROM tbl_category WHERE name = 'Gia dụng');
+SET @power_id = (SELECT id FROM tbl_variation WHERE name = 'Power');
+INSERT INTO tbl_variation_category (category_id, variation_id) VALUES 
+(@houseware_id, @power_id)
 
 
