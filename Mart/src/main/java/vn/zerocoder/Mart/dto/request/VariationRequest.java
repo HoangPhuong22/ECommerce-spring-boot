@@ -24,5 +24,5 @@ public class VariationRequest {
     private String name;
 
     @NotEmpty(message = "Danh mục không được rỗng")
-    private List<Category> category;
+    private List<Long> categories_id;
 }

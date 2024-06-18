@@ -12,7 +12,7 @@ import java.util.List;
 public class CategoryResponse {
     private Long id;
     private String name;
-    private CategoryResponse parent;
-    private List<CategoryResponse> children;
-    private List<VariationResponse> variations;
+    private Long parent_id;
+    private List<Long> children_id;
+    private List<Long> variations_id;
 }

@@ -33,4 +33,7 @@ public class Variation {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private List<Category> categories;
+
+    @OneToMany(mappedBy = "variation", cascade = CascadeType.ALL)
+    private List<VariationOption> options;
 }

@@ -1,18 +1,19 @@
 package vn.zerocoder.Mart.dto.response;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.List;
-
 @Getter
 @Builder
 @AllArgsConstructor
-public class VariationResponse {
+public class VariationOptionResponse {
     private Long id;
-    private String name;
-    private List<Long> categories_id;
-    private List<Long> options_id;
+    private String value;
+    private Long variation_id;
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

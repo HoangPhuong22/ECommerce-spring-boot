@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import vn.zerocoder.Mart.dto.request.CategoryRequest;
+import vn.zerocoder.Mart.dto.response.CategoryResponse;
 import vn.zerocoder.Mart.service.CategoryService;
 
 @Slf4j
@@ -18,16 +19,21 @@ public class CategoryAdminController {
 
     private final CategoryService categoryService;
 
+
     @GetMapping
     public String listCategory(Model model) {
         model.addAttribute("categories", categoryService.findAllCategoryChildren());
         return "admin/category/list";
     }
+
+
+
     @GetMapping("/parent")
     public String listCategoryParent(Model model) {
         model.addAttribute("categories", categoryService.findCategoryParent());
         return "admin/category/list-parent";
     }
+
 
     @GetMapping("/add")
     public String addCategory(Model model) {
@@ -35,6 +41,8 @@ public class CategoryAdminController {
         model.addAttribute("categoryRequest", new CategoryRequest());
         return "admin/category/add";
     }
+
+
     @PostMapping("/add")
     public String addCategory(@Valid @ModelAttribute("categoryRequest") CategoryRequest categoryRequest,
                               BindingResult bindingResult,
@@ -55,11 +63,12 @@ public class CategoryAdminController {
 
     @GetMapping("/edit/{id}")
     public String editCategory(@PathVariable Long id, Model model) {
+        CategoryResponse categoryResponse = categoryService.findById(id);
         model.addAttribute("categories", categoryService.findCategoryParent());
         model.addAttribute("categoryRequest", CategoryRequest.builder()
                 .id(id)
-                .name(categoryService.findCategoryById(id).getName())
-                .parent(categoryService.findCategoryById(id).getParent())
+                .name(categoryResponse.getName())
+                .parent_id(categoryResponse.getParent_id())
                 .build());
         return "admin/category/edit";
     }

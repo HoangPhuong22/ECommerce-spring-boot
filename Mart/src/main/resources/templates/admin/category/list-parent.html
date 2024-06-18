@@ -13,7 +13,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table id="add-row" class="display table table-striped table-hover">
+                <table id="add-row" class="display table table-striped table-bordered ">
                     <thead>
                     <tr>
                         <th>STT</th>
@@ -26,7 +26,7 @@
                     <tr th:each="category, iterStat : ${categories}">
                         <td th:text="${iterStat.count}"></td>
                         <td th:text="${category.name}"></td>
-                        <td th:text="${category.children.size()}"></td>
+                        <td th:text="${category.children_id.size()}"></td>
                         <td>0</td>
                     </tr>
                     </tbody>

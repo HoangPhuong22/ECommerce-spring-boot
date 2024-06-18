@@ -7,9 +7,10 @@ import vn.zerocoder.Mart.dto.request.CategoryRequest;
 import vn.zerocoder.Mart.dto.response.CategoryResponse;
 import vn.zerocoder.Mart.dto.response.VariationResponse;
 import vn.zerocoder.Mart.model.Category;
+import vn.zerocoder.Mart.model.Variation;
 import vn.zerocoder.Mart.repository.CategoryRepository;
 import vn.zerocoder.Mart.service.CategoryService;
-import vn.zerocoder.utils.NameNormalizer;
+import vn.zerocoder.Mart.utils.NameNormalizer;
 
 import java.util.List;
 
@@ -23,9 +24,11 @@ public class CategoryImpl implements CategoryService {
     @Override
     public Long save(CategoryRequest categoryRequest) {
         log.info("Save category");
+        Category parent = categoryRepository.findById(categoryRequest.getParent_id()).orElse(null);
+        String name = NameNormalizer.normalize(categoryRequest.getName());
         Category category = Category.builder()
-                .name(NameNormalizer.normalize(categoryRequest.getName()))
-                .parent(categoryRequest.getParent())
+                .name(name)
+                .parent(parent)
                 .build();
         if(categoryRepository.existsByName(category.getName())) {
             log.error("Category name already exists");
@@ -39,7 +42,10 @@ public class CategoryImpl implements CategoryService {
         log.info("Update category");
         Category category = categoryRepository.findById(id).orElseThrow();
         category.setName(NameNormalizer.normalize(categoryRequest.getName()));
-        category.setParent(categoryRequest.getParent());
+        category.setParent(categoryRepository.findById(categoryRequest.getParent_id()).orElse(null));
+        if(categoryRepository.existsByName(category.getName())) {
+            return -1L;
+        }
         return categoryRepository.save(category).getId();
     }
 
@@ -58,18 +64,14 @@ public class CategoryImpl implements CategoryService {
     @Override
     public CategoryResponse findById(Long id) {
         log.info("Find category by id: {}", id);
-        Category category = categoryRepository.findById(id).orElse(null);
-        if(category == null) return null;
+        Category category = categoryRepository.findById(id).orElseThrow();
+
         return CategoryResponse.builder()
+                .id(category.getId())
                 .name(category.getName())
-                .parent(category.getParent() != null ?
-                        CategoryResponse.builder()
-                                .id(category.getParent().getId())
-                                .name(category.getParent().getName())
-                                .build() : null)
-                .children(category.getChildren().stream().map(child -> CategoryResponse.builder()
-                        .name(child.getName())
-                        .build()).toList())
+                .parent_id(category.getParent().getId())
+                .children_id(category.getChildren().stream().map(Category::getId).toList())
+                .variations_id(category.getVariations().stream().map(Variation::getId).toList())
                 .build();
     }
 
@@ -77,13 +79,13 @@ public class CategoryImpl implements CategoryService {
     public List<CategoryResponse> findAllCategoryChildren() {
         log.info("Find all category children");
         List<Category> categories = categoryRepository.findAllCategoryChildren();
+
         return categories.stream().map(category -> CategoryResponse.builder()
                 .id(category.getId())
                 .name(category.getName())
-                .variations(category.getVariations().stream().map(variation -> VariationResponse.builder()
-                        .id(variation.getId())
-                        .name(variation.getName())
-                        .build()).toList())
+                .parent_id(category.getParent().getId())
+                .variations_id(category.getVariations().stream().map(Variation::getId).toList())
+                .children_id(category.getChildren().stream().map(Category::getId).toList())
                 .build()).toList();
     }
 
@@ -94,10 +96,9 @@ public class CategoryImpl implements CategoryService {
         return categories.stream().map(category -> CategoryResponse.builder()
                 .id(category.getId())
                 .name(category.getName())
-                .variations(category.getVariations().stream().map(variation -> VariationResponse.builder()
-                        .id(variation.getId())
-                        .name(variation.getName())
-                        .build()).toList())
+                .parent_id(category.getParent().getId())
+                .children_id(category.getChildren().stream().map(Category::getId).toList())
+                .variations_id(category.getVariations().stream().map(Variation::getId).toList())
                 .build()).toList();
     }
 
@@ -108,13 +109,9 @@ public class CategoryImpl implements CategoryService {
         return categories.stream().map(category -> CategoryResponse.builder()
                 .id(category.getId())
                 .name(category.getName())
-                .variations(category.getVariations().stream().map(variation -> VariationResponse.builder()
-                        .id(variation.getId())
-                        .name(variation.getName())
-                        .build()).toList())
-                .children(category.getChildren().stream().map(child -> CategoryResponse.builder()
-                        .name(child.getName())
-                        .build()).toList())
+                .parent_id(null)
+                .children_id(category.getChildren().stream().map(Category::getId).toList())
+                .variations_id(category.getVariations().stream().map(Variation::getId).toList())
                 .build()).toList();
     }
 
@@ -125,9 +122,9 @@ public class CategoryImpl implements CategoryService {
         return categories.stream().map(category -> CategoryResponse.builder()
                 .id(category.getId())
                 .name(category.getName())
-                .children(category.getChildren().stream().map(child -> CategoryResponse.builder()
-                        .name(child.getName())
-                        .build()).toList())
+                .parent_id(category.getParent().getId())
+                .children_id(category.getChildren().stream().map(Category::getId).toList())
+                .variations_id(category.getVariations().stream().map(Variation::getId).toList())
                 .build()).toList();
     }
 
@@ -138,9 +135,9 @@ public class CategoryImpl implements CategoryService {
         return categories.stream().map(category -> CategoryResponse.builder()
                 .id(category.getId())
                 .name(category.getName())
-                .children(category.getChildren().stream().map(child -> CategoryResponse.builder()
-                        .name(child.getName())
-                        .build()).toList())
+                .parent_id(category.getParent().getId())
+                .children_id(category.getChildren().stream().map(Category::getId).toList())
+                .variations_id(category.getVariations().stream().map(Variation::getId).toList())
                 .build()).toList();
     }
 
@@ -151,9 +148,9 @@ public class CategoryImpl implements CategoryService {
         return categories.stream().map(category -> CategoryResponse.builder()
                 .id(category.getId())
                 .name(category.getName())
-                .children(category.getChildren().stream().map(child -> CategoryResponse.builder()
-                        .name(child.getName())
-                        .build()).toList())
+                .parent_id(category.getParent().getId())
+                .children_id(category.getChildren().stream().map(Category::getId).toList())
+                .variations_id(category.getVariations().stream().map(Variation::getId).toList())
                 .build()).toList();
     }
 }

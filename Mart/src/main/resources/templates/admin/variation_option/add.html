@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin/main.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm giá trị</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="page-header">
+        <h3 class="fw-bold mb-3">Thêm mới giá trị</h3>
+        <ul class="breadcrumbs mb-3">
+            <li class="nav-home">
+                <a href="/admin">
+                    <i class="icon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a th:href="'/admin/variations/edit/' +  ${optionRequest.variation_id}">Biến thể sản phẩm</a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a th:href="'/admin/options/add/' +  ${optionRequest.variation_id}">Thêm giá trị</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h4 class="card-title"th:text="'Thêm mới giá trị cho biến thể: ' + ${variation}" ></h4>
+            </div>
+        </div>
+        <div class="card-body">
+            <form th:action="@{'/admin/options/add/' + ${optionRequest.getVariation_id()}}" method="post" th:object="${optionRequest}">
+                <div class="row">
+                    <div class="form-group">
+                        <label for="value">Giá trị</label>
+                        <input th:field="*{value}" type="text" class="form-control" id="value" placeholder="Nhập giá trị" />
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('value')}" th:errors="*{value}">
+                        </small>
+                    </div>
+                </div>
+                <input type="hidden" th:field="*{variation_id}" th:value="${optionRequest.variation_id}"/>
+                <div class="card-action">
+                    <input type="submit" class="btn btn-success" value="Thêm mới"/>
+                    <a th:href="'/admin/variations/edit/' +  ${optionRequest.variation_id}" class="btn btn-danger">Quay lại</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

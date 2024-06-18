@@ -20,35 +20,31 @@
                 <i class="icon-arrow-right"></i>
             </li>
             <li class="nav-item">
-                <a href="/admin/products/variation">Biến thể sản phẩm</a>
+                <a href="/admin/variations">Biến thể sản phẩm</a>
             </li>
             <li class="separator">
                 <i class="icon-arrow-right"></i>
             </li>
             <li class="nav-item">
-                <a href="/admin/products/variation/edit">Chỉnh sửa</a>
+                <a href="/admin/variations/add">Thêm mới</a>
             </li>
         </ul>
     </div>
     <div class="card">
         <div class="card-header">
             <div class="d-flex align-items-center">
-                <h4 class="card-title">Chỉnh sửa biến thể</h4>
+                <h4 class="card-title">Thêm mới biến thể</h4>
             </div>
         </div>
         <div class="card-body">
-            <form th:action="@{'/admin/products/variation/edit/' + ${variationRequest.id}}" method="post" th:object="${variationRequest}">
+            <form th:action="@{/admin/variations/add}" method="post" th:object="${variationRequest}">
                 <div class="row">
                     <div class="form-group">
                         <label for="exampleFormControlSelect2">Chọn danh mục</label>
-                        <select multiple class="form-select form-control" id="exampleFormControlSelect2" th:field="*{category}">
-                            <option th:each="item : ${categories}"
-                                    th:value="${item.id}"
-                                    th:text="${item.name}"
-                                    th:selected="${categoryIds.contains(item.id)}"></option>
+                        <select multiple class="form-select form-control" id="exampleFormControlSelect2" th:field="*{categories_id}">
+                            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
                         </select>
-
-                        <small class="form-text text-danger" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></small>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('categories_id')}" th:errors="*{categories_id}">
                     </div>
                     <div class="form-group">
                         <label for="name">Tên biến thể</label>
@@ -58,8 +54,8 @@
                     </div>
                 </div>
                 <div class="card-action">
-                    <input type="submit" class="btn btn-success" value="Chỉnh sửa"/>
-                    <a href="/admin/products/variation" class="btn btn-danger">Quay lại</a>
+                    <input type="submit" class="btn btn-success" value="Thêm mới"/>
+                    <a href="/admin/variations" class="btn btn-danger">Quay lại</a>
                 </div>
             </form>
         </div>
@@ -72,7 +68,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table id="add-row" class="display table table-striped table-hover">
+                <table id="add-row" class="display table table-striped table-bordered ">
                     <thead>
                     <tr>
                         <th>STT</th>
@@ -85,7 +81,7 @@
                     <tr th:each="category, iterStat : ${categories}">
                         <td th:text="${iterStat.count}"></td>
                         <td th:text="${category.name}"></td>
-                        <td th:text="${category.children.size()}"></td>
+                        <td th:text="${category.children_id.size()}"></td>
                         <td>0</td>
                     </tr>
                     </tbody>

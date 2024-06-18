@@ -9,7 +9,7 @@
         <div class="card-header">
             <div class="d-flex align-items-center">
                 <h4 class="card-title">Quản lí biến thể sản phẩm</h4>
-                <a href="/admin/products/variation/add" style="margin-left: auto">
+                <a href="/admin/variations/add" style="margin-left: auto">
                     <button
                             class="btn btn-primary btn-round ms-auto"
                             data-bs-toggle="modal"
@@ -25,22 +25,21 @@
             <div class="card-body">
                 <div class="table-responsive">
                     <table
-                            class="display table table-striped table-hover"
+                            class="display table table-striped table-bordered"
                     >
                         <thead>
                         <tr>
                             <th>STT</th>
                             <th>Tên thông số</th>
+                            <th>Các giá trị</th>
                             <th>Thao tác</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="variation, iteStat : ${variations}">
-                            <td th:text="${iteStat.count}"></td>
+                        <tr th:each="variation, index : ${variations}">
+                            <td th:text="${index.count}"></td>
                             <td th:text="${variation.name}"></td>
-                            <td>
-                                0
-                            </td>
+                            <td th:text="${optionService.findAllById(variation.getOptions_id())}"></td>
                             <td>
                                 <div class="form-button-action">
                                     <a
@@ -49,7 +48,7 @@
                                             title=""
                                             class="btn btn-link btn-primary btn-lg"
                                             data-original-title="Edit Task"
-                                            th:href="@{'/admin/products/variation/edit/' + ${variation.id}}"
+                                            th:href="@{'/admin/variations/edit/' + ${variation.id}}"
                                     >
                                         <i class="fa fa-edit"></i>
                                     </a>
@@ -59,7 +58,7 @@
                                             title=""
                                             class="btn btn-link btn-danger"
                                             data-original-title="Remove"
-                                            th:href="@{'/admin/products/variation/delete/' + ${variation.id}}"
+                                            th:href="@{'/admin/variations/delete/' + ${variation.id}}"
                                             onclick="if(!confirm('Bạn có chắc chắn muốn xóa không?')) return false;"
                                     >
                                         <i class="fa fa-times"></i>
@@ -76,7 +75,7 @@
                 <span class="card-title">Chi tiết biến thể từng danh mục</span>
             </div>
         </div>
-        <div th:each="category: ${categories}" th:if="${category.variations != null and category.variations.size() > 0}">
+        <div th:each="category: ${categories}" th:if="${category.variations_id.size() > 0}">
             <div class="card-header">
                 <div class="d-flex align-items-center">
                     <span class="h5 text-primary" th:text="${category.name}"></span>
@@ -86,23 +85,23 @@
                 <div class="table-responsive">
                     <table
                             id="add-row"
-                            class="display table table-striped table-hover"
+                            class="display table table-striped table-bordered "
                     >
                         <thead>
                         <tr>
                             <th>STT</th>
                             <th>Tên thông số</th>
-                            <th>Các giá trị</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="variation, iteStat : ${category.variations}">
-                            <td th:text="${iteStat.count}"></td>
-                            <td th:text="${variation.name}"></td>
-                            <td>
-                                0
-                            </td>
+                        <tr th:each="variation_id, iteStat : ${category.variations_id}">
+                            <th:block th:with="variation=${variationService.findById(variation_id)}">
+                                <td th:text="${iteStat.count}"></td>
+                                <td th:text="${variation.getName()}"></td>
+                            </th:block>
+                        </tr>
                         </tbody>
+
                     </table>
                 </div>
             </div>

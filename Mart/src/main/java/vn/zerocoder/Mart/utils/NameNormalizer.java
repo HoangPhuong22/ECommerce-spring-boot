@@ -1,4 +1,4 @@
-package vn.zerocoder.utils;
+package vn.zerocoder.Mart.utils;
 
 public class NameNormalizer {
     public static String normalize(String name) {

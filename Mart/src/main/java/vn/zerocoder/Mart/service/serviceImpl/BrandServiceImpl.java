@@ -8,7 +8,7 @@ import vn.zerocoder.Mart.dto.response.BrandResponse;
 import vn.zerocoder.Mart.model.Brand;
 import vn.zerocoder.Mart.repository.BrandRepository;
 import vn.zerocoder.Mart.service.BrandService;
-import vn.zerocoder.utils.NameNormalizer;
+import vn.zerocoder.Mart.utils.NameNormalizer;
 
 import java.util.List;
 
