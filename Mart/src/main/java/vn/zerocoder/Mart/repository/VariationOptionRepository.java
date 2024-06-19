@@ -7,4 +7,5 @@ import vn.zerocoder.Mart.model.VariationOption;
 @Repository
 public interface VariationOptionRepository extends JpaRepository<VariationOption, Long> {
     Boolean existsByValue(String value);
+    Boolean existsByValueAndIdNot(String value, Long id);
 }

@@ -64,11 +64,15 @@ public class CategoryAdminController {
     @GetMapping("/edit/{id}")
     public String editCategory(@PathVariable Long id, Model model) {
         CategoryResponse categoryResponse = categoryService.findById(id);
+        if(categoryResponse.getParent_id() == null) {
+            log.error("Không được truy cập vào danh mục cha");
+            throw new RuntimeException("Không tồn tại");
+        }
         model.addAttribute("categories", categoryService.findCategoryParent());
         model.addAttribute("categoryRequest", CategoryRequest.builder()
                 .id(id)
                 .name(categoryResponse.getName())
-                .parent_id(categoryResponse.getParent_id())
+                .parent_id(categoryResponse.getParent_id() != null ? categoryResponse.getParent_id() : null)
                 .build());
         return "admin/category/edit";
     }

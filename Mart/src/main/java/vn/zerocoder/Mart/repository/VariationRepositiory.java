@@ -8,5 +8,5 @@ import vn.zerocoder.Mart.model.Variation;
 public interface VariationRepositiory extends JpaRepository<Variation, Long> {
 
     Boolean existsByName(String name);
-
+    Boolean existsByNameAndIdNot(String name, Long id);
 }

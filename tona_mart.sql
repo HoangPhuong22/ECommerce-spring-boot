@@ -416,14 +416,19 @@ INSERT INTO tbl_variation (name) VALUES
 ('Color'),
 ('Size'),
 ('Ram'),
-('Power');
-
+('Bộ nhớ trong'),
+('Ổ cứng SSD'),
+('Công suất');
 
 -- Thêm dữ liệu mẫu cho bảng tbl_variation_category
 SET @tech_id = (SELECT id FROM tbl_category WHERE name = 'Công Nghệ');
 SET @ram_id = (SELECT id FROM tbl_variation WHERE name = 'Ram');
+SET @o_cung_id = (SELECT id FROM tbl_variation WHERE name = 'Ổ cứng SSD');
+SET @bo_nho_id = (SELECT id FROM tbl_variation WHERE name = 'Bộ nhớ trong');
 INSERT INTO tbl_variation_category (category_id, variation_id) VALUES 
-(@tech_id, @ram_id);
+(@tech_id, @ram_id),
+(@tech_id, @o_cung_id),
+(@tech_id, @bo_nho_id);
 
 
 SET @fashion_id = (SELECT id FROM tbl_category WHERE name = 'Thời Trang');
@@ -434,8 +439,42 @@ INSERT INTO tbl_variation_category (category_id, variation_id) VALUES
 (@fashion_id, @size_id);
 
 SET @houseware_id  = (SELECT id FROM tbl_category WHERE name = 'Gia dụng');
-SET @power_id = (SELECT id FROM tbl_variation WHERE name = 'Power');
+SET @power_id = (SELECT id FROM tbl_variation WHERE name = 'Công suất');
 INSERT INTO tbl_variation_category (category_id, variation_id) VALUES 
-(@houseware_id, @power_id)
+(@houseware_id, @power_id);
 
 
+
+#. THÊM CÁC GIÁ TRỊ CHO BIẾN THỂ
+-- Lấy id của các loại biến thể
+SET @color_id = (SELECT id FROM tbl_variation WHERE name = 'Color');
+SET @size_id = (SELECT id FROM tbl_variation WHERE name = 'Size');
+SET @ram_id = (SELECT id FROM tbl_variation WHERE name = 'Ram');
+SET @bo_nho_id = (SELECT id FROM tbl_variation WHERE name = 'Bộ nhớ trong');
+SET @o_cung_id = (SELECT id FROM tbl_variation WHERE name = 'Ổ cứng SSD');
+SET @power_id = (SELECT id FROM tbl_variation WHERE name = 'Công suất');
+-- Thêm các tùy chọn biến thể
+INSERT INTO tbl_variation_option (variation_id, value) VALUES 
+(@color_id, 'Trắng'),
+(@color_id, 'Đen'),
+(@color_id, 'Xám'),
+(@color_id, 'Vàng'),
+(@color_id, 'Đỏ'),
+(@color_id, 'Cam'),
+(@color_id, 'Tím'),
+(@color_id, 'Nâu'),
+(@size_id, 'S'),
+(@size_id, 'M'),
+(@size_id, 'L'),
+(@ram_id, '4GB'),
+(@ram_id, '8GB'),
+(@ram_id, '16GB'),
+(@bo_nho_id, '64GB'),
+(@bo_nho_id, '128GB'),
+(@bo_nho_id, '256GB'),
+(@o_cung_id, '512GB'),
+(@o_cung_id, '1TB'),
+(@power_id, '500W'),
+(@power_id, '1000W'),
+(@power_id, '1500W'),
+(@power_id, '2000W');

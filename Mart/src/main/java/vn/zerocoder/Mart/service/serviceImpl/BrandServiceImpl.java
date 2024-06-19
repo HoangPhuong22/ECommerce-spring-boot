@@ -39,7 +39,7 @@ public class BrandServiceImpl implements BrandService {
                 .name(NameNormalizer.normalize(brandRequest.getName()))
                 .description(brandRequest.getDescription())
                 .build();
-        if(brandRepository.existsByName(brand.getName())) {
+        if(brandRepository.existsByNameAndIdNot(brand.getName(), brand.getId())) {
             return -1L;
         }
         return brandRepository.save(brand).getId();

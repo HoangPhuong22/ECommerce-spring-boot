@@ -12,7 +12,6 @@ public interface CategoryService {
     Long update(Long id, CategoryRequest categoryRequest);
     Long delete(Long id);
 
-    Category findCategoryById(Long id);
     CategoryResponse findById(Long id);
 
     List<CategoryResponse> findAllCategoryChildren();

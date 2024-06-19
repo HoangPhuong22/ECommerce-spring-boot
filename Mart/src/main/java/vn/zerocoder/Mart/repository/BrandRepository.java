@@ -7,4 +7,5 @@ import vn.zerocoder.Mart.model.Brand;
 @Repository
 public interface BrandRepository extends JpaRepository<Brand, Long> {
     Boolean existsByName(String name);
+    Boolean existsByNameAndIdNot(String name, Long id);
 }

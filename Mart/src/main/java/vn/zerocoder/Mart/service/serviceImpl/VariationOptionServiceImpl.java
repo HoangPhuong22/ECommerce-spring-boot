@@ -39,7 +39,7 @@ public class VariationOptionServiceImpl implements VariationOptionService {
         Variation variation = variationRepositiory.findById(request.getVariation_id()).orElseThrow();
         variationOption.setValue(request.getValue());
         variationOption.setVariation(variation);
-        if(variationOptionRepository.existsByValue(request.getValue())) {
+        if(variationOptionRepository.existsByValueAndIdNot(request.getValue(), id)) {
             return -1L;
         }
         return variationOptionRepository.save(variationOption).getId();

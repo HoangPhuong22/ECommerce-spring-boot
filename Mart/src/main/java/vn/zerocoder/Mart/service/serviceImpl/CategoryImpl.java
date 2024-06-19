@@ -43,7 +43,7 @@ public class CategoryImpl implements CategoryService {
         Category category = categoryRepository.findById(id).orElseThrow();
         category.setName(NameNormalizer.normalize(categoryRequest.getName()));
         category.setParent(categoryRepository.findById(categoryRequest.getParent_id()).orElse(null));
-        if(categoryRepository.existsByName(category.getName())) {
+        if(categoryRepository.existsByNameAndIdNot(category.getName(), id)) {
             return -1L;
         }
         return categoryRepository.save(category).getId();
@@ -57,11 +57,6 @@ public class CategoryImpl implements CategoryService {
     }
 
     @Override
-    public Category findCategoryById(Long id) {
-        return categoryRepository.findById(id).orElse(null);
-    }
-
-    @Override
     public CategoryResponse findById(Long id) {
         log.info("Find category by id: {}", id);
         Category category = categoryRepository.findById(id).orElseThrow();
@@ -69,7 +64,7 @@ public class CategoryImpl implements CategoryService {
         return CategoryResponse.builder()
                 .id(category.getId())
                 .name(category.getName())
-                .parent_id(category.getParent().getId())
+                .parent_id(category.getParent() != null ? category.getParent().getId() : null)
                 .children_id(category.getChildren().stream().map(Category::getId).toList())
                 .variations_id(category.getVariations().stream().map(Variation::getId).toList())
                 .build();

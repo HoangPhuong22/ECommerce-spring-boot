@@ -45,6 +45,9 @@ public class VariationServiceImpl implements VariationService {
         List<Category> categories = categoryRepository.findAllById(categoryIds);
         variation.setName(NameNormalizer.normalize(variationRequest.getName()));
         variation.setCategories(categories);
+        if(variationRepositiory.existsByNameAndIdNot(variation.getName(), id)) {
+            return -1L;
+        }
         return variationRepositiory.save(variation).getId();
     }
 
