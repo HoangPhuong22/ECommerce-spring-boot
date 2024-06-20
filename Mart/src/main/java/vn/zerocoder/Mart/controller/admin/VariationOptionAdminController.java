@@ -18,16 +18,16 @@ import vn.zerocoder.Mart.service.VariationService;
 public class VariationOptionAdminController {
     private final VariationOptionService optionService;
     private final VariationService variationService;
-    @GetMapping("/add/{id}")
-    public String addOption(@PathVariable Long id, Model theModel) {
+    @GetMapping("/add")
+    public String addOption(@RequestParam("variation_id") Long id, Model theModel) {
         VariationOptionRequest optionRequest = new VariationOptionRequest();
         optionRequest.setVariation_id(id);
         theModel.addAttribute("optionRequest", optionRequest);
         theModel.addAttribute("variation", variationService.findById(id).getName());
         return "admin/variation_option/add";
     }
-    @PostMapping("/add/{id}")
-    public String addOption(@PathVariable Long id, @ModelAttribute("optionRequest") VariationOptionRequest optionRequest,
+    @PostMapping("/add")
+    public String addOption(@RequestParam("variation_id") Long id, @ModelAttribute("optionRequest") VariationOptionRequest optionRequest,
                             BindingResult bindingResult, Model theModel
     ) {
         if(bindingResult.hasErrors()) {

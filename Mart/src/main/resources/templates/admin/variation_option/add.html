@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="card-body">
-            <form th:action="@{'/admin/options/add/' + ${optionRequest.getVariation_id()}}" method="post" th:object="${optionRequest}">
+            <form th:action="@{'/admin/options/add?variation_id' + ${optionRequest.getVariation_id()}}" method="post" th:object="${optionRequest}">
                 <div class="row">
                     <div class="form-group">
                         <label for="value">Giá trị</label>

@@ -4,6 +4,8 @@ package vn.zerocoder.Mart.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -28,4 +30,12 @@ public class VariationOption {
     }, fetch = FetchType.LAZY)
     @JoinColumn(name = "variation_id")
     private Variation variation;
+
+    @ManyToMany(mappedBy = "options", cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE,
+            CascadeType.DETACH,
+            CascadeType.REFRESH
+    }, fetch = FetchType.LAZY)
+    private List<ProductDetail> productDetails;
 }

@@ -68,7 +68,7 @@
         <div class="card-header">
             <div class="d-flex align-items-center">
                 <h4 class="card-title">Các giá trị của biến thể</h4>
-                <a th:href="'/admin/options/add/' + ${variationRequest.id}" style="margin-left: auto">
+                <a th:href="@{'/admin/options/add?variation_id=' + ${variationRequest.id}}" style="margin-left: auto;">
                     <button
                             class="btn btn-primary btn-round ms-auto"
                             data-bs-toggle="modal"

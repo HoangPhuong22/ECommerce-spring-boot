@@ -4,6 +4,8 @@ package vn.zerocoder.Mart.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -23,4 +25,12 @@ public class Brand {
 
     @Column(name = "description")
     private String description;
+
+    @OneToMany(mappedBy = "brand", cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE,
+            CascadeType.DETACH,
+            CascadeType.REFRESH
+    }, fetch = FetchType.LAZY)
+    private List<Product> products;
 }

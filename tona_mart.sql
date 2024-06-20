@@ -1,5 +1,5 @@
 #. DROP DATABASE tona_mart;
-CREATE DATABASE tona_mart;
+#. CREATE DATABASE tona_mart;
 USE tona_mart;
 
 #. CƠ CHẾ BẢO MẬT
@@ -139,6 +139,8 @@ CREATE TABLE tbl_product (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
     description TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+    promotion_rate INT,
+    status enum( 'AVAILABLE', 'AVAILABLE', 'DISCONTINUED', 'COMING_SOON'),
     product_image TEXT,
     brand_id BIGINT,
     category_id BIGINT,
@@ -182,7 +184,9 @@ CREATE TABLE tbl_advertise (
 CREATE TABLE tbl_favourite (
 	id BIGINT PRIMARY KEY AUTO_INCREMENT,
     product_id BIGINT,
-    FOREIGN KEY (product_id) REFERENCES tbl_product(id)
+    user_id BIGINT,
+    FOREIGN KEY (product_id) REFERENCES tbl_product(id),
+    FOREIGN KEY (user_id) REFERENCES tbl_user(id)
 );
 
 -- Khuyến mãi
