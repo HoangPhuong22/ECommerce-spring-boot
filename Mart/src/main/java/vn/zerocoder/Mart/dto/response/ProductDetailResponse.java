@@ -3,18 +3,14 @@ package vn.zerocoder.Mart.dto.response;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import vn.zerocoder.Mart.enums.ProductStatus;
 
 @Getter
 @Builder
 @AllArgsConstructor
-public class ProductResponse {
+public class ProductDetailResponse {
     private Long id;
-    private String name;
-    private String description;
+    private String sku;
     private String image;
     private Long price;
-    private ProductStatus status;
-    private Long brand_id;
-    private Long category_id;
+    private Long quantity;
 }

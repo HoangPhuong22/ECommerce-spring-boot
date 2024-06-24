@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin/main.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm sản phẩm</title>
+    <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="page-header">
+        <h3 class="fw-bold mb-3">Sản phẩm</h3>
+        <ul class="breadcrumbs mb-3">
+            <li class="nav-home">
+                <a href="/admin">
+                    <i class="icon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/products">Sản phẩm</a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/products/add">Thêm mới</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h4 class="card-title">Thêm mới sản phẩm</h4>
+            </div>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/admin/products/add}" method="post" th:object="${product}" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="form-group col-lg-6">
+                        <label for="category_id">Danh mục sản phẩm</label>
+                        <select class="form-select form-control" id="category_id" th:field="*{category_id}">
+                            <option value="">Chọn danh mục</option>
+                            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                        </select>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('category_id')}" th:errors="*{category_id}">
+                        </small>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <label for="brand_id">Thương hiệu sản phẩm</label>
+                        <select class="form-select form-control" id="brand_id" th:field="*{brand_id}">
+                            <option value="">Chọn thương hiệu</option>
+                            <option th:each="brand : ${brands}" th:value="${brand.id}" th:text="${brand.name}"></option>
+                        </select>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('brand_id')}" th:errors="*{brand_id}">
+                        </small>
+                    </div>
+                    <div class="form-group col-lg-4">
+                        <label for="status">Trạng thái</label>
+                        <select class="form-select form-control" id="status" th:field="*{status}">
+                            <option value="">Chọn trạng thái</option>
+                            <option value="AVAILABLE">Còn hàng</option>
+                            <option value="OUT_OF_STOCK">Hết hàng</option>
+                            <option value="DISCONTINUED">Ngừng kinh doanh</option>
+                            <option value="COMING_SOON">Sắp có hàng</option>
+                        </select>
+                        <smail class="form-text text-danger" th:if="${#fields.hasErrors('status')}" th:errors="*{status}">
+                    </div>
+                    <div class="form-group col-sm-6 col-lg-4">
+                        <label for="price">Giá sản phẩm</label>
+                        <input th:field="*{price}" type="number" class="form-control" id="price" placeholder="Nhập giá sản phẩm" />
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">
+                        </small>
+                    </div>
+                    <div class="form-group col-sm-6 col-lg-4">
+                        <label for="discount">Giảm giá</label>
+                        <input th:field="*{promotionRate}" type="number" class="form-control" id="discount" placeholder="Nhập giảm giá" />
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('promotionRate')}" th:errors="*{promotionRate}">
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Tên sản phẩm</label>
+                        <input th:field="*{name}" type="text" class="form-control" id="name" placeholder="Nhập tên sản phẩm" />
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Ảnh sản phẩm</label>
+                        <input th:field="*{image}" type="file" class="form-control" id="image" accept="image/*" />
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Mô tả sản phẩm</label>
+                        <textarea th:field="*{description}" class="form-control" id="description" rows="5" placeholder="Nhập mô tả sản phẩm"></textarea>
+                        <script>
+                            CKEDITOR.replace('description');
+                        </script>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></small>
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-primary" value="Thêm mới"/>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

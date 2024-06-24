@@ -1,4 +1,4 @@
-package vn.zerocoder.Mart.service.serviceImpl;
+package vn.zerocoder.Mart.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

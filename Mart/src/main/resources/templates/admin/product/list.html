@@ -8,8 +8,8 @@
     <div class="card">
         <div class="card-header">
             <div class="d-flex align-items-center">
-                <h4 class="card-title">Quản lý danh mục con</h4>
-                <a href="/admin/category/add" style="margin-left: auto">
+                <h4 class="card-title">Danh sách sản phẩm</h4>
+                <a href="/admin/products/add" style="margin-left: auto">
                     <button
                             class="btn btn-primary btn-round ms-auto"
                             data-bs-toggle="modal"
@@ -30,15 +30,15 @@
                     <thead>
                     <tr>
                         <th>STT</th>
-                        <th>Tên danh mục</th>
-                        <th>Số lượng sản phẩm</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Ảnh</th>
                         <th>Thao tác</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="category, iterStat : ${categories}">
-                        <td th:text="${iterStat.count}"></td>
-                        <td th:text="${category.name}"></td>
+                    <tr th:each="product, index : ${products}">
+                        <td th:text="${index.count}"></td>
+                        <td th:text="${product.name}"></td>
                         <td>0</td>
                         <td>
                             <div class="form-button-action">
@@ -48,7 +48,7 @@
                                         title=""
                                         class="btn btn-link btn-primary btn-lg"
                                         data-original-title="Edit Task"
-                                        th:href="@{'/admin/category/edit/' + ${category.id}}"
+                                        th:href="@{'/admin/products/edit/' + ${product.id}}"
                                 >
                                     <i class="fa fa-edit"></i>
                                 </a>
@@ -58,7 +58,7 @@
                                         title=""
                                         class="btn btn-link btn-danger"
                                         data-original-title="Remove"
-                                        th:href="@{'/admin/category/delete/' + ${category.id}}"
+                                        th:href="@{'/admin/products/delete/' + ${product.id}}"
                                         onclick="if(!confirm('Bạn có chắc chắn muốn xóa không?')) return false;"
                                 >
                                     <i class="fa fa-times"></i>
@@ -72,13 +72,3 @@
         </div>
     </div>
 </div>
-<!--<script th:inline="javascript">-->
-<!--    /*<![CDATA[*/-->
-<!--    $(document).ready(function() {-->
-<!--        var deleteError = /*[[${delete_error}]]*/ 'default';-->
-<!--        if (deleteError !== 'default') {-->
-<!--            alert(deleteError);-->
-<!--        }-->
-<!--    });-->
-<!--    /*]]>*/-->
-<!--</script>-->

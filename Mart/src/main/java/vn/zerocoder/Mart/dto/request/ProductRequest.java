@@ -4,7 +4,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 import vn.zerocoder.Mart.enums.ProductStatus;
+import vn.zerocoder.Mart.validator.FileNotEmpty;
+import vn.zerocoder.Mart.validator.ValidEnum;
 
 @Getter
 @Setter
@@ -21,9 +24,16 @@ public class ProductRequest {
     @NotBlank(message = "Mô tả sản phẩm không được để trống")
     private String description;
 
-    @NotNull(message = "Trạng thái sản phẩm không được để trống")
-    private String image;
+    @FileNotEmpty(message = "Ảnh sản phẩm không được để trống")
+    private MultipartFile image;
 
+    @NotNull(message = "Giá sản phẩm không được để trống")
+    private Long price;
+
+    @NotNull(message = "Phần trăm (%) khuyến mãi không được để trống")
+    private Integer promotionRate;
+
+    @NotNull(message = "Vui lòng chọn trạng thái sản phẩm")
     private ProductStatus status;
 
     @NotNull(message = "Thương hiệu sản phẩm không được để trống")

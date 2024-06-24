@@ -95,8 +95,13 @@ public class CategoryAdminController {
         return "redirect:/admin/category";
     }
     @GetMapping("/delete/{id}")
-    public String deleteCategory(@PathVariable Long id) {
-        categoryService.delete(id);
+    public String deleteCategory(@PathVariable Long id, Model model) {
+        Long delete_id = categoryService.delete(id);
+//        if(delete_id == -1) {
+//            model.addAttribute("delete_error", "Đang tồn tại các trường liên quan không thể xóa");
+//            model.addAttribute("categories", categoryService.findAllCategoryChildren());
+//            return "admin/category/list";
+//        }
         return "redirect:/admin/category";
     }
 }

@@ -1,16 +1,14 @@
-package vn.zerocoder.Mart.service.serviceImpl;
+package vn.zerocoder.Mart.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import vn.zerocoder.Mart.dto.request.VariationOptionRequest;
 import vn.zerocoder.Mart.dto.response.VariationOptionResponse;
-import vn.zerocoder.Mart.dto.response.VariationResponse;
 import vn.zerocoder.Mart.model.Variation;
 import vn.zerocoder.Mart.model.VariationOption;
 import vn.zerocoder.Mart.repository.VariationOptionRepository;
 import vn.zerocoder.Mart.repository.VariationRepositiory;
 import vn.zerocoder.Mart.service.VariationOptionService;
-import vn.zerocoder.Mart.service.VariationService;
 
 import java.util.List;
 

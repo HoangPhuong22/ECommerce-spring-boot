@@ -1,11 +1,10 @@
-package vn.zerocoder.Mart.service.serviceImpl;
+package vn.zerocoder.Mart.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import vn.zerocoder.Mart.dto.request.CategoryRequest;
 import vn.zerocoder.Mart.dto.response.CategoryResponse;
-import vn.zerocoder.Mart.dto.response.VariationResponse;
 import vn.zerocoder.Mart.model.Category;
 import vn.zerocoder.Mart.model.Variation;
 import vn.zerocoder.Mart.repository.CategoryRepository;
@@ -91,7 +90,7 @@ public class CategoryImpl implements CategoryService {
         return categories.stream().map(category -> CategoryResponse.builder()
                 .id(category.getId())
                 .name(category.getName())
-                .parent_id(category.getParent().getId())
+                .parent_id(category.getParent() != null ? category.getParent().getId() : null)
                 .children_id(category.getChildren().stream().map(Category::getId).toList())
                 .variations_id(category.getVariations().stream().map(Variation::getId).toList())
                 .build()).toList();

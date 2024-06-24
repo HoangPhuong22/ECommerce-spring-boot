@@ -24,6 +24,9 @@ public class Product extends BaseEntity{
     @Column(name = "product_image")
     private String productImage;
 
+    @Column(name = "price")
+    private Long price;
+
     @Column(name ="status")
     @Enumerated(EnumType.STRING)
     private ProductStatus status;
