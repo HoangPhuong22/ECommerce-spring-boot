@@ -32,6 +32,9 @@
                         <th>STT</th>
                         <th>Tên sản phẩm</th>
                         <th>Ảnh</th>
+                        <th>Giá</th>
+                        <th>Giảm giá</th>
+                        <th>Trạng thái</th>
                         <th>Thao tác</th>
                     </tr>
                     </thead>
@@ -39,7 +42,26 @@
                     <tr th:each="product, index : ${products}">
                         <td th:text="${index.count}"></td>
                         <td th:text="${product.name}"></td>
-                        <td>0</td>
+                        <td>
+                            <img
+                                    th:src="@{'/image/' + ${product.image}}"
+                                    style="width: 100px; height: 100px"
+                            />
+                        </td>
+                        <td th:utext="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' đ'"></td>
+                        <td th:text="${product.promotionRate} + ' %'"></td>
+                        <td th:if="${product.status.compareTo(product.status.AVAILABLE) == 0}">
+                            <span class="badge badge-success">Còn hàng</span>
+                        </td>
+                        <td th:if="${product.status.compareTo(product.status.OUT_OF_STOCK) == 0}">
+                            <span class="badge badge-danger">Hết hàng</span>
+                        </td>
+                        <td th:if="${product.status.compareTo(product.status.COMING_SOON) == 0}">
+                            <span class="badge badge-warning">Sắp có hàng</span>
+                        </td>
+                        <td th:if="${product.status.compareTo(product.status.DISCONTINUED) == 0}">
+                            <span class="badge badge-danger">Ngừng kinh doanh</span>
+                        </td>
                         <td>
                             <div class="form-button-action">
                                 <a
@@ -57,11 +79,10 @@
                                         data-bs-toggle="tooltip"
                                         title=""
                                         class="btn btn-link btn-danger"
-                                        data-original-title="Remove"
-                                        th:href="@{'/admin/products/delete/' + ${product.id}}"
-                                        onclick="if(!confirm('Bạn có chắc chắn muốn xóa không?')) return false;"
+                                        data-original-title="View Task"
+                                        th:href="@{'/admin/products/view/' + ${product.id}}"
                                 >
-                                    <i class="fa fa-times"></i>
+                                    <i class="fa fa-eye"></i>
                                 </a>
                             </div>
                         </td>

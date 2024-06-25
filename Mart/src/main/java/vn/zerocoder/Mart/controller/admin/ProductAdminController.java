@@ -3,11 +3,13 @@ package vn.zerocoder.Mart.controller.admin;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import vn.zerocoder.Mart.dto.request.ProductRequest;
+import vn.zerocoder.Mart.dto.response.ProductResponse;
 import vn.zerocoder.Mart.service.*;
 
 @Slf4j
@@ -42,11 +44,31 @@ public class ProductAdminController {
                               BindingResult bindingResult, Model theModel
     ) {
         if(bindingResult.hasErrors()) {
-            log.info("name image: {}", productRequest.getStatus());
             theModel.addAttribute("brands", brandService.findAll());
             theModel.addAttribute("categories", categoryService.findAllCategoryChildren());
             return "admin/product/add";
         }
+        productService.save(productRequest);
         return "redirect:/admin/products";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editProduct(@PathVariable Long id, Model theModel) {
+        ProductResponse productResponse = productService.findById(id);
+        ProductRequest product = ProductRequest.builder()
+                .id(productResponse.getId())
+                .name(productResponse.getName())
+                .description(productResponse.getDescription())
+                .price(productResponse.getPrice())
+                .promotionRate(productResponse.getPromotionRate())
+                .status(productResponse.getStatus())
+                .productImage(productResponse.getImage())
+                .brand_id(productResponse.getBrand_id())
+                .category_id(productResponse.getCategory_id())
+                .build();
+        theModel.addAttribute("product", product);
+        theModel.addAttribute("brands", brandService.findAll());
+        theModel.addAttribute("categories", categoryService.findAllCategoryChildren());
+        return "admin/product/edit";
     }
 }

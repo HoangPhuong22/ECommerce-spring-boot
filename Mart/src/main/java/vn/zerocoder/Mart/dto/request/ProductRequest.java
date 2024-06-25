@@ -27,6 +27,8 @@ public class ProductRequest {
     @FileNotEmpty(message = "Ảnh sản phẩm không được để trống")
     private MultipartFile image;
 
+    private String productImage;
+    
     @NotNull(message = "Giá sản phẩm không được để trống")
     private Long price;
 
