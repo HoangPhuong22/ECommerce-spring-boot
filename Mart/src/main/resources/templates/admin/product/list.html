@@ -49,9 +49,11 @@
                             />
                         </td>
                         <td th:utext="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' đ'"></td>
-                        <td th:text="${product.promotionRate} + ' %'"></td>
+                        <td>
+                            <span class="badge badge-secondary" th:text="${product.promotionRate} + ' %'"></span>
+                        </td>
                         <td th:if="${product.status.compareTo(product.status.AVAILABLE) == 0}">
-                            <span class="badge badge-success">Còn hàng</span>
+                            <span class="badge badge-success">Đang kinh doanh</span>
                         </td>
                         <td th:if="${product.status.compareTo(product.status.OUT_OF_STOCK) == 0}">
                             <span class="badge badge-danger">Hết hàng</span>
@@ -78,7 +80,7 @@
                                         type="button"
                                         data-bs-toggle="tooltip"
                                         title=""
-                                        class="btn btn-link btn-danger"
+                                        class="btn btn-link btn-info"
                                         data-original-title="View Task"
                                         th:href="@{'/admin/products/view/' + ${product.id}}"
                                 >

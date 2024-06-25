@@ -40,6 +40,7 @@
         <div class="card-body">
             <form th:action="@{/admin/products/edit}" method="post" th:object="${product}" enctype="multipart/form-data">
                 <div class="row">
+                    <input type="hidden" th:field="*{id}"/>
                     <div class="form-group col-lg-6">
                         <label for="category_id">Danh mục sản phẩm</label>
                         <select class="form-select form-control" id="category_id" th:field="*{category_id}">
@@ -62,7 +63,7 @@
                         <label for="status">Trạng thái</label>
                         <select class="form-select form-control" id="status" th:field="*{status}">
                             <option value="">Chọn trạng thái</option>
-                            <option value="AVAILABLE">Còn hàng</option>
+                            <option value="AVAILABLE">Đang kinh doanh</option>
                             <option value="OUT_OF_STOCK">Hết hàng</option>
                             <option value="DISCONTINUED">Ngừng kinh doanh</option>
                             <option value="COMING_SOON">Sắp có hàng</option>
@@ -87,15 +88,17 @@
                         <small class="form-text text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
                         </small>
                     </div>
+
                     <div class="form-group">
                         <label for="image">Ảnh sản phẩm</label>
                         <input th:field="*{image}" type="file" class="form-control" id="image" accept="image/*" />
+                        <input th:type="hidden" th:field="*{productImage}" class="form-control" id="productImage"/>
                         <img id="reviewImage" th:src="@{'/image/' + ${product.productImage}}" alt="Product Image" width="200" height="200"/>
                         <small class="form-text text-danger" th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></small>
                     </div>
                     <div class="form-group">
                         <label for="description">Mô tả sản phẩm</label>
-                        <textarea th:field="*{description}" class="form-control" id="description" rows="10" placeholder="Nhập mô tả sản phẩm"></textarea>
+                        <textarea th:field="*{description}" class="form-control" id="description" rows="3" placeholder="Nhập mô tả sản phẩm"></textarea>
                         <script>
                             CKEDITOR.replace('description', {
                                 height: 400

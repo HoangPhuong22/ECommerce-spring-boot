@@ -12,5 +12,5 @@ public class ProductDetailResponse {
     private String sku;
     private String image;
     private Long price;
-    private Long quantity;
+    private Integer quantity;
 }

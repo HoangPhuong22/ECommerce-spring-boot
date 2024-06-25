@@ -3,7 +3,6 @@ package vn.zerocoder.Mart.controller.admin;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -54,7 +53,9 @@ public class ProductAdminController {
 
     @GetMapping("/edit/{id}")
     public String editProduct(@PathVariable Long id, Model theModel) {
+
         ProductResponse productResponse = productService.findById(id);
+
         ProductRequest product = ProductRequest.builder()
                 .id(productResponse.getId())
                 .name(productResponse.getName())
@@ -66,9 +67,33 @@ public class ProductAdminController {
                 .brand_id(productResponse.getBrand_id())
                 .category_id(productResponse.getCategory_id())
                 .build();
+
         theModel.addAttribute("product", product);
         theModel.addAttribute("brands", brandService.findAll());
         theModel.addAttribute("categories", categoryService.findAllCategoryChildren());
+
         return "admin/product/edit";
+    }
+
+    @PostMapping("/edit")
+    public String updateProduct(@Valid @ModelAttribute("product") ProductRequest productRequest,
+                                BindingResult bindingResult, Model theModel
+    ) {
+        if(bindingResult.hasErrors()) {
+            theModel.addAttribute("brands", brandService.findAll());
+            theModel.addAttribute("categories", categoryService.findAllCategoryChildren());
+            return "admin/product/edit";
+        }
+        productService.update(productRequest);
+        return "redirect:/admin/products";
+    }
+
+    @GetMapping("/view/{id}")
+    public String viewProduct(@PathVariable Long id, Model theModel) {
+        theModel.addAttribute("categoryService", categoryService);
+        theModel.addAttribute("brandService", brandService);
+        theModel.addAttribute("detailService", detailService);
+        theModel.addAttribute("product", productService.findById(id));
+        return "admin/product/view";
     }
 }

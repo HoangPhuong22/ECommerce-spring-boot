@@ -8,7 +8,7 @@ import java.util.List;
 public interface ProductService {
 
     Long save(ProductRequest productRequest);
-    Long update(Long id, ProductRequest productRequest);
+    Long update(ProductRequest productRequest);
     Long delete(Long id);
 
     List<ProductResponse> findAll();

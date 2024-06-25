@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import vn.zerocoder.Mart.dto.request.ProductRequest;
 import vn.zerocoder.Mart.dto.response.ProductResponse;
+import vn.zerocoder.Mart.model.BaseEntity;
 import vn.zerocoder.Mart.model.Brand;
 import vn.zerocoder.Mart.model.Category;
 import vn.zerocoder.Mart.model.Product;
@@ -14,6 +15,7 @@ import vn.zerocoder.Mart.repository.ProductRepository;
 import vn.zerocoder.Mart.service.ProductService;
 import vn.zerocoder.Mart.utils.FileUtils;
 
+import java.io.File;
 import java.util.List;
 
 @Service
@@ -55,8 +57,31 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Long update(Long id, ProductRequest productRequest) {
-        return 0L;
+    public Long update(ProductRequest productRequest) {
+        Long category_id = productRequest.getCategory_id();
+        Long brand_id = productRequest.getBrand_id();
+
+        Category category = categoryRepository.findById(category_id).orElseThrow();
+        Brand brand = brandRepository.findById(brand_id).orElseThrow();
+
+        Long product_id = productRequest.getId();
+        Product product = productRepository.findById(product_id).orElseThrow();
+
+        String newImage = FileUtils.save(Path, productRequest.getImage());
+        String oldImage = product.getProductImage();
+
+        FileUtils.delete(Path, oldImage);
+
+        product.setName(productRequest.getName());
+        product.setPrice(productRequest.getPrice());
+        product.setPromotionRate(productRequest.getPromotionRate());
+        product.setDescription(productRequest.getDescription());
+        product.setProductImage(newImage);
+        product.setStatus(productRequest.getStatus());
+        product.setBrand(brand);
+        product.setCategory(category);
+
+        return productRepository.save(product).getId();
     }
 
     @Override
@@ -77,6 +102,9 @@ public class ProductServiceImpl implements ProductService {
                         .status(product.getStatus())
                         .brand_id(product.getBrand().getId())
                         .category_id(product.getCategory().getId())
+                        .detail_id(product.getProductDetails().stream()
+                                .map(BaseEntity::getId)
+                                .toList())
                         .build())
                 .toList();
     }
@@ -94,6 +122,9 @@ public class ProductServiceImpl implements ProductService {
                         .status(product.getStatus())
                         .brand_id(product.getBrand().getId())
                         .category_id(product.getCategory().getId())
+                        .detail_id(product.getProductDetails().stream()
+                                .map(BaseEntity::getId)
+                                .toList())
                         .build())
                 .orElseThrow();
     }

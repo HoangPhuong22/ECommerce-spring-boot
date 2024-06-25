@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin/main.html}"
+>
+<div layout:fragment="content">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h4 class="card-title">Thông tin sản phẩm</h4>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <img
+                            th:src="@{'/image/' + ${product.image}}"
+                            style="width: 100%; height: auto"
+                    />
+                </div>
+                <div class="col-md-8">
+                    <h1 th:text="${product.name}"></h1>
+                    <p>
+                        <strong>Danh mục:</strong>
+                        <span th:text="${categoryService.findById(product.category_id).name}"></span>
+                    </p>
+                    <p>
+                        <strong>Thương hiệu:</strong>
+                        <span th:text="${brandService.findById(product.brand_id).name}"></span>
+                    </p>
+                    <p>
+                        <strong>Giá:  </strong>
+                        <span th:utext="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' đ'"></span>
+                    </p>
+                    <p>
+                        <strong>Giảm giá: </strong>
+                        <span class="badge badge-secondary" th:text="${product.promotionRate} + ' %'"></span>
+                    </p>
+                    <p>
+                        <strong>Trạng thái:</strong>
+                        <span th:if="${product.status.compareTo(product.status.AVAILABLE) == 0}" class="badge badge-success">Đang kinh doanh</span>
+                        <span th:if="${product.status.compareTo(product.status.OUT_OF_STOCK) == 0}" class="badge badge-danger">Hết hàng</span>
+                        <span th:if="${product.status.compareTo(product.status.COMING_SOON) == 0}" class="badge badge-warning">Sắp có hàng</span>
+                        <span th:if="${product.status.compareTo(product.status.DISCONTINUED) == 0}" class="badge badge-secondary">Ngừng kinh doanh</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex align-items-center">
+                            <h4 class="card-title">Danh sách chi tiết sản phẩm</h4>
+                            <a th:href="@{'/admin/details/add?product_id=' + ${product.id}}" style="margin-left: auto">
+                                <button
+                                        class="btn btn-primary btn-round ms-auto"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#addRowModal"
+                                >
+                                    <i class="fa fa-plus"></i>
+                                    Thêm mới
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table
+                                    id="add-row"
+                                    class="display table table-striped table-bordered "
+                            >
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Ảnh</th>
+                                    <th>Giá</th>
+                                    <th>Trạng thái</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="detail_id, index : ${product.getDetail_id()}">
+                                    <th:block th:with="detail = ${detailService.findById(detail_id)}">
+                                        <td th:text="${detail.id}"></td>
+                                        <td th:text="${detail.image}"></td>
+                                        <td th:text="${detail.price}"></td>
+                                        <td>
+                                            <a th:href="@{'/admin/products/edit/' + ${detail.id}}">Chỉnh sửa</a>
+                                        </td>
+                                    </th:block>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="card">
+                        <h4 class="card-title">Mô tả sản phẩm</h4>
+                        <p th:utext="${product.description}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import vn.zerocoder.Mart.enums.ProductStatus;
 
+import java.util.List;
+
 @Getter
 @Builder
 @AllArgsConstructor
@@ -18,4 +20,5 @@ public class ProductResponse {
     private ProductStatus status;
     private Long brand_id;
     private Long category_id;
+    private List<Long> detail_id;
 }
