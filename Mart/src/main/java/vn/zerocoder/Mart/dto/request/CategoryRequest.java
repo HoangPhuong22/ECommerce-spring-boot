@@ -1,9 +1,12 @@
 package vn.zerocoder.Mart.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,4 +23,7 @@ public class CategoryRequest {
 
     @NotNull(message = "Danh mục cha không được để trống")
     private Long parent_id;
+
+    @NotEmpty(message = "Chọn biến thể cho danh mục")
+    private List<Long> variations_id;
 }

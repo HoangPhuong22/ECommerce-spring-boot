@@ -26,20 +26,21 @@ public class VariationAdminController {
     private final VariationOptionService optionService;
     @GetMapping
     public String listVariation(Model theModel) {
-        List<CategoryResponse> categories = categoryService.findCategoryParent();
+
+        List<CategoryResponse> categories = categoryService.findAll();
         List<VariationResponse> variations = variationService.findAll();
+
         theModel.addAttribute("categories", categories);
         theModel.addAttribute("variations", variations);
         theModel.addAttribute("variationService", variationService);
         theModel.addAttribute("optionService", optionService);
+
         return "admin/variation/list";
     }
 
 
     @GetMapping("/add")
     public String addVariation(Model theModel) {
-        List<CategoryResponse> categories = categoryService.findCategoryParent();
-        theModel.addAttribute("categories", categories);
         theModel.addAttribute("variationRequest", new VariationRequest());
         return "admin/variation/add";
     }
@@ -52,8 +53,6 @@ public class VariationAdminController {
                            BindingResult bindingResult, Model theModel
     ) {
         if(bindingResult.hasErrors()) {
-            List<CategoryResponse> categories = categoryService.findCategoryParent();
-            theModel.addAttribute("categories", categories);
             return "admin/variation/add";
         }
         Long id = variationService.save(variationRequest);
@@ -69,14 +68,12 @@ public class VariationAdminController {
     @GetMapping("/edit/{id}")
     public String editVariation(@PathVariable Long id, Model theModel) {
         VariationResponse variation = variationService.findById(id);
-        theModel.addAttribute("variationRequest", VariationRequest.builder()
+        VariationRequest variationRequest = VariationRequest.builder()
                 .id(variation.getId())
                 .name(variation.getName())
-                .categories_id(variation.getCategories_id())
-                .build()
-        );
-        theModel.addAttribute("categories", categoryService.findCategoryParent());
-        theModel.addAttribute("options", variation.getOptions_id());
+                .options_id(variation.getOptions_id())
+                .build();
+        theModel.addAttribute("variationRequest", variationRequest);
         theModel.addAttribute("optionService", optionService);
         return "admin/variation/edit";
     }
@@ -88,12 +85,12 @@ public class VariationAdminController {
                             BindingResult bindingResult, Model theModel
     ) {
         if(bindingResult.hasErrors()) {
-            List<CategoryResponse> categories = categoryService.findCategoryParent();
-            theModel.addAttribute("categories", categories);
+            theModel.addAttribute("optionService", optionService);
             return "admin/variation/edit";
         }
         Long result = variationService.update(id, variationRequest);
         if(result == -1) {
+            theModel.addAttribute("optionService", optionService);
             bindingResult.rejectValue("name", "error.variationRequest", "Tên biến thể đã tồn tại");
             return "admin/variation/edit";
         }

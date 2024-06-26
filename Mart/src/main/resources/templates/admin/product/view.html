@@ -72,19 +72,32 @@
                                     <th>STT</th>
                                     <th>Ảnh</th>
                                     <th>Giá</th>
-                                    <th>Trạng thái</th>
+                                    <th>Số lượng</th>
+                                    <th>Sku</th>
                                     <th>Thao tác</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr th:each="detail_id, index : ${product.getDetail_id()}">
                                     <th:block th:with="detail = ${detailService.findById(detail_id)}">
-                                        <td th:text="${detail.id}"></td>
-                                        <td th:text="${detail.image}"></td>
-                                        <td th:text="${detail.price}"></td>
+                                        <td th:text="${index.count}"></td>
                                         <td>
-                                            <a th:href="@{'/admin/products/edit/' + ${detail.id}}">Chỉnh sửa</a>
+                                            <img
+                                                    th:src="@{'/image/' + ${detail.image}}"
+                                                    style="width: 100px; height: auto"
+                                            />
                                         </td>
+                                        <td th:utext="${#numbers.formatDecimal(detail.price, 0, 'COMMA', 0, 'POINT')} + ' đ'"></td>
+                                        <td th:text="${detail.quantity}"></td>
+                                        <td th:text="${detail.sku}"></td>
+                                        <td>
+                                            <a
+                                                    th:href="@{'/admin/details/edit/' + ${detail.id}}"
+                                                    class="btn btn-warning btn-round"
+                                            >
+                                                <i class="fa fa-edit"></i>
+                                                Sửa
+                                            </a>
                                     </th:block>
                                 </tr>
                                 </tbody>

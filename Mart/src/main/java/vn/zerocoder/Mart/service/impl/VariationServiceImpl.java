@@ -24,13 +24,12 @@ public class VariationServiceImpl implements VariationService {
     private final CategoryRepository categoryRepository;
     @Override
     public Long save(VariationRequest variationRequest) {
+
         log.info("Create new variation!");
-        List<Long> categoryIds = variationRequest.getCategories_id();
-        List<Category> categories = categoryRepository.findAllById(categoryIds);
         Variation variation = Variation.builder()
                 .name(NameNormalizer.normalize(variationRequest.getName()))
-                .categories(categories)
                 .build();
+
         if(variationRepositiory.existsByName(variation.getName())) {
             return -1L;
         }
@@ -39,12 +38,12 @@ public class VariationServiceImpl implements VariationService {
 
     @Override
     public Long update(Long id, VariationRequest variationRequest) {
+
         log.info("Update variation!");
         Variation variation = variationRepositiory.findById(id).orElseThrow();
-        List<Long> categoryIds = variationRequest.getCategories_id();
-        List<Category> categories = categoryRepository.findAllById(categoryIds);
+
         variation.setName(NameNormalizer.normalize(variationRequest.getName()));
-        variation.setCategories(categories);
+
         if(variationRepositiory.existsByNameAndIdNot(variation.getName(), id)) {
             return -1L;
         }
@@ -69,7 +68,6 @@ public class VariationServiceImpl implements VariationService {
         return VariationResponse.builder()
                 .id(variation.getId())
                 .name(variation.getName())
-                .categories_id(variation.getCategories().stream().map(Category::getId).toList())
                 .options_id(variation.getOptions().stream().map(VariationOption::getId).toList())
                 .build();
     }
@@ -80,7 +78,6 @@ public class VariationServiceImpl implements VariationService {
                 .map(variation -> VariationResponse.builder()
                         .id(variation.getId())
                         .name(variation.getName())
-                        .categories_id(variation.getCategories().stream().map(Category::getId).toList())
                         .options_id(variation.getOptions().stream().map(VariationOption::getId).toList())
                         .build())
                 .toList();
@@ -92,7 +89,6 @@ public class VariationServiceImpl implements VariationService {
                 .map(variation -> VariationResponse.builder()
                         .id(variation.getId())
                         .name(variation.getName())
-                        .categories_id(variation.getCategories().stream().map(Category::getId).toList())
                         .options_id(variation.getOptions().stream().map(VariationOption::getId).toList())
                         .build())
                 .toList();

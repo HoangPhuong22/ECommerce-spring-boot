@@ -8,7 +8,9 @@ import vn.zerocoder.Mart.dto.response.CategoryResponse;
 import vn.zerocoder.Mart.model.Category;
 import vn.zerocoder.Mart.model.Variation;
 import vn.zerocoder.Mart.repository.CategoryRepository;
+import vn.zerocoder.Mart.repository.VariationRepositiory;
 import vn.zerocoder.Mart.service.CategoryService;
+import vn.zerocoder.Mart.service.VariationService;
 import vn.zerocoder.Mart.utils.NameNormalizer;
 
 import java.util.List;
@@ -19,15 +21,17 @@ import java.util.List;
 public class CategoryImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
-
+    private final VariationRepositiory variationRepositiory;
     @Override
     public Long save(CategoryRequest categoryRequest) {
         log.info("Save category");
         Category parent = categoryRepository.findById(categoryRequest.getParent_id()).orElse(null);
+        List<Variation> variations = variationRepositiory.findAllById(categoryRequest.getVariations_id());
         String name = NameNormalizer.normalize(categoryRequest.getName());
         Category category = Category.builder()
                 .name(name)
                 .parent(parent)
+                .variations(variations)
                 .build();
         if(categoryRepository.existsByName(category.getName())) {
             log.error("Category name already exists");
@@ -39,9 +43,21 @@ public class CategoryImpl implements CategoryService {
     @Override
     public Long update(Long id, CategoryRequest categoryRequest) {
         log.info("Update category");
+
+        List<Long> variations_id = categoryRequest.getVariations_id();
+        List<Variation> variations = variationRepositiory.findAllById(variations_id);
+
+        Long parent_id = categoryRequest.getParent_id();
+        Category parent = categoryRepository.findById(parent_id).orElse(null);
+
+        String category_name = NameNormalizer.normalize(categoryRequest.getName());
+
         Category category = categoryRepository.findById(id).orElseThrow();
-        category.setName(NameNormalizer.normalize(categoryRequest.getName()));
-        category.setParent(categoryRepository.findById(categoryRequest.getParent_id()).orElse(null));
+
+        category.setName(category_name);
+        category.setParent(parent);
+        category.setVariations(variations);
+
         if(categoryRepository.existsByNameAndIdNot(category.getName(), id)) {
             return -1L;
         }

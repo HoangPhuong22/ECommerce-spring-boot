@@ -19,6 +19,5 @@ public class VariationRequest {
     @Size(min = 2, max = 255, message = "Tên biến thể phải từ 6 đến 255 ký tự")
     private String name;
 
-    @NotEmpty(message = "Danh mục không được rỗng")
-    private List<Long> categories_id;
+    private List<Long> options_id;
 }

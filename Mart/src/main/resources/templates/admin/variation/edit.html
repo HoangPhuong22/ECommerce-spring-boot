@@ -40,23 +40,13 @@
             <form th:action="@{'/admin/variations/edit/' + ${variationRequest.id}}" method="post" th:object="${variationRequest}">
                 <div class="row">
                     <div class="form-group">
-                        <label for="exampleFormControlSelect2">Chọn danh mục</label>
-                        <select multiple class="form-select form-control" id="exampleFormControlSelect2" th:field="*{categories_id}">
-                            <option th:each="category : ${categories}"
-                                    th:value="${category.id}"
-                                    th:text="${category.name}"
-                                    th:selected="${variationRequest.getCategories_id().contains(category.id)}"></option>
-                        </select>
-
-                        <small class="form-text text-danger" th:if="${#fields.hasErrors('categories_id')}" th:errors="*{categories_id}"></small>
-                    </div>
-                    <div class="form-group">
                         <label for="name">Tên biến thể</label>
                         <input th:field="*{name}" type="text" class="form-control" id="name" placeholder="Nhập tên biến thể" />
                         <small class="form-text text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
                         </small>
                     </div>
                 </div>
+                <input type="hidden" th:field="*{options_id}"/>
                 <div class="card-action">
                     <input type="submit" class="btn btn-success" value="Chỉnh sửa"/>
                     <a href="/admin/variations" class="btn btn-danger">Quay lại</a>
@@ -91,7 +81,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="option_id, index : ${options}">
+                    <tr th:each="option_id, index : ${variationRequest.options_id}">
                         <th:block th:with="option = ${optionService.findById(option_id)}">
                             <td th:text="${index.count}"></td>
                             <td th:text="${option.value}"></td>

@@ -13,6 +13,5 @@ import java.util.List;
 public class VariationResponse {
     private Long id;
     private String name;
-    private List<Long> categories_id;
     private List<Long> options_id;
 }
