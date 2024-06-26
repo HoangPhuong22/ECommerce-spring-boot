@@ -68,4 +68,14 @@ public class VariationOptionServiceImpl implements VariationOptionService {
                 .variation_id(variationOption.getVariation().getId())
                 .build()).toList();
     }
+
+    @Override
+    public List<VariationOptionResponse> findAll() {
+        List<VariationOption> variationOptions = variationOptionRepository.findAll();
+        return variationOptions.stream().map(variationOption -> VariationOptionResponse.builder()
+                .id(variationOption.getId())
+                .value(variationOption.getValue())
+                .variation_id(variationOption.getVariation().getId())
+                .build()).toList();
+    }
 }

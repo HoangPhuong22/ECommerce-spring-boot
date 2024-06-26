@@ -7,15 +7,30 @@ import vn.zerocoder.Mart.dto.response.ProductDetailResponse;
 import vn.zerocoder.Mart.model.ProductDetail;
 import vn.zerocoder.Mart.repository.ProductDetailRepository;
 import vn.zerocoder.Mart.service.ProductDetailService;
+import vn.zerocoder.Mart.service.ProductService;
+import vn.zerocoder.Mart.service.VariationOptionService;
+import vn.zerocoder.Mart.service.VariationService;
 
 @Service
 @RequiredArgsConstructor
 public class ProductDetailServiceImpl implements ProductDetailService {
 
     private final ProductDetailRepository productDetailRepository;
+    private final VariationService variationService;
+    private final ProductService productService;
+    private final VariationOptionService optionService;
 
     @Override
     public Long save(ProductDetailRequest detailRequest) {
+        String sku = detailRequest.getProduct_id().toString();
+
+        ProductDetail productDetail = ProductDetail.builder()
+                .sku(detailRequest.getSku())
+                .productImage(detailRequest.getImage())
+                .price(detailRequest.getPrice())
+                .qty(detailRequest.getQuantity())
+                .build();
+
         return 0L;
     }
 

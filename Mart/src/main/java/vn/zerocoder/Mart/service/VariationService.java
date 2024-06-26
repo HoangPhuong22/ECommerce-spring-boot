@@ -16,5 +16,6 @@ public interface VariationService {
 
     VariationResponse findById(Long id);
 
+    List<VariationResponse> findAllById(List<Long> ids);
     List<VariationResponse> findAll();
 }

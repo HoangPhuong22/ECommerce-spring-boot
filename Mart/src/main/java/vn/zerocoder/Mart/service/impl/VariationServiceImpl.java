@@ -75,6 +75,18 @@ public class VariationServiceImpl implements VariationService {
     }
 
     @Override
+    public List<VariationResponse> findAllById(List<Long> ids) {
+        return variationRepositiory.findAllById(ids).stream()
+                .map(variation -> VariationResponse.builder()
+                        .id(variation.getId())
+                        .name(variation.getName())
+                        .categories_id(variation.getCategories().stream().map(Category::getId).toList())
+                        .options_id(variation.getOptions().stream().map(VariationOption::getId).toList())
+                        .build())
+                .toList();
+    }
+
+    @Override
     public List<VariationResponse> findAll() {
         return variationRepositiory.findAll().stream()
                 .map(variation -> VariationResponse.builder()

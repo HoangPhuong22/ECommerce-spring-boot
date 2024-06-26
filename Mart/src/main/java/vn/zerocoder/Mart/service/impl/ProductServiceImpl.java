@@ -81,6 +81,10 @@ public class ProductServiceImpl implements ProductService {
         product.setBrand(brand);
         product.setCategory(category);
 
+        if(productRepository.existsByNameAndIdNot(product.getName(), product_id)) {
+            return -1L;
+        }
+
         return productRepository.save(product).getId();
     }
 

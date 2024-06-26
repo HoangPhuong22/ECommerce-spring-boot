@@ -8,6 +8,32 @@
 </head>
 <body>
 <div layout:fragment="content">
+    <script>
+        function updateOptions(selectElement) {
+            const selectedValue = selectElement.value;
+            const selectedText = selectElement.options[selectElement.selectedIndex].text;
+            const variationId = selectElement.getAttribute('data-variation-id');
+            console.log(selectedValue, selectedText, variationId);
+            const optionsSelect = document.getElementById("options");
+            const options = optionsSelect.options;
+            // Xóa các lựa chọn cũ cùng variationId
+            for (let i = options.length - 1; i >= 0; i--) {
+                const optionVariationId = options[i].getAttribute('data-variation-id');
+                console.log(optionVariationId);
+                if (optionVariationId === variationId) {
+                    optionsSelect.remove(i);
+                }
+            }
+
+            // Thêm lựa chọn mới vào select multiple
+            if(selectedValue !== "") {
+                const newOption = new Option(selectedText, selectedValue, true, true);
+                newOption.setAttribute('data-variation-id', variationId);
+                optionsSelect.add(newOption);
+            }
+        }
+
+    </script>
     <div class="page-header">
         <h3 class="fw-bold mb-3">Sản phẩm</h3>
         <ul class="breadcrumbs mb-3">
@@ -31,13 +57,47 @@
         </ul>
     </div>
     <div class="card">
+        <div class="row">
+            <div class="col-md-4">
+                <img
+                        th:src="@{'/image/' + ${product.image}}"
+                        style="width: 100%; height: auto"
+                />
+            </div>
+            <div class="col-md-8">
+                <h1 th:text="${product.name}"></h1>
+                <p>
+                    <strong>Danh mục:</strong>
+                    <span th:text="${categoryService.findById(product.category_id).name}"></span>
+                </p>
+                <p>
+                    <strong>Thương hiệu:</strong>
+                    <span th:text="${brandService.findById(product.brand_id).name}"></span>
+                </p>
+                <p>
+                    <strong>Giá:  </strong>
+                    <span th:utext="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' đ'"></span>
+                </p>
+                <p>
+                    <strong>Giảm giá: </strong>
+                    <span class="badge badge-secondary" th:text="${product.promotionRate} + ' %'"></span>
+                </p>
+                <p>
+                    <strong>Trạng thái:</strong>
+                    <span th:if="${product.status.compareTo(product.status.AVAILABLE) == 0}" class="badge badge-success">Đang kinh doanh</span>
+                    <span th:if="${product.status.compareTo(product.status.OUT_OF_STOCK) == 0}" class="badge badge-danger">Hết hàng</span>
+                    <span th:if="${product.status.compareTo(product.status.COMING_SOON) == 0}" class="badge badge-warning">Sắp có hàng</span>
+                    <span th:if="${product.status.compareTo(product.status.DISCONTINUED) == 0}" class="badge badge-secondary">Ngừng kinh doanh</span>
+                </p>
+            </div>
+        </div>
         <div class="card-header">
             <div class="d-flex align-items-center">
                 <h4 class="card-title">Thêm mới chi tiết sản phẩm</h4>
             </div>
         </div>
         <div class="card-body">
-            <form th:action="@{/admin/details/add}" method="post" th:object="${detail}" enctype="multipart/form-data">
+            <form th:action="@{'/admin/details/add?product_id=' + ${detail.product_id} }" method="post" th:object="${detail}" enctype="multipart/form-data">
                 <input type="hidden" th:field="*{product_id}"/>
                 <div class="row">
                     <div class="form-group">
@@ -51,10 +111,45 @@
                         <input type="number" th:field="*{price}" id="price" class="form-control"/>
                         <small class="form-text text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></small>
                     </div>
+                    <div class="form-group">
+                        <label for="quantity">Số lượng</label>
+                        <input type="number" th:field="*{quantity}" id="quantity" class="form-control"/>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="options"> Biển thể </label>
+                        <select multiple class="form-control" th:field="*{options}" id="options">
+                            <th:block th:with="option_temp = ${optionService.findAll()}">
+                                <option th:each="item: ${option_temp}"
+                                        th:if="${detail.options != null and detail.options.contains(item.id)}"
+                                        th:value="${item.id}" th:text="${item.value}"
+                                        th:data-variation-id="${item.variation_id}"
+                                >
+                                </option>
+                            </th:block>
+                        </select>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('options')}" th:errors="*{options}"></small>
+                        <div th:each="variation, index: ${variations}">
+                            <label th:text="${variation.name}"></label>
+                            <th:block th:with="option = ${optionService.findAllById(variation.options_id)}">
+                                <label>
+                                    <select class="form-control" onchange="updateOptions(this)" th:data-variation-id="${variation.id}">
+                                        <option value="">Chọn một</option>
+                                        <option th:each="item: ${option}"
+                                                th:value="${item.id}" th:text="${item.value}"
+                                                th:selected="${detail.options != null and detail.options.contains(item.id)}"
+                                        >
+                                        </option>
+                                    </select>
+                                </label>
+                            </th:block>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="card-action">
                     <input type="submit" class="btn btn-success" value="Thêm mới"/>
-                    <a href="/admin/category" class="btn btn-danger">Quay lại</a>
+                    <a th:href="@{'/admin/products/view/' + ${detail.product_id}}" class="btn btn-danger">Quay lại</a>
                 </div>
             </form>
         </div>

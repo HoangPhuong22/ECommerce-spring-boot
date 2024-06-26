@@ -47,7 +47,13 @@ public class ProductAdminController {
             theModel.addAttribute("categories", categoryService.findAllCategoryChildren());
             return "admin/product/add";
         }
-        productService.save(productRequest);
+        Long id = productService.save(productRequest);
+        if(id == -1) {
+            theModel.addAttribute("brands", brandService.findAll());
+            theModel.addAttribute("categories", categoryService.findAllCategoryChildren());
+            bindingResult.rejectValue("name", "error.product", "Tên sản phẩm đã tồn tại");
+            return "admin/product/add";
+        }
         return "redirect:/admin/products";
     }
 
@@ -84,7 +90,13 @@ public class ProductAdminController {
             theModel.addAttribute("categories", categoryService.findAllCategoryChildren());
             return "admin/product/edit";
         }
-        productService.update(productRequest);
+        Long id = productService.update(productRequest);
+        if(id == -1) {
+            theModel.addAttribute("brands", brandService.findAll());
+            theModel.addAttribute("categories", categoryService.findAllCategoryChildren());
+            bindingResult.rejectValue("name", "error.product", "Tên sản phẩm đã tồn tại");
+            return "admin/product/edit";
+        }
         return "redirect:/admin/products";
     }
 

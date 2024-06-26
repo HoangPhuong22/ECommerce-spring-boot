@@ -1,13 +1,12 @@
 package vn.zerocoder.Mart.dto.request;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.web.multipart.MultipartFile;
 import vn.zerocoder.Mart.validator.FileNotEmpty;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,7 +20,7 @@ public class ProductDetailRequest {
     private String sku;
 
     @NotNull(message = "Số lượng sản phẩm không được để trống")
-    @Size(min = 1, message = "Số lượng sản phẩm phải lớn hơn 0")
+    @Min(value = 1, message = "Số lượng sản phẩm phải lớn hơn 0")
     private Integer quantity;
 
     private String image;
@@ -35,5 +34,8 @@ public class ProductDetailRequest {
 
     @NotNull(message = "Sản phẩm không được để trống")
     private Long product_id;
+
+    @NotEmpty(message = "Vui lòng chọn ít nhất một biến thể")
+    private List<Long> options;
 
 }
