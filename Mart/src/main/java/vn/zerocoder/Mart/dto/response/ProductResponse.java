@@ -16,6 +16,7 @@ public class ProductResponse {
     private String description;
     private String image;
     private Long price;
+    Integer quantity;
     private Integer promotionRate;
     private ProductStatus status;
     private Long brand_id;

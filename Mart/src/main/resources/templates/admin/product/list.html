@@ -5,6 +5,22 @@
       layout:decorate="~{layout/admin/main.html}"
 >
 <div layout:fragment="content">
+    <div class="page-header">
+        <h3 class="fw-bold mb-3">Sản phẩm</h3>
+        <ul class="breadcrumbs mb-3">
+            <li class="nav-home">
+                <a href="/admin">
+                    <i class="icon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/products">Sản phẩm</a>
+            </li>
+        </ul>
+    </div>
     <div class="card">
         <div class="card-header">
             <div class="d-flex align-items-center">
@@ -23,9 +39,11 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
+                <span class="text-danger" th:if = "${products.size() == 0}">Không có sản phẩm nào được quản lý</span>
                 <table
                         id="add-row"
                         class="display table table-striped table-bordered "
+                        th:if = "${products.size() > 0}"
                 >
                     <thead>
                     <tr>
@@ -67,24 +85,18 @@
                         <td>
                             <div class="form-button-action">
                                 <a
-                                        type="button"
-                                        data-bs-toggle="tooltip"
-                                        title=""
-                                        class="btn btn-link btn-primary btn-lg"
-                                        data-original-title="Edit Task"
                                         th:href="@{'/admin/products/edit/' + ${product.id}}"
+                                        class="btn btn-link btn--primary"
                                 >
                                     <i class="fa fa-edit"></i>
+                                    Sửa
                                 </a>
                                 <a
-                                        type="button"
-                                        data-bs-toggle="tooltip"
-                                        title=""
-                                        class="btn btn-link btn-info"
-                                        data-original-title="View Task"
                                         th:href="@{'/admin/products/view/' + ${product.id}}"
+                                        class="btn btn-link btn-primary"
                                 >
                                     <i class="fa fa-eye"></i>
+                                    Xem
                                 </a>
                             </div>
                         </td>

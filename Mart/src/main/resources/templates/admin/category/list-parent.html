@@ -5,6 +5,22 @@
       layout:decorate="~{layout/admin/main.html}"
 >
 <div layout:fragment="content">
+    <div class="page-header">
+        <h3 class="fw-bold mb-3">Danh mục</h3>
+        <ul class="breadcrumbs mb-3">
+            <li class="nav-home">
+                <a href="/admin">
+                    <i class="icon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/category/parent">Danh mục cha</a>
+            </li>
+        </ul>
+    </div>
     <div class="card">
         <div class="card-header">
             <div class="d-flex align-items-center">
@@ -13,7 +29,8 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table id="add-row" class="display table table-striped table-bordered ">
+                <span class="text-danger" th:if = "${categories.size() == 0}">Không có danh mục nào được quản lý</span>
+                <table id="add-row" class="display table table-striped table-bordered" th:if = "${categories.size() > 0}">
                     <thead>
                     <tr>
                         <th>STT</th>

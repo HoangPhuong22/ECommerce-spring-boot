@@ -17,9 +17,5 @@ public class InitialDataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Category category = categoryRepository.findById(1L).orElse(null);
-        assert category != null;
-        for(Category c : category.getChildren()) {
-            System.out.println(c.getName());
-        }
     }
 }

@@ -53,35 +53,6 @@
             </form>
         </div>
     </div>
-    <div class="card">
-        <div class="card-header">
-            <div class="d-flex align-items-center">
-                <h4 class="card-title">Tất cả danh mục lớn</h4>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table id="add-row" class="display table table-striped table-bordered ">
-                    <thead>
-                    <tr>
-                        <th>STT</th>
-                        <th>Tên danh mục</th>
-                        <th>Số lượng danh mục con</th>
-                        <th>Số lượng sản phẩm</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="category, iterStat : ${categories}">
-                        <td th:text="${iterStat.count}"></td>
-                        <td th:text="${category.name}"></td>
-                        <td th:text="${category.children_id.size()}"></td>
-                        <td>0</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
 </div>
 </body>
 </html>

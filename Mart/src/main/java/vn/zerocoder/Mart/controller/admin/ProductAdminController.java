@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import vn.zerocoder.Mart.dto.request.ProductRequest;
 import vn.zerocoder.Mart.dto.response.ProductResponse;
 import vn.zerocoder.Mart.service.*;
@@ -61,7 +62,6 @@ public class ProductAdminController {
     public String editProduct(@PathVariable Long id, Model theModel) {
 
         ProductResponse productResponse = productService.findById(id);
-
         ProductRequest product = ProductRequest.builder()
                 .id(productResponse.getId())
                 .name(productResponse.getName())

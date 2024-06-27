@@ -27,6 +27,9 @@ public class Product extends BaseEntity{
     @Column(name = "price")
     private Long price;
 
+    @Column(name = "quantity")
+    private Integer quantity;
+
     @Column(name ="status")
     @Enumerated(EnumType.STRING)
     private ProductStatus status;
@@ -57,4 +60,5 @@ public class Product extends BaseEntity{
             })
     @JoinColumn(name = "category_id")
     private Category category;
+
 }

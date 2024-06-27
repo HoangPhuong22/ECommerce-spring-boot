@@ -5,6 +5,22 @@
       layout:decorate="~{layout/admin/main.html}"
 >
 <div layout:fragment="content">
+    <div class="page-header">
+        <h3 class="fw-bold mb-3">Biến thể</h3>
+        <ul class="breadcrumbs mb-3">
+            <li class="nav-home">
+                <a href="/admin">
+                    <i class="icon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/variations">Biến thể sản phẩm</a>
+            </li>
+        </ul>
+    </div>
     <div class="card">
         <div class="card-header">
             <div class="d-flex align-items-center">
@@ -24,8 +40,10 @@
         <div class="card-header">
             <div class="card-body">
                 <div class="table-responsive">
+                    <span class="text-danger" th:if = "${variations.size() == 0}">Không có biến thể nào được quản lý</span>
                     <table
                             class="display table table-striped table-bordered"
+                            th:if = "${variations.size() > 0}"
                     >
                         <thead>
                         <tr>
@@ -43,25 +61,19 @@
                             <td>
                                 <div class="form-button-action">
                                     <a
-                                            type="button"
-                                            data-bs-toggle="tooltip"
-                                            title=""
-                                            class="btn btn-link btn-primary btn-lg"
-                                            data-original-title="Edit Task"
                                             th:href="@{'/admin/variations/edit/' + ${variation.id}}"
+                                            class="btn btn-link btn-primary"
                                     >
                                         <i class="fa fa-edit"></i>
+                                        Sửa
                                     </a>
                                     <a
-                                            type="button"
-                                            data-bs-toggle="tooltip"
-                                            title=""
-                                            class="btn btn-link btn-danger"
-                                            data-original-title="Remove"
                                             th:href="@{'/admin/variations/delete/' + ${variation.id}}"
                                             onclick="if(!confirm('Bạn có chắc chắn muốn xóa không?')) return false;"
+                                            class="btn btn-link btn-danger"
                                     >
-                                        <i class="fa fa-times"></i>
+                                        <i class="fa fa-trash"></i>
+                                        Xóa
                                     </a>
                                 </div>
                             </td>
@@ -72,7 +84,7 @@
         </div>
         <div class="card-header">
             <div class="d-flex align-items-center">
-                <span class="card-title">Chi tiết biến thể từng danh mục</span>
+                <span class="card-title" th:if="${categories.size() > 0}">Chi tiết biến thể từng danh mục</span>
             </div>
         </div>
         <div th:each="category: ${categories}" th:if="${category.variations_id.size() > 0}">

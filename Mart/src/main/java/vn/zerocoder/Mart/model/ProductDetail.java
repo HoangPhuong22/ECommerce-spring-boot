@@ -47,4 +47,10 @@ public class ProductDetail extends BaseEntity{
             inverseJoinColumns = @JoinColumn(name = "variation_option_id")
     )
     private List<VariationOption> options;
+
+    @PrePersist
+    @PreUpdate
+    private void updateQuantity() {
+        this.product.setQuantity(this.product.getQuantity() + this.qty);
+    }
 }

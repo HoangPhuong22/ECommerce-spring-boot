@@ -138,11 +138,12 @@ CREATE TABLE tbl_variation_option (
 CREATE TABLE tbl_product (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-    description TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+    description LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
     promotion_rate INT,
     price DECIMAL(18, 0),
     status enum( 'AVAILABLE', 'OUT_OF_STOCK', 'DISCONTINUED', 'COMING_SOON'),
     product_image TEXT,
+    quantity INT,
     brand_id BIGINT,
     category_id BIGINT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -424,7 +425,7 @@ INSERT INTO tbl_variation (name) VALUES
 ('Bộ nhớ trong'),
 ('Ổ cứng SSD'),
 ('Công suất');
-
+/*
 -- Thêm dữ liệu mẫu cho bảng tbl_variation_category
 SET @tech_id = (SELECT id FROM tbl_category WHERE name = 'Công Nghệ');
 SET @ram_id = (SELECT id FROM tbl_variation WHERE name = 'Ram');
@@ -448,7 +449,7 @@ SET @power_id = (SELECT id FROM tbl_variation WHERE name = 'Công suất');
 INSERT INTO tbl_variation_category (category_id, variation_id) VALUES 
 (@houseware_id, @power_id);
 
-
+*/
 
 #. THÊM CÁC GIÁ TRỊ CHO BIẾN THỂ
 -- Lấy id của các loại biến thể
@@ -471,6 +472,8 @@ INSERT INTO tbl_variation_option (variation_id, value) VALUES
 (@size_id, 'S'),
 (@size_id, 'M'),
 (@size_id, 'L'),
+(@size_id, 'XL'),
+(@size_id, 'XXL'),
 (@ram_id, '4GB'),
 (@ram_id, '8GB'),
 (@ram_id, '16GB'),

@@ -5,6 +5,28 @@
       layout:decorate="~{layout/admin/main.html}"
 >
 <div layout:fragment="content">
+    <div class="page-header">
+        <h3 class="fw-bold mb-3">Sản phẩm</h3>
+        <ul class="breadcrumbs mb-3">
+            <li class="nav-home">
+                <a href="/admin">
+                    <i class="icon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/products">Sản phẩm</a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a th:href="@{'/admin/products/view/' + ${product.id}}">Xem chi tiết</a>
+            </li>
+        </ul>
+    </div>
     <div class="card">
         <div class="card-header">
             <div class="d-flex align-items-center">
@@ -22,23 +44,27 @@
                 <div class="col-md-8">
                     <h1 th:text="${product.name}"></h1>
                     <p>
-                        <strong>Danh mục:</strong>
+                        <strong>Danh mục : </strong>
                         <span th:text="${categoryService.findById(product.category_id).name}"></span>
                     </p>
                     <p>
-                        <strong>Thương hiệu:</strong>
+                        <strong>Thương hiệu :</strong>
                         <span th:text="${brandService.findById(product.brand_id).name}"></span>
                     </p>
                     <p>
-                        <strong>Giá:  </strong>
+                        <strong>Giá :  </strong>
                         <span th:utext="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' đ'"></span>
                     </p>
                     <p>
-                        <strong>Giảm giá: </strong>
+                        <strong>Giảm giá : </strong>
                         <span class="badge badge-secondary" th:text="${product.promotionRate} + ' %'"></span>
                     </p>
                     <p>
-                        <strong>Trạng thái:</strong>
+                        <strong>Tồn kho :  </strong>
+                        <span th:text="${product.quantity}" class="badge badge-count"></span>
+                    </p>
+                    <p>
+                        <strong>Trạng thái :</strong>
                         <span th:if="${product.status.compareTo(product.status.AVAILABLE) == 0}" class="badge badge-success">Đang kinh doanh</span>
                         <span th:if="${product.status.compareTo(product.status.OUT_OF_STOCK) == 0}" class="badge badge-danger">Hết hàng</span>
                         <span th:if="${product.status.compareTo(product.status.COMING_SOON) == 0}" class="badge badge-warning">Sắp có hàng</span>
@@ -93,7 +119,7 @@
                                         <td>
                                             <a
                                                     th:href="@{'/admin/details/edit/' + ${detail.id}}"
-                                                    class="btn btn-warning btn-round"
+                                                    class="btn btn--primary btn-round"
                                             >
                                                 <i class="fa fa-edit"></i>
                                                 Sửa

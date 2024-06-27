@@ -44,6 +44,7 @@ public class ProductServiceImpl implements ProductService {
                 .price(productRequest.getPrice())
                 .promotionRate(productRequest.getPromotionRate())
                 .description(productRequest.getDescription())
+                .quantity(0)
                 .productImage(FileUtils.save(Path, productRequest.getImage()))
                 .status(productRequest.getStatus())
                 .brand(brand)
@@ -73,6 +74,7 @@ public class ProductServiceImpl implements ProductService {
         FileUtils.delete(Path, oldImage);
 
         product.setName(productRequest.getName());
+        product.setProductImage(newImage);
         product.setPrice(productRequest.getPrice());
         product.setPromotionRate(productRequest.getPromotionRate());
         product.setDescription(productRequest.getDescription());
@@ -104,6 +106,7 @@ public class ProductServiceImpl implements ProductService {
                         .description(product.getDescription())
                         .image(product.getProductImage())
                         .status(product.getStatus())
+                        .quantity(product.getQuantity())
                         .brand_id(product.getBrand().getId())
                         .category_id(product.getCategory().getId())
                         .detail_id(product.getProductDetails().stream()
@@ -123,6 +126,7 @@ public class ProductServiceImpl implements ProductService {
                         .promotionRate(product.getPromotionRate())
                         .description(product.getDescription())
                         .image(product.getProductImage())
+                        .quantity(product.getQuantity())
                         .status(product.getStatus())
                         .brand_id(product.getBrand().getId())
                         .category_id(product.getCategory().getId())
