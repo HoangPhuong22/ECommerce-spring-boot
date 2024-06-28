@@ -17,7 +17,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin/details")
-public class ProductDetailAdminController {
+public class AdminProductDetailController {
     private final ProductDetailService productDetailService;
     private final ProductService productService;
     private final CategoryService categoryService;

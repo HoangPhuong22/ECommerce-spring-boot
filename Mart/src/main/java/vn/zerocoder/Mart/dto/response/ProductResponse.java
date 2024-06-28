@@ -22,4 +22,5 @@ public class ProductResponse {
     private Long brand_id;
     private Long category_id;
     private List<Long> detail_id;
+    private List<Long> spec_value_id;
 }

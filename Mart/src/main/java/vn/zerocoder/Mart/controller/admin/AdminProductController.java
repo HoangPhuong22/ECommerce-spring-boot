@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import vn.zerocoder.Mart.dto.request.ProductRequest;
 import vn.zerocoder.Mart.dto.response.ProductResponse;
 import vn.zerocoder.Mart.service.*;
@@ -16,7 +15,7 @@ import vn.zerocoder.Mart.service.*;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin/products")
-public class ProductAdminController {
+public class AdminProductController {
 
     private final CategoryService categoryService;
     private final BrandService brandService;
@@ -24,6 +23,8 @@ public class ProductAdminController {
     private final ProductDetailService detailService;
     private final VariationService variationService;
     private final VariationOptionService optionService;
+    private final SpecService specService;
+    private final SpecValueService valueService;
 
     @GetMapping
     public String listProduct(Model theModel) {
@@ -102,10 +103,14 @@ public class ProductAdminController {
 
     @GetMapping("/view/{id}")
     public String viewProduct(@PathVariable Long id, Model theModel) {
+        theModel.addAttribute("product", productService.findById(id));
+
         theModel.addAttribute("categoryService", categoryService);
         theModel.addAttribute("brandService", brandService);
         theModel.addAttribute("detailService", detailService);
-        theModel.addAttribute("product", productService.findById(id));
+        theModel.addAttribute("specService", specService);
+        theModel.addAttribute("valueService", valueService);
+
         return "admin/product/view";
     }
 }

@@ -5,13 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import vn.zerocoder.Mart.dto.request.VariationRequest;
 import vn.zerocoder.Mart.dto.response.VariationResponse;
-import vn.zerocoder.Mart.model.Category;
 import vn.zerocoder.Mart.model.Variation;
 import vn.zerocoder.Mart.model.VariationOption;
 import vn.zerocoder.Mart.repository.CategoryRepository;
 import vn.zerocoder.Mart.repository.VariationRepositiory;
 import vn.zerocoder.Mart.service.VariationService;
-import vn.zerocoder.Mart.utils.NameNormalizer;
+import vn.zerocoder.Mart.utils.Normalizer;
 
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class VariationServiceImpl implements VariationService {
 
         log.info("Create new variation!");
         Variation variation = Variation.builder()
-                .name(NameNormalizer.normalize(variationRequest.getName()))
+                .name(Normalizer.nameNormalize(variationRequest.getName()))
                 .build();
 
         if(variationRepositiory.existsByName(variation.getName())) {
@@ -42,7 +41,7 @@ public class VariationServiceImpl implements VariationService {
         log.info("Update variation!");
         Variation variation = variationRepositiory.findById(id).orElseThrow();
 
-        variation.setName(NameNormalizer.normalize(variationRequest.getName()));
+        variation.setName(Normalizer.nameNormalize(variationRequest.getName()));
 
         if(variationRepositiory.existsByNameAndIdNot(variation.getName(), id)) {
             return -1L;

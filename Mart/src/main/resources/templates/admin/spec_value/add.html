@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin/main.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm chi tiết sản phẩm</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="page-header">
+        <h3 class="fw-bold mb-3">Thông số kĩ thuật</h3>
+        <ul class="breadcrumbs mb-3">
+            <li class="nav-home">
+                <a href="/admin">
+                    <i class="icon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a th:href="@{'/admin/products/view/' + ${specValue.product_id}}">Thông tin sản phẩm</a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a th:href="@{'/admin/spec-value/add?product_id=' + ${specValue.product_id}}">Thêm mới thông số kĩ thuật</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card">
+        <div class="row">
+            <div class="col-md-4">
+                <img
+                        th:src="@{'/image/' + ${product.image}}"
+                        style="width: 100%; height: auto"
+                />
+            </div>
+            <div class="col-md-8">
+                <h1 th:text="${product.name}"></h1>
+                <p>
+                    <strong>Danh mục:</strong>
+                    <span th:text="${categoryService.findById(product.category_id).name}"></span>
+                </p>
+                <p>
+                    <strong>Thương hiệu:</strong>
+                    <span th:text="${brandService.findById(product.brand_id).name}"></span>
+                </p>
+                <p>
+                    <strong>Giá:  </strong>
+                    <span th:utext="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' đ'"></span>
+                </p>
+                <p>
+                    <strong>Giảm giá: </strong>
+                    <span class="badge badge-secondary" th:text="${product.promotionRate} + ' %'"></span>
+                </p>
+                <p>
+                    <strong>Trạng thái:</strong>
+                    <span th:if="${product.status.compareTo(product.status.AVAILABLE) == 0}" class="badge badge-success">Đang kinh doanh</span>
+                    <span th:if="${product.status.compareTo(product.status.OUT_OF_STOCK) == 0}" class="badge badge-danger">Hết hàng</span>
+                    <span th:if="${product.status.compareTo(product.status.COMING_SOON) == 0}" class="badge badge-warning">Sắp có hàng</span>
+                    <span th:if="${product.status.compareTo(product.status.DISCONTINUED) == 0}" class="badge badge-secondary">Ngừng kinh doanh</span>
+                </p>
+            </div>
+        </div>
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h4 class="card-title">Thêm mới thông số kĩ thuật</h4>
+            </div>
+        </div>
+        <div class="card-body">
+            <form th:action="@{'/admin/spec-value/add?product_id=' + ${specValue.product_id} }" method="post" th:object="${specValue}" enctype="multipart/form-data">
+                <input type="hidden" th:field="*{product_id}"/>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="name">Loại thông số</label>
+                        <select class="form-control" id="name" name="name" th:field="*{spec_id}">
+                            <option value="">Chọn loại thông số</option>
+                            <option th:each="spec : ${specs}" th:value="${spec.id}" th:text="${spec.name}"></option>
+                        </select>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('spec_id')}" th:errors="*{spec_id}"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="value">Giá trị</label>
+                        <textarea class="form-control" id="value" name="value" th:field="*{value}" rows="3"></textarea>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('value')}" th:errors="*{value}"></small>
+                    </div>
+                </div>
+                <div class="card-action">
+                    <input type="submit" class="btn btn-success" value="Thêm mới"/>
+                    <a th:href="@{'/admin/products/view/' + ${specValue.product_id}}" class="btn btn-danger">Quay lại</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

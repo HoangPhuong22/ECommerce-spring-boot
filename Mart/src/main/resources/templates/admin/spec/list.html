@@ -6,7 +6,7 @@
 >
 <div layout:fragment="content">
     <div class="page-header">
-        <h3 class="fw-bold mb-3">Thương hiệu</h3>
+        <h3 class="fw-bold mb-3">Thông số</h3>
         <ul class="breadcrumbs mb-3">
             <li class="nav-home">
                 <a href="/admin">
@@ -17,15 +17,15 @@
                 <i class="icon-arrow-right"></i>
             </li>
             <li class="nav-item">
-                <a href="/admin/brands">Thương hiệu</a>
+                <a href="/admin/specs">Thông số kĩ thuật</a>
             </li>
         </ul>
     </div>
     <div class="card">
         <div class="card-header">
             <div class="d-flex align-items-center">
-                <h4 class="card-title">Quản lý thương hiệu</h4>
-                <a href="/admin/brands/add" style="margin-left: auto">
+                <h4 class="card-title">Quản lý thông số kĩ thuật</h4>
+                <a href="/admin/specs/add" style="margin-left: auto">
                     <button
                             class="btn btn-primary btn-round ms-auto"
                             data-bs-toggle="modal"
@@ -39,37 +39,35 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <span class="text-danger" th:if = "${brands.size() == 0}">Không có thương hiệu nào được quản lý</span>
+                <span class="text-danger" th:if = "${specs.size() == 0}">Không có thương hiệu nào được quản lý</span>
                 <table
                         id="add-row"
                         class="display table table-striped table-bordered "
-                        th:if = "${brands.size() > 0}"
+                        th:if = "${specs.size() > 0}"
                 >
                     <thead>
                     <tr>
                         <th>STT</th>
-                        <th>Tên thương hiệu</th>
-                        <th>Số lượng sản phẩm</th>
+                        <th>Tên thông số</th>
                         <th>Thao tác</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="brand, iterStat : ${brands}">
-                        <td th:text="${iterStat.count}"></td>
-                        <td th:text="${brand.name}"></td>
-                        <td th:text="${brand.product_count}"></td>
+                    <tr th:each="spec, index : ${specs}">
+                        <td th:text="${index.count}"></td>
+                        <td th:text="${spec.name}"></td>
                         <td>
                             <div class="form-button-action">
                                 <a
                                         class="btn btn-link btn--primary"
-                                        th:href="@{'/admin/brands/edit/' + ${brand.id}}"
+                                        th:href="@{'/admin/specs/edit/' + ${spec.id}}"
                                 >
                                     <i class="fa fa-edit"></i>
                                     Sửa
                                 </a>
                                 <a
                                         class="btn btn-link btn-danger"
-                                        th:href="@{'/admin/brands/delete/' + ${brand.id}}"
+                                        th:href="@{'/admin/specs/delete/' + ${spec.id}}"
                                         onclick="if(!confirm('Bạn có chắc chắn muốn xóa?')) { return false; }"
                                 >
                                     <i class="fa fa-trash"></i>

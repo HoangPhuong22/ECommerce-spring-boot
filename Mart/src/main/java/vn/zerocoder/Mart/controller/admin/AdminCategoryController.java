@@ -16,23 +16,16 @@ import vn.zerocoder.Mart.service.VariationService;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin/category")
-public class CategoryAdminController {
+public class AdminCategoryController {
 
     private final CategoryService categoryService;
     private final VariationService variationService;
 
     @GetMapping
     public String listCategory(Model model) {
-        model.addAttribute("categories", categoryService.findAllCategoryChildren());
+        model.addAttribute("categories_parent", categoryService.findCategoryParent());
+        model.addAttribute("categories_child", categoryService.findAllCategoryChildren());
         return "admin/category/list";
-    }
-
-
-
-    @GetMapping("/parent")
-    public String listCategoryParent(Model model) {
-        model.addAttribute("categories", categoryService.findCategoryParent());
-        return "admin/category/list-parent";
     }
 
 

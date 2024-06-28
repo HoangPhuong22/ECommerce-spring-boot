@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import vn.zerocoder.Mart.dto.request.ProductRequest;
 import vn.zerocoder.Mart.dto.response.ProductResponse;
-import vn.zerocoder.Mart.model.BaseEntity;
-import vn.zerocoder.Mart.model.Brand;
-import vn.zerocoder.Mart.model.Category;
-import vn.zerocoder.Mart.model.Product;
+import vn.zerocoder.Mart.model.*;
 import vn.zerocoder.Mart.repository.BrandRepository;
 import vn.zerocoder.Mart.repository.CategoryRepository;
 import vn.zerocoder.Mart.repository.ProductRepository;
@@ -112,6 +109,9 @@ public class ProductServiceImpl implements ProductService {
                         .detail_id(product.getProductDetails().stream()
                                 .map(BaseEntity::getId)
                                 .toList())
+                        .spec_value_id(product.getSpecValues().stream()
+                                .map(SpecValue::getId)
+                                .toList())
                         .build())
                 .toList();
     }
@@ -132,6 +132,9 @@ public class ProductServiceImpl implements ProductService {
                         .category_id(product.getCategory().getId())
                         .detail_id(product.getProductDetails().stream()
                                 .map(BaseEntity::getId)
+                                .toList())
+                        .spec_value_id(product.getSpecValues().stream()
+                                .map(SpecValue::getId)
                                 .toList())
                         .build())
                 .orElseThrow();

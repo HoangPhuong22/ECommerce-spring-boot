@@ -20,7 +20,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin/variations")
-public class VariationAdminController {
+public class AdminVariationController {
     private final CategoryService categoryService;
     private final VariationService variationService;
     private final VariationOptionService optionService;

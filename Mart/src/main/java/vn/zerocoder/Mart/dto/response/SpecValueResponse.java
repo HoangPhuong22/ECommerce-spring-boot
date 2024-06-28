@@ -1,19 +1,16 @@
 package vn.zerocoder.Mart.dto.response;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.util.List;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
 @AllArgsConstructor
-public class BrandResponse {
+public class SpecValueResponse {
     private Long id;
-    private String name;
-    private String description;
-    private Integer product_count;
-    List<Long> products_id;
+    private String value;
+    private Long spec_id;
+    private Long product_id;
 }

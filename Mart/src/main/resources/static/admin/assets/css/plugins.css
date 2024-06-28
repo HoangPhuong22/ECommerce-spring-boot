@@ -3230,7 +3230,7 @@ body .fc {
   padding: 0 .6em;
   /* text & cursor */
   font-size: 1em;
-  /* normalize */
+  /* nameNormalize */
   white-space: nowrap;
   cursor: pointer; }
   .fc button::-moz-focus-inner {
@@ -3382,7 +3382,7 @@ hr.fc-divider {
   border-collapse: collapse;
   border-spacing: 0;
   font-size: 1em;
-  /* normalize cross-browser */ }
+  /* nameNormalize cross-browser */ }
 .fc th {
   text-align: center;
   border-style: solid;

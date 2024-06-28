@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/admin/user")
-public class UserAdminController {
+public class AdminUserController {
 
     @GetMapping
     public String listUser() {

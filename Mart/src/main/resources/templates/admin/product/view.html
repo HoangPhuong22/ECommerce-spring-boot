@@ -71,7 +71,7 @@
                         <span th:if="${product.status.compareTo(product.status.DISCONTINUED) == 0}" class="badge badge-secondary">Ngừng kinh doanh</span>
                     </p>
                 </div>
-                <div class="card">
+                <div class="row">
                     <div class="card-header">
                         <div class="d-flex align-items-center">
                             <h4 class="card-title">Danh sách chi tiết sản phẩm</h4>
@@ -82,7 +82,7 @@
                                         data-bs-target="#addRowModal"
                                 >
                                     <i class="fa fa-plus"></i>
-                                    Thêm mới
+                                    Thêm mới chi tiết
                                 </button>
                             </a>
                         </div>
@@ -90,7 +90,6 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             <table
-                                    id="add-row"
                                     class="display table table-striped table-bordered "
                             >
                                 <thead>
@@ -131,6 +130,66 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="card-header">
+                        <div class="d-flex align-items-center">
+                            <h4 class="card-title">Thông số kĩ thuật</h4>
+                            <a th:href="@{'/admin/spec-value/add?product_id=' + ${product.id}}" style="margin-left: auto">
+                                <button
+                                        class="btn btn-primary btn-round ms-auto"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#addRowModal"
+                                >
+                                    <i class="fa fa-plus"></i>
+                                    Thêm mới thông số
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table
+                                    class="display table table-striped table-bordered "
+                            >
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Thông số</th>
+                                    <th>Giá trị thông số</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="spec_value_id, index : ${product.getSpec_value_id()}">
+                                    <th:block th:with="spec_value = ${valueService.findById(spec_value_id)}">
+                                        <td th:text="${index.count}"></td>
+                                        <td th:text="${specService.findById(spec_value.spec_id).name}"></td>
+                                        <td th:text="${spec_value.value}"></td>
+                                    </th:block>
+                                    <td>
+                                        <a
+                                                th:href="@{'/admin/spec-value/edit/' + ${spec_value_id}}"
+                                                class="btn btn--primary btn-round"
+                                        >
+                                            <i class="fa fa-edit"></i>
+                                            Sửa
+                                        </a>
+                                        <a
+                                                th:href="@{'/admin/spec-value/delete/' + ${spec_value_id}}"
+                                                class="btn btn--danger btn-round"
+                                                onclick="if (!confirm('Bạn có chắc chắn muốn xóa không?')) return false;"
+                                        >
+                                            <i class="fa fa-trash"></i>
+                                            Xóa
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="card">
                         <h4 class="card-title">Mô tả sản phẩm</h4>

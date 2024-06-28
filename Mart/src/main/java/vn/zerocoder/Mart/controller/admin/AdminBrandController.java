@@ -15,7 +15,7 @@ import vn.zerocoder.Mart.service.BrandService;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin/brands")
-public class BrandAdminController {
+public class AdminBrandController {
 
     private final BrandService brandService;
 

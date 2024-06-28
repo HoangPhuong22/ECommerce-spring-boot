@@ -79,35 +79,24 @@
                     <li class="nav-item">
                         <a data-bs-toggle="collapse" href="#sidebarLayouts">
                             <i class="fas fa-th-list"></i>
-                            <p>Danh mục</p>
+                            <p>Phân loại và đặc điểm</p>
                             <span class="caret"></span>
                         </a>
                         <div class="collapse" id="sidebarLayouts">
                             <ul class="nav nav-collapse">
                                 <li>
-                                    <a th:href="@{/admin/category}">
-                                        <span class="sub-item">Danh mục con</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a th:href="@{/admin/category/parent}">
-                                        <span class="sub-item">Danh mục cha</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a data-bs-toggle="collapse" href="#tables">
-                            <i class="fas fa-table"></i>
-                            <p>Thương hiệu</p>
-                            <span class="caret"></span>
-                        </a>
-                        <div class="collapse" id="tables">
-                            <ul class="nav nav-collapse">
-                                <li>
                                     <a href="/admin/brands">
-                                        <span class="sub-item">Danh sách thương hiệu</span>
+                                        <span class="sub-item">Thương hiệu</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a th:href="@{/admin/category}">
+                                        <span class="sub-item">Danh mục</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a th:href="@{/admin/specs}">
+                                        <span class="sub-item">Thông số kĩ thuật</span>
                                     </a>
                                 </li>
                             </ul>

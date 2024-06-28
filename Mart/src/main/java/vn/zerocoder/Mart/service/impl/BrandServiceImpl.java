@@ -6,9 +6,10 @@ import org.springframework.stereotype.Service;
 import vn.zerocoder.Mart.dto.request.BrandRequest;
 import vn.zerocoder.Mart.dto.response.BrandResponse;
 import vn.zerocoder.Mart.model.Brand;
+import vn.zerocoder.Mart.model.Product;
 import vn.zerocoder.Mart.repository.BrandRepository;
 import vn.zerocoder.Mart.service.BrandService;
-import vn.zerocoder.Mart.utils.NameNormalizer;
+import vn.zerocoder.Mart.utils.Normalizer;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public Long save(BrandRequest brandRequest) {
         Brand brand = Brand.builder()
-                .name(NameNormalizer.normalize(brandRequest.getName()))
+                .name(Normalizer.nameNormalize(brandRequest.getName()))
                 .description(brandRequest.getDescription())
                 .build();
         if(brandRepository.existsByName(brand.getName())) {
@@ -36,7 +37,7 @@ public class BrandServiceImpl implements BrandService {
     public Long update(BrandRequest brandRequest) {
         Brand brand = Brand.builder()
                 .id(brandRequest.getId())
-                .name(NameNormalizer.normalize(brandRequest.getName()))
+                .name(Normalizer.nameNormalize(brandRequest.getName()))
                 .description(brandRequest.getDescription())
                 .build();
         if(brandRepository.existsByNameAndIdNot(brand.getName(), brand.getId())) {
@@ -58,6 +59,7 @@ public class BrandServiceImpl implements BrandService {
                 .id(brand.getId())
                 .name(brand.getName())
                 .description(brand.getDescription())
+                .product_count(productCount(brand))
                 .build();
     }
 
@@ -68,7 +70,11 @@ public class BrandServiceImpl implements BrandService {
                 .id(brand.getId())
                 .name(brand.getName())
                 .description(brand.getDescription())
+                .product_count(productCount(brand))
                 .build())
                 .toList();
+    }
+    private Integer productCount(Brand brand) {
+        return brand.getProducts().stream().map(Product::getQuantity).reduce(0, Integer::sum);
     }
 }

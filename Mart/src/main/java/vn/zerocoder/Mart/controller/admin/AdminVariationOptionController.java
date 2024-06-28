@@ -15,7 +15,7 @@ import vn.zerocoder.Mart.service.VariationService;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin/options")
-public class VariationOptionAdminController {
+public class AdminVariationOptionController {
     private final VariationOptionService optionService;
     private final VariationService variationService;
     @GetMapping("/add")

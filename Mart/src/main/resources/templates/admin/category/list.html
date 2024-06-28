@@ -17,14 +17,42 @@
                 <i class="icon-arrow-right"></i>
             </li>
             <li class="nav-item">
-                <a href="/admin/category">Danh mục con</a>
+                <a href="/admin/category">Danh mục</a>
             </li>
         </ul>
     </div>
     <div class="card">
         <div class="card-header">
             <div class="d-flex align-items-center">
-                <h4 class="card-title">Quản lý danh mục con</h4>
+                <h4 class="card-title">Danh mục lớn</h4>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <span class="text-danger" th:if = "${categories_parent.size() == 0}">Không có danh mục nào được quản lý</span>
+                <table class="display table table-striped table-bordered" th:if = "${categories_parent.size() > 0}">
+                    <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Tên danh mục</th>
+                        <th>Số lượng danh mục con</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="category, iterStat : ${categories_parent}">
+                        <td th:text="${iterStat.count}"></td>
+                        <td th:text="${category.name}"></td>
+                        <td th:text="${category.children_id.size()}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h4 class="card-title">Danh mục nhỏ</h4>
                 <a href="/admin/category/add" style="margin-left: auto">
                     <button
                             class="btn btn-primary btn-round ms-auto"
@@ -39,11 +67,11 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <span class="text-danger" th:if = "${categories.size() == 0}">Không có danh mục nào được quản lý</span>
+                <span class="text-danger" th:if = "${categories_child.size() == 0}">Không có danh mục nào được quản lý</span>
                 <table
                         id="add-row"
                         class="display table table-striped table-bordered "
-                        th:if = "${categories.size() > 0}"
+                        th:if = "${categories_child.size() > 0}"
                 >
                     <thead>
                     <tr>
@@ -54,10 +82,10 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="category, iterStat : ${categories}">
+                    <tr th:each="category, iterStat : ${categories_child}">
                         <td th:text="${iterStat.count}"></td>
                         <td th:text="${category.name}"></td>
-                        <td>0</td>
+                        <td th:text="${category.product_count}"></td>
                         <td>
                             <div class="form-button-action">
                                 <a
