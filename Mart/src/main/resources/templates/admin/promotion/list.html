@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin/main.html}"
+>
+<div layout:fragment="content">
+    <div class="page-header">
+        <h3 class="fw-bold mb-3">Chương trình giảm giá</h3>
+        <ul class="breadcrumbs mb-3">
+            <li class="nav-home">
+                <a href="/admin">
+                    <i class="icon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/promotion">Giảm giá</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h4 class="card-title">Quản lý chương trình</h4>
+                <a href="/admin/promotion/add" style="margin-left: auto">
+                    <button
+                            class="btn btn-primary btn-round ms-auto"
+                            data-bs-toggle="modal"
+                            data-bs-target="#addRowModal"
+                    >
+                        <i class="fa fa-plus"></i>
+                        Thêm mới
+                    </button>
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <span class="text-danger" th:if = "${promotions.size() == 0}">Không có chương trình nào được quản lý</span>
+                <table
+                        id="add-row"
+                        class="display table table-striped table-bordered "
+                        th:if = "${promotions.size() > 0}"
+                >
+                    <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Tên chương trình</th>
+                        <th>Phần trăm giảm giá</th>
+                        <th>Ngày bắt đầu</th>
+                        <th>Ngày kết thúc</th>
+                        <th>Trạng thái</th>
+                        <th>Thao tác</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="promotion, index : ${promotions}">
+                        <td th:text="${index.count}"></td>
+                        <td th:text="${promotion.name}"></td>
+                        <td th:text="${promotion.discount}"></td>
+                        <td th:text="${#temporals.format(promotion.startDate, 'HH:mm:ss dd/MM/yyyy')}"></td>
+                        <td th:text="${#temporals.format(promotion.endDate, 'HH:mm:ss dd/MM/yyyy')}"></td>
+                        <td>
+                            <span th:if="${promotion.status.equals('Đang diễn ra')}" class="badge bg-success">Đang diễn ra</span>
+                            <span th:if="${promotion.status.equals('Chưa bắt đầu')}" class="badge bg-warning">Sắp diễn ra</span>
+                            <span th:if="${promotion.status.equals('Đã kết thúc')}" class="badge bg-danger">Đã kết thúc</span>
+                        </td>
+                        <td>
+                            <div class="form-button-action">
+                                <a
+                                        class="btn btn-link btn--primary"
+                                        th:href="@{'/admin/promotion/edit/' + ${promotion.id}}"
+                                >
+                                    <i class="fa fa-edit"></i>
+                                    Sửa
+                                </a>
+                                <a
+                                        class="btn btn-link btn-danger"
+                                        th:href="@{'/admin/promotion/delete/' + ${promotion.id}}"
+                                        onclick="if(!confirm('Bạn có chắc chắn muốn xóa?')) { return false; }"
+                                >
+                                    <i class="fa fa-trash"></i>
+                                    Xóa
+                                </a>
+                            </div>
+                        </td>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
