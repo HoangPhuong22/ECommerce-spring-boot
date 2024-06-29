@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin/main.html}"
+>
+<div layout:fragment="content">
+    <div class="page-header">
+        <h3 class="fw-bold mb-3">Chương trình giảm giá</h3>
+        <ul class="breadcrumbs mb-3">
+            <li class="nav-home">
+                <a href="/admin">
+                    <i class="icon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a
+                        th:href="@{'/admin/promotion/view/' + ${promotion.id}}"
+                >
+                    Chi tiết
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h4 class="card-title">Chi tiết chương trình giảm giá</h4>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <strong class="col-3">Tên chương trình:</strong>
+                <span class="col-9" th:text="${promotion.name}"></span>
+            </div>
+            <div class="row">
+                <strong class="col-3">Phần trăm giảm giá:</strong>
+                <span class="col-9" th:text="${promotion.discount} + '%'"></span>
+            </div>
+            <div class="row">
+                <strong class="col-3">Mô tả:</strong>
+                <span class="col-9" th:text="${promotion.description}"></span>
+            </div>
+            <div class="row">
+                <strong class="col-3">Ngày bắt đầu:</strong>
+                <span class="col-9" th:text="${#temporals.format(promotion.startDate, 'dd/MM/yyyy HH:mm')}"></span>
+            </div>
+            <div class="row">
+                <strong class="col-3">Ngày kết thúc:</strong>
+                <span class="col-9" th:text="${#temporals.format(promotion.endDate, 'dd/MM/yyyy HH:mm')}"></span>
+            </div>
+            <div class="row">
+                <strong class="col-3">Trạng thái:</strong>
+                <span class="col-9" th:text="${promotion.status}"></span>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Giá gốc</th>
+                        <th>Giá sau giảm</th>
+                        <th>Thao tác</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="product_id, index : ${promotion.product_id}">
+                        <td th:text="${index.index + 1}"></td>
+                        <th:block th:with="product=${productService.findById(product_id)}">
+                            <td th:text="${product.name}"></td>
+                            <td th:text="${product.price}"></td>
+                            <td th:text="${product.price - product.price * promotion.discount / 100}"></td>
+                        </th:block>
+                        <td>
+                            <a
+                                    th:href="@{'/admin/products/view/' + ${product_id}}"
+                                    class="btn btn-sm btn-primary"
+                            >
+                                Xem
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <a
+                        th:href="@{'/admin/promotion'}"
+                        class="btn btn-primary"
+                >
+                    Quay lại
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

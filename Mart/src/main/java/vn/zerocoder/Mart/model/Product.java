@@ -64,4 +64,16 @@ public class Product extends BaseEntity{
     @OneToMany(mappedBy = "product", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<SpecValue> specValues;
 
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE,
+            CascadeType.DETACH,
+            CascadeType.REFRESH
+    }, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "tbl_product_promotion",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "promotion_id")
+    )
+    private List<Promotion> promotions;
 }

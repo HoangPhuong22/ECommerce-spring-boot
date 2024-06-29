@@ -1,10 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin/main.html}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Thêm chương trình</title>
 </head>
 <body>
-
+<div layout:fragment="content">
+    <div class="page-header">
+        <h3 class="fw-bold mb-3">Chương trình</h3>
+        <ul class="breadcrumbs mb-3">
+            <li class="nav-home">
+                <a href="/admin">
+                    <i class="icon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/promotion">Chương trình</a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a th:href="@{'/admin/promotion/edit/' + ${promotion.id}}">Chỉnh sửa</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h4 class="card-title">Chỉnh sửa chương trình</h4>
+            </div>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/admin/promotion/edit}" method="post" th:object="${promotion}">
+                <div class="row">
+                    <input type="hidden" th:field="*{id}"/>
+                    <div class="form-group">
+                        <label for="name">Tên chương trình</label>
+                        <input type="text" class="form-control" id="name" th:field="*{name}"/>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Tên chương trình không được để trống</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="discount">Phần trăm giảm giá</label>
+                        <input type="number" class="form-control" id="discount" th:field="*{discount}"/>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}">Phần trăm giảm giá không được để trống</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Mô tả</label>
+                        <textarea class="form-control" id="description" th:field="*{description}"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="startDate">Ngày bắt đầu</label>
+                        <input type="datetime-local" class="form-control" id="startDate" th:field="*{startDate}"/>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}">Ngày bắt đầu không được để trống</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate">Ngày kết thúc</label>
+                        <input type="datetime-local" class="form-control" id="endDate"  th:field="*{endDate}"/>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}">Ngày kết thúc không được để trống</small>
+                    </div>
+                    <div class="form-group">
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('product_id')}" th:errors="*{product_id}">Chọn ít nhất 1 sản phẩm</small>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Giá gốc</th>
+                                <th>Thao tác</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="product, index : ${products}">
+                                <td th:text="${index.index + 1}"></td>
+                                <td th:text="${product.name}"></td>
+                                <td th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + 'đ'"></td>
+                                <td>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input"
+                                               type="checkbox" role="switch" id="flexSwitchCheckDefault"
+                                               th:value="${product.id}"
+                                               th:field="*{product_id}"
+                                               th:checked="${promotion.product_id.contains(product.id)}"
+                                        >
+                                        <label class="form-check-label" for="flexSwitchCheckDefault"
+                                        >
+                                            Giảm giá
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-action">
+                    <input type="submit" class="btn btn-success" value="Chỉnh sửa"/>
+                    <a href="/admin/promotion" class="btn btn-danger">Quay lại</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 </body>
 </html>

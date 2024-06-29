@@ -78,6 +78,13 @@
                                     Sửa
                                 </a>
                                 <a
+                                        class="btn btn-link btn-info"
+                                        th:href="@{'/admin/promotion/view/' + ${promotion.id}}"
+                                >
+                                    <i class="fa fa-eye"></i>
+                                    Xem
+                                </a>
+                                <a
                                         class="btn btn-link btn-danger"
                                         th:href="@{'/admin/promotion/delete/' + ${promotion.id}}"
                                         onclick="if(!confirm('Bạn có chắc chắn muốn xóa?')) { return false; }"
