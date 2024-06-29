@@ -25,6 +25,7 @@ public class AdminProductController {
     private final VariationOptionService optionService;
     private final SpecService specService;
     private final SpecValueService valueService;
+    private final AdvertiseService advertiseService;
 
     @GetMapping
     public String listProduct(Model theModel) {
@@ -110,6 +111,7 @@ public class AdminProductController {
         theModel.addAttribute("detailService", detailService);
         theModel.addAttribute("specService", specService);
         theModel.addAttribute("valueService", valueService);
+        theModel.addAttribute("advertiseService", advertiseService);
 
         return "admin/product/view";
     }

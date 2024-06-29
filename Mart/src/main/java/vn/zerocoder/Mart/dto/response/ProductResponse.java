@@ -23,4 +23,5 @@ public class ProductResponse {
     private Long category_id;
     private List<Long> detail_id;
     private List<Long> spec_value_id;
+    private List<Long> advertise_id;
 }

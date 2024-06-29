@@ -112,6 +112,9 @@ public class ProductServiceImpl implements ProductService {
                         .spec_value_id(product.getSpecValues().stream()
                                 .map(SpecValue::getId)
                                 .toList())
+                        .advertise_id(product.getAdvertises().stream()
+                                .map(Advertise::getId)
+                                .toList())
                         .build())
                 .toList();
     }
@@ -135,6 +138,9 @@ public class ProductServiceImpl implements ProductService {
                                 .toList())
                         .spec_value_id(product.getSpecValues().stream()
                                 .map(SpecValue::getId)
+                                .toList())
+                        .advertise_id(product.getAdvertises().stream()
+                                .map(Advertise::getId)
                                 .toList())
                         .build())
                 .orElseThrow();

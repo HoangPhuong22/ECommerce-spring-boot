@@ -76,4 +76,7 @@ public class Product extends BaseEntity{
             inverseJoinColumns = @JoinColumn(name = "promotion_id")
     )
     private List<Promotion> promotions;
+
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    private List<Advertise> advertises;
 }

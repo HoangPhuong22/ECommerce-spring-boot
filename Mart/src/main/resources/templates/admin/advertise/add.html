@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin/main.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm danh mục</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="page-header">
+        <h3 class="fw-bold mb-3">Quảng cáo sản phẩm</h3>
+        <ul class="breadcrumbs mb-3">
+            <li class="nav-home">
+                <a href="/admin">
+                    <i class="icon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a th:href="@{'/admin/products/view/' + ${advertise.product_id}}">Sản phẩm</a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/advertise/add">Thêm mới</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h4 class="card-title">Thêm mới quảng cáo</h4>
+            </div>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/admin/advertise/add}" method="post" th:object="${advertise}" enctype="multipart/form-data">
+                <div class="row">
+                    <input type="hidden" th:field="*{product_id}"/>
+                    <div class="form-group">
+                        <input type="file" th:field="*{imageFile}" class="form-control" id="image" placeholder="Nhập ảnh quảng cáo" accept="image/*"/>
+                        <img id="reviewImage" alt="Product Image" width="200" height="200"/>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('imageFile')}" th:errors="*{imageFile}">
+                        </small>
+                    </div>
+                </div>
+                <div class="card-action">
+                    <input type="submit" class="btn btn-success" value="Thêm mới"/>
+                    <a th:href="@{'/admin/products/view/' + ${advertise.product_id}}" class="btn btn-danger">Quay lại</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
