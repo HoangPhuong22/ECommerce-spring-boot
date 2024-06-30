@@ -32,16 +32,16 @@
     </section>
     <section class="home__container">
         <div class="home__row">
-            <h2 class="home__heading">Total LavAzza 1320</h2>
+            <h2 class="home__heading">Điện thoại nổi bật nhất</h2>
             <div class="filter-wrap">
                 <button class="filter-btn js-toggle" toggle-target="#home-filter">
-                    Filter
-                    <img src="./assets/icons/filter.svg" alt="" class="filter-btn__icon icon" />
+                    Bộ lọc
+                    <img src="/user/assets/icons/filter.svg" alt="" class="filter-btn__icon icon" />
                 </button>
 
                 <div id="home-filter" class="filter hide">
-                    <img src="./assets/icons/arrow-up.png" alt="" class="filter__arrow" />
-                    <h3 class="filter__heading">Filter</h3>
+                    <img src="/user/assets/icons/arrow-up.png" alt="" class="filter__arrow" />
+                    <h3 class="filter__heading">Bộ lọc</h3>
                     <form action="" class="filter__form form">
                         <div class="filter__row filter__content">
                             <!-- Filter column 1 -->
@@ -161,7 +161,7 @@
             </div>
         </div>
 
-        <div class="row row-cols-5 row-cols-lg-2 row-cols-sm-1 g-3">
+        <div class="row row-cols-5 row-cols-xl-3 row-cols-md-2 g-3 g-md-2 g-sm-1">
             <!-- Product card 1 -->
             <div class="col" th:each="product : ${products}">
                 <article class="product-card">
@@ -169,7 +169,8 @@
                         <a href="./product-detail.html">
                             <img th:src="@{'/image/' + ${product.image}}" alt="" class="product-card__thumb" />
                         </a>
-                        <button class="like-btn product-card__like-btn">
+                        <!--like-btn like-btn--liked product-card__like-btn-->
+                        <button class="like-btn like-btn--liked product-card__like-btn">
                             <img src="/user/assets/icons/heart.svg" alt="" class="like-btn__icon icon" />
                             <img src="/user/assets/icons/heart-red.svg" alt="" class="like-btn__icon--liked" />
                         </button>
@@ -177,11 +178,22 @@
                     <h3 class="product-card__title">
                         <a href="./product-detail.html" th:text="${product.name}"></a>
                     </h3>
-                    <p class="product-card__brand" th:text="${brandService.findById(product.brand_id).name}"></p>
                     <div class="product-card__row">
-                        <span class="product-card__price" th:utext="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + ' đ'"></span>
+                        <p class="product-card__brand" th:text="${brandService.findById(product.brand_id).name}"></p>
                         <img th:src="@{/user/assets/icons/star.svg}" alt="" class="product-card__star" />
                         <span class="product-card__score">4.3</span>
+                    </div>
+                    <div class="product-card__row">
+                        <span
+                                class="product-card__price"
+                                th:utext="${#numbers.formatDecimal(product.price - (product.price * product.promotionRate / 100), 0, 'COMMA', 0, 'POINT')} + 'đ'"
+                        >
+                        </span>
+                        <span
+                                class="product-card__discount"
+                                th:utext="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + 'đ'"
+                        >
+                        </span>
                     </div>
                 </article>
             </div>
