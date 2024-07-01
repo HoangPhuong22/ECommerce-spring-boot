@@ -23,7 +23,8 @@
 }
 
 .prod-preview {
-    padding: 0 30px;
+    margin: 0 30px;
+    overflow: hidden;
 
     @include abstracts.screen(lg) {
         display: flex;
@@ -36,11 +37,7 @@
 
     &__list {
         display: flex;
-        overflow: hidden;
-
-        @include abstracts.screen(lg) {
-            flex: 1;
-        }
+        transition: transform 0.5s ease-in-out;
     }
 
     &__item {

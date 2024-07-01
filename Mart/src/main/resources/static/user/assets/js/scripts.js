@@ -98,6 +98,7 @@ window.addEventListener("load", calArrowPos);
  *  nếu muốn reset lại item active khi ẩn menu
  */
 window.addEventListener("load", handleActiveMenu);
+
 function handleActiveMenu() {
     const dropdowns = $$(".js-dropdown");
     const menus = $$(".js-menu-list");
@@ -212,9 +213,9 @@ window.addEventListener("load", () => {
 
 // Slide show
 var slideIndex = 0;
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     showDivs(slideIndex);
-    setInterval(function() {
+    setInterval(function () {
         plusDivs(1);
     }, 5000);
 });
@@ -248,6 +249,7 @@ function showDivs(n) {
     }
     dots[slideIndex].className += " slide__white";
 }
+
 // End slide show
 
 window.addEventListener("load", () => {
@@ -262,6 +264,21 @@ window.addEventListener("load", () => {
         const isDark = localStorage.dark === "true";
         switchBtn.querySelector("span").textContent = isDark ? "Light mode" : "Dark mode";
     }
+});
+
+//  Dịch chuyển ảnh sản phẩm trong chi tiết sản phẩm
+
+document.addEventListener('DOMContentLoaded', function () {
+    const previewList = document.getElementById('previewList');
+    const thumbImages = document.querySelectorAll('.prod-preview__thumb-img');
+    thumbImages.forEach((thumb, index) => {
+        thumb.addEventListener('click', function() {
+            thumbImages.forEach(img => img.classList.remove('prod-preview__thumb-img--current'));
+            thumb.classList.add('prod-preview__thumb-img--current');
+            const offset = -index * 100;
+            previewList.style.transform = `translateX(${offset}%)`;
+        });
+    });
 });
 
 const isDark = localStorage.dark === "true";

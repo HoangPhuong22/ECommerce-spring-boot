@@ -13,4 +13,5 @@ public interface ProductService {
 
     List<ProductResponse> findAll();
     ProductResponse findById(Long id);
+    List<ProductResponse> findAllByCategoryIdAndBrandId(Long category_id, Long brand_id);
 }

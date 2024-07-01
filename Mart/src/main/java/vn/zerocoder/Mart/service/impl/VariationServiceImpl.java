@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import vn.zerocoder.Mart.dto.request.VariationRequest;
 import vn.zerocoder.Mart.dto.response.VariationResponse;
+import vn.zerocoder.Mart.mapper.VariationMapper;
 import vn.zerocoder.Mart.model.Variation;
 import vn.zerocoder.Mart.model.VariationOption;
 import vn.zerocoder.Mart.repository.CategoryRepository;
@@ -21,14 +22,14 @@ public class VariationServiceImpl implements VariationService {
 
     private final VariationRepositiory variationRepositiory;
     private final CategoryRepository categoryRepository;
+
+    private final VariationMapper variationMapper;
     @Override
     public Long save(VariationRequest variationRequest) {
-
         log.info("Create new variation!");
-        Variation variation = Variation.builder()
-                .name(Normalizer.nameNormalize(variationRequest.getName()))
-                .build();
-
+        // Tạo mới một variation từ variationRequest
+        Variation variation = variationMapper.toEntity(variationRequest);
+        // Kiểm tra xem variation đã tồn tại chưa
         if(variationRepositiory.existsByName(variation.getName())) {
             return -1L;
         }
@@ -39,10 +40,11 @@ public class VariationServiceImpl implements VariationService {
     public Long update(Long id, VariationRequest variationRequest) {
 
         log.info("Update variation!");
+        // Tìm variation theo id
         Variation variation = variationRepositiory.findById(id).orElseThrow();
-
+        // Set lại tên cho variation
         variation.setName(Normalizer.nameNormalize(variationRequest.getName()));
-
+        // Kiểm tra xem variation đã tồn tại chưa
         if(variationRepositiory.existsByNameAndIdNot(variation.getName(), id)) {
             return -1L;
         }
@@ -64,32 +66,16 @@ public class VariationServiceImpl implements VariationService {
     @Override
     public VariationResponse findById(Long id) {
         Variation variation = variationRepositiory.findById(id).orElseThrow();
-        return VariationResponse.builder()
-                .id(variation.getId())
-                .name(variation.getName())
-                .options_id(variation.getOptions().stream().map(VariationOption::getId).toList())
-                .build();
+        return variationMapper.toResponse(variation);
     }
 
     @Override
     public List<VariationResponse> findAllById(List<Long> ids) {
-        return variationRepositiory.findAllById(ids).stream()
-                .map(variation -> VariationResponse.builder()
-                        .id(variation.getId())
-                        .name(variation.getName())
-                        .options_id(variation.getOptions().stream().map(VariationOption::getId).toList())
-                        .build())
-                .toList();
+        return variationRepositiory.findAllById(ids).stream().map(variationMapper::toResponse).toList();
     }
 
     @Override
     public List<VariationResponse> findAll() {
-        return variationRepositiory.findAll().stream()
-                .map(variation -> VariationResponse.builder()
-                        .id(variation.getId())
-                        .name(variation.getName())
-                        .options_id(variation.getOptions().stream().map(VariationOption::getId).toList())
-                        .build())
-                .toList();
+        return variationRepositiory.findAll().stream().map(variationMapper::toResponse).toList();
     }
 }
