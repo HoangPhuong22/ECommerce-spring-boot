@@ -168,7 +168,7 @@
 
             <div class="row row-cols-5 row-cols-xl-3 row-cols-md-2 g-3 g-md-2 g-sm-1">
                 <!-- Product card 1 -->
-                <div class="col" th:each="product : ${products}">
+                <div class="col" th:each="product : *{products}">
                     <article class="product-card">
                         <div class="product-card__img-wrap">
                             <a th:href="@{'/product/' + ${product.id}}">

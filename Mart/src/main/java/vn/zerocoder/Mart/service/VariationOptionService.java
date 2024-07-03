@@ -2,7 +2,6 @@ package vn.zerocoder.Mart.service;
 
 import vn.zerocoder.Mart.dto.request.VariationOptionRequest;
 import vn.zerocoder.Mart.dto.response.VariationOptionResponse;
-import vn.zerocoder.Mart.dto.response.VariationResponse;
 
 import java.util.List;
 

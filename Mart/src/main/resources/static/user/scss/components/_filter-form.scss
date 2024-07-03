@@ -4,7 +4,21 @@
     position: relative;
     z-index: 1;
 }
-
+.prop__title-flex {
+    flex: 1;
+}
+.form__tags-flex {
+    flex: 2;
+    @include abstracts.screen(sm) {
+        flex: 4;
+    }
+    @include abstracts.screen(md) {
+        flex: 3;
+    }
+    @include abstracts.screen(lg) {
+        flex: 2;
+    }
+}
 .filter {
     position: absolute;
     right: 0;
@@ -57,7 +71,10 @@
                 gap: 30px;
             }
         }
-
+        &-flex {
+            display: flex;
+            gap: 20px;
+        }
         &-slider {
             position: relative;
 

@@ -59,7 +59,12 @@ input,
 textarea {
     background: transparent;
 }
-
+select {
+    background: var(--product-detail-info-bg);
+}
+select option {
+    background: transparent;
+}
 input:-webkit-autofill,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active,

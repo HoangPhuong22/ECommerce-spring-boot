@@ -281,5 +281,24 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+
+window.addEventListener('DOMContentLoaded', function() {
+    const productDetailElement = document.getElementById('product-detail');
+    if (productDetailElement) {
+        productDetailElement.addEventListener('change', function (){
+            const selectedOption = this.options[this.selectedIndex];
+            const price = selectedOption.getAttribute('data-price');
+            document.querySelector('.js-price-select').textContent = formatDecimal(price) + 'đ';
+        });
+    } else {
+        console.error('Không tìm thấy phần tử có id "product-detail"');
+    }
+});
+
+function formatDecimal(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+
 const isDark = localStorage.dark === "true";
 document.querySelector("html").classList.toggle("dark", isDark);

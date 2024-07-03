@@ -48,7 +48,7 @@
                     <div class="form-group">
                         <label for="comment">Mô tả thương hiệu</label>
                         <textarea class="form-control" id="comment" rows="5" th:field="*{description}" placeholder="Nhập mô tả thương hiệu"></textarea>
-                        <small class="form-text text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></small>
                     </div>
                 </div>
                 <div class="card-action">

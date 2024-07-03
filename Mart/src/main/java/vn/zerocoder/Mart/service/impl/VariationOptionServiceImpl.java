@@ -76,4 +76,5 @@ public class VariationOptionServiceImpl implements VariationOptionService {
         List<VariationOption> variationOptions = variationOptionRepository.findAll();
         return variationOptions.stream().map(optionMapper::toResponse).toList();
     }
+
 }
