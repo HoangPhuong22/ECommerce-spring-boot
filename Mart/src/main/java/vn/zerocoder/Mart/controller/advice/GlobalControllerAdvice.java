@@ -1,11 +1,9 @@
-package vn.zerocoder.Mart.controller;
+package vn.zerocoder.Mart.controller.advice;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import vn.zerocoder.Mart.dto.response.CategoryResponse;
-import vn.zerocoder.Mart.model.Category;
-import vn.zerocoder.Mart.repository.CategoryRepository;
 import vn.zerocoder.Mart.service.CategoryService;
 
 import java.util.List;

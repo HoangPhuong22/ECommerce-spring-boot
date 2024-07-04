@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign in | Grocery Mart</title>
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="76x76" th:href="@{/user/assets/favicon/apple-touch-icon.png}" />
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/user/assets/favicon/favicon-32x32.png}" />
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/user/assets/favicon/favicon-16x16.png}" />
+    <link rel="manifest" th:href="@{/user/assets/favicon/site.webmanifest}" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <!-- Fonts -->
+    <link rel="stylesheet" th:href="@{/user/assets/fonts/stylesheet.css}" />
+
+    <!-- Styles -->
+    <link rel="stylesheet" th:href="@{/user/assets/css/main.css}" />
+
+    <!-- Scripts -->
+    <script src="/user/assets/js/scripts.js"></script>
+</head>
+<body>
+<main class="auth">
+    <!-- Auth intro -->
+    <div class="auth__intro d-md-none">
+        <img th:src="@{/user/assets/img/auth/intro.svg}" alt="" class="auth__intro-img" />
+        <p class="auth__intro-text">
+            Giá trị thương hiệu cao cấp nhất, sản phẩm chất lượng cao và dịch vụ sáng tạo nhất.
+        </p>
+    </div>
+
+    <!-- Auth content -->
+    <div class="auth__content">
+        <div class="auth__content-inner">
+            <a href="" class="logo">
+                <img th:src="@{/user/assets/icons/logo.svg}" alt="grocerymart" class="logo__img" />
+                <h2 class="logo__title">Tona mart</h2>
+            </a>
+            <h1 class="auth__heading">Xin chào!</h1>
+            <p class="auth__desc">
+                Chào mừng bạn quay lại đăng nhập. Với tư cách là khách hàng cũ, bạn có quyền truy cập vào tất cả thông tin đã lưu trước đó của mình.
+            </p>
+            <form action="./index-logined.html" class="form auth__form">
+                <div class="form__group">
+                    <div class="form__text-input">
+                        <input
+                                type="email"
+                                name=""
+                                placeholder="Email"
+                                class="form__input"
+                                autofocus
+                                required
+                        />
+                        <img th:src="@{/user/assets/icons/message.svg}" alt="" class="form__input-icon" />
+                        <img th:src="@{/user/assets/icons/form-error.svg}" alt="" class="form__input-icon-error" />
+                    </div>
+                    <p class="form__error">Email không hợp lệ</p>
+                </div>
+                <div class="form__group">
+                    <div class="form__text-input">
+                        <input
+                                type="password"
+                                name=""
+                                placeholder="Password"
+                                class="form__input"
+                                required
+                                minlength="6"
+                        />
+                        <img th:src="@{/user/assets/icons/lock.svg}" alt="" class="form__input-icon" />
+                        <img th:src="@{/user/assets/icons/form-error.svg}" alt="" class="form__input-icon-error" />
+                    </div>
+                    <p class="form__error">Mật khẩu phải chứa ít nhất 6 ký tự</p>
+                </div>
+                <div class="form__group form__group--inline">
+                    <label class="form__checkbox">
+                        <input type="checkbox" name="" class="form__checkbox-input d-none" />
+                        <span class="form__checkbox-label">Đặt làm mặc định</span>
+                    </label>
+                    <a href="" class="auth__link form__pull-right">Quên mật khẩu?</a>
+                </div>
+                <div class="form__group auth__btn-group">
+                    <button class="btn btn--primary auth__btn form__submit-btn">Đăng nhập</button>
+                    <button class="btn btn--outline auth__btn btn--no-margin">
+                        <img th:src="@{/user/assets/icons/google.svg}" alt="" class="btn__icon icon" />
+                        Đăng nhập với Google
+                    </button>
+                </div>
+            </form>
+
+            <p class="auth__text">
+                Bạn chưa có tài khoản?
+                <a href="" class="auth__link auth__text-link">Đăng kí</a>
+            </p>
+        </div>
+    </div>
+</main>
+<script>
+    window.dispatchEvent(new Event("template-loaded"));
+</script>
+</body>
+</html>
