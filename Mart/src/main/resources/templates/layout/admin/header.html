@@ -335,14 +335,14 @@
                     >
                         <div class="avatar-sm">
                             <img
-                                    th:src="@{/admin/assets/img/profile.jpg}"
+                                    th:src="@{'/image/' + ${#authentication.principal.avatarUrl}}"
                                     alt="..."
                                     class="avatar-img rounded-circle"
                             />
                         </div>
                         <span class="profile-username">
                           <span class="op-7">Hi,</span>
-                          <span class="fw-bold">Hizrian</span>
+                          <span class="fw-bold" th:text="${#authentication.principal.fullName}"></span>
                         </span>
                     </a>
                     <ul class="dropdown-menu dropdown-user animated fadeIn">
@@ -351,14 +351,14 @@
                                 <div class="user-box">
                                     <div class="avatar-lg">
                                         <img
-                                                th:src="@{/admin/assets/img/profile.jpg}"
+                                                th:src="@{'/image/' + ${#authentication.principal.avatarUrl}}"
                                                 alt="image profile"
                                                 class="avatar-img rounded"
                                         />
                                     </div>
                                     <div class="u-text">
-                                        <h4>Hizrian</h4>
-                                        <p class="text-muted">hello@example.com</p>
+                                        <h4 th:text="${#authentication.principal.fullName}"></h4>
+                                        <p class="text-muted" th:text="${#authentication.principal.email}"></p>
                                         <a
                                                 href="profile.html"
                                                 class="btn btn-xs btn-secondary btn-sm"
@@ -369,13 +369,20 @@
                             </li>
                             <li>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">My Profile</a>
-                                <a class="dropdown-item" href="#">My Balance</a>
-                                <a class="dropdown-item" href="#">Inbox</a>
+                                <a class="dropdown-item" href="/">Hồ sơ</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#">Account Setting</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Logout</a>
+                                <form id="logoutForm" action="/logout" method="post" style="display:none;">
+                                    <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                                </form>
+                                <a href="#" class="logout-link dropdown-item" onclick="document.getElementById('logoutForm').submit();">Logout</a>
+                                <script>
+                                    document.querySelector('a.logout-link').addEventListener('click', function(event) {
+                                        event.preventDefault(); // Ngăn không cho thẻ <a> thực hiện hành động mặc định
+                                        document.getElementById('logoutForm').submit(); // Gửi form
+                                    });
+                                </script>
                             </li>
                         </div>
                     </ul>

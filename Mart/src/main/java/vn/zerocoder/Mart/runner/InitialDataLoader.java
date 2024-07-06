@@ -3,6 +3,8 @@ package vn.zerocoder.Mart.runner;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import vn.zerocoder.Mart.model.Category;
 import vn.zerocoder.Mart.repository.CategoryRepository;
@@ -16,6 +18,12 @@ public class InitialDataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Category category = categoryRepository.findById(1L).orElse(null);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication != null) {
+            System.out.println("User: " + authentication.getName());
+        }
+        else {
+            System.out.println("User: null");
+        }
     }
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import vn.zerocoder.Mart.enums.UserStatus;
 
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -28,7 +29,7 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE,
             CascadeType.DETACH,
@@ -41,7 +42,7 @@ public class User extends BaseEntity {
     )
     private Set<Role> roles;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE,
             CascadeType.DETACH,
@@ -54,4 +55,17 @@ public class User extends BaseEntity {
     )
     private Set<Group> groups;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Address> addresses;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Review> reviews;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Profile profile;
+
+    public void saveProfile(Profile profile) {
+        this.profile = profile;
+        profile.setUser(this);
+    }
 }

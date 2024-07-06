@@ -14,8 +14,4 @@ public class GlobalControllerAdvice {
 
     private final CategoryService categoryService;
 
-    @ModelAttribute("techCategories")
-    public List<CategoryResponse> technologyCategories() {
-        return categoryService.findCategoryTechnology();
-    }
 }

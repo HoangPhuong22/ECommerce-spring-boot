@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html lang="en"
+        xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng kí | Tona Mart</title>
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="76x76" th:href="@{/user/assets/favicon/apple-touch-icon.png}" />
+    <link rel="icon" type="image/png" sizes="32x32" th:href="@{/user/assets/favicon/favicon-32x32.png}" />
+    <link rel="icon" type="image/png" sizes="16x16" th:href="@{/user/assets/favicon/favicon-16x16.png}" />
+    <link rel="manifest" th:href="@{/user/assets/favicon/site.webmanifest}" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <!-- Fonts -->
+    <link rel="stylesheet" th:href="@{/user/assets/fonts/stylesheet.css}" />
+
+    <!-- Styles -->
+    <link rel="stylesheet" th:href="@{/user/assets/css/main.css}" />
+
+    <!-- Scripts -->
+    <script src="/user/assets/js/scripts.js"></script>
+</head>
+<body>
+<main class="auth">
+    <!-- Auth intro -->
+    <div class="auth__intro">
+        <a href="/" class="logo auth__intro-logo d-none d-md-flex">
+            <img src="/user/assets/icons/logo.svg" alt="grocerymart" class="logo__img" />
+            <h1 class="logo__title">Tona Mart</h1>
+        </a>
+        <img src="/user/assets/img/auth/intro.svg" alt="" class="auth__intro-img" />
+        <p class="auth__intro-text">
+            Giá trị thương hiệu cao cấp nhất, sản phẩm chất lượng cao và dịch vụ sáng tạo nhất.
+        </p>
+        <button class="auth__intro-next d-none d-md-flex js-toggle" toggle-target="#auth-content">
+            <img src="/user/assets/img/auth/intro-arrow.svg" alt="" />
+        </button>
+    </div>
+
+    <!-- Auth content -->
+    <div id="auth-content" class="auth__content hide">
+        <div class="auth__content-inner">
+            <a href="/" class="logo">
+                <img src="/user/assets/icons/logo.svg" alt="tonamart" class="logo__img" />
+                <h1 class="logo__title">Tona Mart</h1>
+            </a>
+            <h1 class="auth__heading">Đăng kí</h1>
+            <p class="auth__desc">Hãy tạo tài khoản của bạn và mua sắm như một người chuyên nghiệp và tiết kiệm tiền.</p>
+            <form action="/register" method="post" class="form auth__form" th:object = "${user}">
+                <div class="form__group">
+                    <div class="form__text-input">
+                        <input
+                                type="text"
+                                th:field="*{firstName}"
+                                placeholder= "Nhập họ của bạn"
+                                class="form__input"
+                                autofocus
+                        />
+                    </div>
+                    <p class="form__error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
+                </div>
+                <div class="form__group">
+                    <div class="form__text-input">
+                        <input
+                                type="text"
+                                th:field="*{lastName}"
+                                placeholder="Nhập tên của bạn"
+                                class="form__input"
+                                autofocus
+                        />
+                    </div>
+                    <p class="form__error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+                </div>
+                <div class="form__group">
+                    <div class="form__text-input">
+                        <input
+                                type="text"
+                                th:field="*{username}"
+                                placeholder="Tên đăng nhập"
+                                class="form__input"
+                        />
+                    </div>
+                    <p class="form__error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+                <div class="form__group">
+                    <div class="form__text-input">
+                        <input
+                                type="email"
+                                th:field="*{email}"
+                                placeholder="Email"
+                                class="form__input"
+                        />
+                    </div>
+                    <p class="form__error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                </div>
+                <div class="form__group">
+                    <div class="form__text-input">
+                        <input
+                                type="password"
+                                th:field="*{password}"
+                                placeholder="Nhập mật khẩu"
+                                class="form__input"
+                        />
+                    </div>
+                    <p class="form__error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+                </div>
+                <div class="form__group">
+                    <div class="form__text-input">
+                        <input
+                                type="password"
+                                name="confirmPassword"
+                                placeholder="Nhập lại mật khẩu"
+                                class="form__input"
+                        />
+                    </div>
+                </div>
+                <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                <div class="form__group auth__btn-group">
+                    <button class="btn btn--primary auth__btn">Đăng nhập</button>
+                    <button class="btn btn--outline auth__btn btn--no-margin">
+                        <img th:src="@{/user/assets/icons/google.svg}" alt="" class="btn__icon icon" />
+                        Đăng nhập với Google
+                    </button>
+                </div>
+            </form>
+
+            <p class="auth__text">
+                Bạn đã có tài khoản?
+                <a href="/login" class="auth__link auth__text-link">Đăng nhập</a>
+            </p>
+        </div>
+    </div>
+</main>
+<script>
+    window.dispatchEvent(new Event("template-loaded"));
+</script>
+</body>
+</html>

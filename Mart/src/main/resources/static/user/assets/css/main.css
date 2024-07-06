@@ -215,6 +215,10 @@ input:-webkit-autofill:hover {
   filter: var(--icon-color);
 }
 
+.show {
+  display: block !important;
+}
+
 @media (max-width: 575.98px) {
   .container {
     padding-left: 20px !important;
@@ -3119,7 +3123,6 @@ html {
   font-weight: 500;
   margin-top: 10px;
   color: #ed4337;
-  display: none;
 }
 .form__input-icon-error {
   display: none;

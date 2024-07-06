@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sign in | Grocery Mart</title>
+    <title>Đăng nhập | Tona Mart</title>
 
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="76x76" th:href="@{/user/assets/favicon/apple-touch-icon.png}" />
@@ -44,37 +44,31 @@
             <p class="auth__desc">
                 Chào mừng bạn quay lại đăng nhập. Với tư cách là khách hàng cũ, bạn có quyền truy cập vào tất cả thông tin đã lưu trước đó của mình.
             </p>
-            <form action="./index-logined.html" class="form auth__form">
+            <form action="/login" method="post"  class="form auth__form">
                 <div class="form__group">
                     <div class="form__text-input">
                         <input
-                                type="email"
-                                name=""
-                                placeholder="Email"
+                                type="text"
+                                name="username"
+                                placeholder="Username hoặc Email"
                                 class="form__input"
-                                autofocus
-                                required
                         />
-                        <img th:src="@{/user/assets/icons/message.svg}" alt="" class="form__input-icon" />
-                        <img th:src="@{/user/assets/icons/form-error.svg}" alt="" class="form__input-icon-error" />
                     </div>
-                    <p class="form__error">Email không hợp lệ</p>
                 </div>
                 <div class="form__group">
                     <div class="form__text-input">
                         <input
                                 type="password"
-                                name=""
+                                name="password"
                                 placeholder="Password"
                                 class="form__input"
-                                required
-                                minlength="6"
                         />
-                        <img th:src="@{/user/assets/icons/lock.svg}" alt="" class="form__input-icon" />
-                        <img th:src="@{/user/assets/icons/form-error.svg}" alt="" class="form__input-icon-error" />
                     </div>
-                    <p class="form__error">Mật khẩu phải chứa ít nhất 6 ký tự</p>
                 </div>
+                <div class="form-group">
+                    <p class="form__error show" th:if="${param.error}" th:text="${param.message}">
+                </div>
+                <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
                 <div class="form__group form__group--inline">
                     <label class="form__checkbox">
                         <input type="checkbox" name="" class="form__checkbox-input d-none" />
@@ -93,13 +87,10 @@
 
             <p class="auth__text">
                 Bạn chưa có tài khoản?
-                <a href="" class="auth__link auth__text-link">Đăng kí</a>
+                <a href="/register" class="auth__link auth__text-link">Đăng kí</a>
             </p>
         </div>
     </div>
 </main>
-<script>
-    window.dispatchEvent(new Event("template-loaded"));
-</script>
 </body>
 </html>

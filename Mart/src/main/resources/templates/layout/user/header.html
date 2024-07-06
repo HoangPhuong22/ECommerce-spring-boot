@@ -1,5 +1,6 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 >
 <div class="container" layout:fragment="header">
@@ -671,8 +672,198 @@
 
     <!-- Actions -->
     <div class="top-act">
-      <a href="./sign-in.html" class="btn btn--text d-md-none">Đăng nhập</a>
-      <a href="./sign-up.html" class="top-act__sign-up btn btn--primary">Đăng kí</a>
+      <a sec:authorize="isAnonymous()" href="/login" class="btn btn--text d-md-none">Đăng nhập</a>
+      <a sec:authorize="isAnonymous()" href="/register" class="top-act__sign-up btn btn--primary">Đăng kí</a>
     </div>
-  </div>
+
+  <!--  Action login user -->
+    <div class="top-act" sec:authorize="isAuthenticated()">
+      <div class="top-act__group d-md-none top-act__group--single">
+        <button class="top-act__btn">
+          <img src="/user/assets/icons/search.svg" alt="" class="icon top-act__icon" />
+        </button>
+      </div>
+
+      <div class="top-act__group d-md-none">
+        <div class="top-act__btn-wrap">
+          <button class="top-act__btn">
+            <img src="/user/assets/icons/heart.svg" alt="" class="icon top-act__icon" />
+            <span class="top-act__title">03</span>
+          </button>
+
+          <!-- Dropdown -->
+          <div class="act-dropdown">
+            <div class="act-dropdown__inner">
+              <img src="/user/assets/icons/arrow-up.png" alt="" class="act-dropdown__arrow" />
+              <div class="act-dropdown__top">
+                <h2 class="act-dropdown__title">Bạn có 3 sản phẩm</h2>
+                <a href="/favourite" class="act-dropdown__view-all">Xem tất cả</a>
+              </div>
+              <div class="row row-cols-3 gx-2 act-dropdown__list">
+                <!-- Cart preview item 1 -->
+                <div class="col">
+                  <article class="cart-preview-item">
+                    <div class="cart-preview-item__img-wrap">
+                      <img
+                              src="/user/assets/img/product/item-1.png"
+                              alt=""
+                              class="cart-preview-item__thumb"
+                      />
+                    </div>
+                    <h3 class="cart-preview-item__title">Lavazza Coffee Blends</h3>
+                    <p class="cart-preview-item__price">3.000.000đ</p>
+                  </article>
+                </div>
+
+                <!-- Cart preview item 2 -->
+                <div class="col">
+                  <article class="cart-preview-item">
+                    <div class="cart-preview-item__img-wrap">
+                      <img
+                              src="/user/assets/img/product/item-2.png"
+                              alt=""
+                              class="cart-preview-item__thumb"
+                      />
+                    </div>
+                    <h3 class="cart-preview-item__title">Coffee Beans Espresso</h3>
+                    <p class="cart-preview-item__price">3.000.000đ</p>
+                  </article>
+                </div>
+              </div>
+              <div class="act-dropdown__separate"></div>
+              <div class="act-dropdown__checkout">
+                <a
+                        href="./checkout.html"
+                        class="btn btn--primary btn--rounded act-dropdown__checkout-btn"
+                >
+                  Mua tất cả
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="top-act__separate"></div>
+
+        <div class="top-act__btn-wrap">
+          <button class="top-act__btn">
+            <img src="/user/assets/icons/buy.svg" alt="" class="icon top-act__icon" />
+            <span class="top-act__title">$65.42</span>
+          </button>
+
+          <!-- Dropdown -->
+          <div class="act-dropdown">
+            <div class="act-dropdown__inner">
+              <img src="./assets/icons/arrow-up.png" alt="" class="act-dropdown__arrow" />
+              <div class="act-dropdown__top">
+                <h2 class="act-dropdown__title">You have 3 item(s)</h2>
+                <a href="./checkout.html" class="act-dropdown__view-all">See All</a>
+              </div>
+              <div class="row row-cols-3 gx-2 act-dropdown__list">
+                <!-- Cart preview item 1 -->
+                <div class="col">
+                  <article class="cart-preview-item">
+                    <div class="cart-preview-item__img-wrap">
+                      <img
+                              src="/user/assets/img/product/item-1.png"
+                              alt=""
+                              class="cart-preview-item__thumb"
+                      />
+                    </div>
+                    <h3 class="cart-preview-item__title">Lavazza Coffee Blends</h3>
+                    <p class="cart-preview-item__price">$329.00</p>
+                  </article>
+                </div>
+              </div>
+              <div class="act-dropdown__bottom">
+                <div class="act-dropdown__row">
+                  <span class="act-dropdown__label">Subtotal</span>
+                  <span class="act-dropdown__value">$415.99</span>
+                </div>
+                <div class="act-dropdown__row">
+                  <span class="act-dropdown__label">Texes</span>
+                  <span class="act-dropdown__value">Free</span>
+                </div>
+                <div class="act-dropdown__row">
+                  <span class="act-dropdown__label">Shipping</span>
+                  <span class="act-dropdown__value">$10.00</span>
+                </div>
+                <div class="act-dropdown__row act-dropdown__row--bold">
+                  <span class="act-dropdown__label">Total Price</span>
+                  <span class="act-dropdown__value">$425.99</span>
+                </div>
+              </div>
+              <div class="act-dropdown__checkout">
+                <a
+                        href="./checkout.html"
+                        class="btn btn--primary btn--rounded act-dropdown__checkout-btn"
+                >
+                  Check Out All
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="top-act__user">
+        <img
+                th:src="${'/image/' + #authentication.principal.avatarUrl}"
+                alt="" class="top-act__avatar"
+        />
+
+        <!-- Dropdown -->
+        <div class="act-dropdown top-act__dropdown">
+          <div class="act-dropdown__inner user-menu">
+            <img
+                    src="./assets/icons/arrow-up.png"
+                    alt=""
+                    class="act-dropdown__arrow top-act__dropdown-arrow"
+            />
+
+            <div class="user-menu__top">
+              <img
+                      th:src="${'/image/' + #authentication.principal.avatarUrl}"
+                      alt="" class="user-menu__avatar"
+              />
+              <div>
+                <p class="user-menu__name" th:text="${#authentication.principal.fullName}"></p>
+                <p th:text="${'@' + #authentication.principal.username}" class="user-menu__email">
+              </div>
+            </div>
+
+            <ul class="user-menu__list">
+              <li>
+                <a href="/profile" class="user-menu__link">Hồ sơ</a>
+              </li>
+              <li>
+                <a href="/favourite" class="user-menu__link">Danh sách yêu thích</a>
+              </li>
+              <li class="user-menu__separate">
+                <a href="#!" class="user-menu__link" id="switch-theme-btn">
+                  <span>Chế độ ban đêm</span>
+                  <img src="/user/assets/icons/sun.svg" alt="" class="icon user-menu__icon" />
+                </a>
+              </li>
+              <li>
+                <a href="#!" class="user-menu__link">Cài đặt</a>
+              </li>
+              <li class="user-menu__separate">
+                <form id="logoutForm" action="/logout" method="post" style="display:none;">
+                  <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                </form>
+                <a href="#" class="logout-link" onclick="document.getElementById('logoutForm').submit();">Logout</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
 </div>
+</div>
+<script>
+  document.querySelector('a.logout-link').addEventListener('click', function(event) {
+    event.preventDefault(); // Ngăn không cho thẻ <a> thực hiện hành động mặc định
+    document.getElementById('logoutForm').submit(); // Gửi form
+  });
+</script>

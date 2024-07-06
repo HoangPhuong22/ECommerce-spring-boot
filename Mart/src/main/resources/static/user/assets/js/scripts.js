@@ -259,10 +259,10 @@ window.addEventListener("load", () => {
             const isDark = localStorage.dark === "true";
             document.querySelector("html").classList.toggle("dark", !isDark);
             localStorage.setItem("dark", !isDark);
-            switchBtn.querySelector("span").textContent = isDark ? "Dark mode" : "Light mode";
+            switchBtn.querySelector("span").textContent = isDark ? "Chế độ ban đêm" : "Chế độ ban ngày";
         };
         const isDark = localStorage.dark === "true";
-        switchBtn.querySelector("span").textContent = isDark ? "Light mode" : "Dark mode";
+        switchBtn.querySelector("span").textContent = isDark ? "Chế đố ban ngày" : "Chế độ ban đêm";
     }
 });
 
