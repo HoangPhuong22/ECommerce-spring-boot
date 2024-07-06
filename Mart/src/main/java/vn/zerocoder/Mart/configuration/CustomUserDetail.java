@@ -21,18 +21,25 @@ public class CustomUserDetail implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new HashSet<>();
+
+        // Thêm quyền từ vai trò (role)
         userConfig.getRoles().forEach(role -> {
-            authorities.add(role::getName);
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+            role.getPermissions().forEach(permission ->
+                    authorities.add(new SimpleGrantedAuthority(permission.getName()))
+            );
         });
 
-        userConfig.getGroups().forEach(group ->
-                authorities.add(new SimpleGrantedAuthority("GROUP_" + group.getName()))
-        );
-        userConfig.getRoles().forEach(role ->
+        // Thêm quyền từ nhóm (group)
+        userConfig.getGroups().forEach(group -> {
+            authorities.add(new SimpleGrantedAuthority(group.getName()));
+            group.getRoles().forEach(role -> {
+                authorities.add(new SimpleGrantedAuthority(role.getName()));
                 role.getPermissions().forEach(permission ->
                         authorities.add(new SimpleGrantedAuthority(permission.getName()))
-                )
-        );
+                );
+            });
+        });
         return authorities;
     }
 

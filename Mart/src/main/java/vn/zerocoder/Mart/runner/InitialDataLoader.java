@@ -18,12 +18,5 @@ public class InitialDataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication != null) {
-            System.out.println("User: " + authentication.getName());
-        }
-        else {
-            System.out.println("User: null");
-        }
     }
 }

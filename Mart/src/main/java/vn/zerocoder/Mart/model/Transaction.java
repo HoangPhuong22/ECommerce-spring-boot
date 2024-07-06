@@ -5,26 +5,28 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import vn.zerocoder.Mart.enums.OrderStatus;
-
-import java.time.LocalDateTime;
+import vn.zerocoder.Mart.enums.TransactionStatus;
 
 @Setter
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "tbl_order")
-public class Order extends BaseEntity{
+@Table(name = "tbl_transaction")
+public class Transaction {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-    @Column(name = "order_date")
-    private LocalDateTime orderDate;
+    @Column(name = "amount")
+    private Long amount; // Số tiền giao dịch
 
-    @Column(name = "total")
-    private Long total;
+    @Column(name = "transaction_date")
+    private String transactionDate; // Ngày giao dịch
 
     @Column(name = "status")
-    private OrderStatus status;
+    private TransactionStatus status; // Trạng thái giao dịch
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {
             CascadeType.PERSIST,
@@ -50,15 +52,6 @@ public class Order extends BaseEntity{
             CascadeType.DETACH,
             CascadeType.REFRESH
     })
-    @JoinColumn(name = "shipping_method_id")
-    private ShippingMethod shippingMethod;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE,
-            CascadeType.DETACH,
-            CascadeType.REFRESH
-    })
-    @JoinColumn(name = "shipping_address_id")
-    private ShippingAddress shippingAddress;
+    @JoinColumn(name = "order_id")
+    private Order order;
 }
