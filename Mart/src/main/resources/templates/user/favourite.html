@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/user/main.html}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách yêu thích</title>
+</head>
+<!-- MAIN -->
+<div layout:fragment="content">
+    <main class="checkout-page">
+        <div class="container">
+            <!-- Search bar -->
+            <div class="checkout-container">
+                <div class="search-bar d-none d-md-flex">
+                    <input type="text" name="" id="" placeholder="Search for item" class="search-bar__input" />
+                    <button class="search-bar__submit">
+                        <img th:src="@{/user/assets/icons/search.svg}" alt="" class="search-bar__icon icon" />
+                    </button>
+                </div>
+            </div>
+
+            <!-- Breadcrumbs -->
+            <div class="checkout-container">
+                <ul class="breadcrumbs checkout-page__breadcrumbs">
+                    <li>
+                        <a href="/" class="breadcrumbs__link">
+                            Trang chủ
+                            <img th:src="@{/user/assets/icons/arrow-right.svg}" alt="" />
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/favourite" class="breadcrumbs__link breadcrumbs__link--current">Danh sách yêu thích</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Checkout content -->
+            <div class="checkout-container">
+                <div class="row gy-xl-3">
+                    <div class="col-12">
+                        <div class="cart-info">
+                            <h1 class="cart-info__heading">Tất cả sản phẩm yêu thích</h1>
+                            <p class="cart-info__desc" th:text="${favourites.size()} + ' sản phẩm yêu thích'"></p>
+                            <div class="cart-info__check-all">
+                                <label class="cart-info__checkbox">
+                                    <input
+                                            type="checkbox"
+                                            name="shipping-adress"
+                                            class="cart-info__checkbox-input"
+                                    />
+                                </label>
+                            </div>
+                            <div class="cart-info__list">
+                                <!-- Cart item 1 -->
+                                <article class="cart-item" th:each="favourite : ${favourites}">
+                                    <th:block th:with="product = ${favourite.product}">
+                                        <label class="cart-info__checkbox">
+                                            <input
+                                                    type="checkbox"
+                                                    name="shipping-adress"
+                                                    class="cart-info__checkbox-input"
+                                                    checked
+                                            />
+                                        </label>
+                                        <a th:href="@{'/product/' + ${product.id}}">
+                                            <img
+                                                    th:src="@{'/image/' + ${product.productImage}}"
+                                                    alt=""
+                                                    class="cart-item__thumb"
+                                            />
+                                        </a>
+                                        <div class="cart-item__content">
+                                            <div class="cart-item__content-left">
+                                                <h3 class="cart-item__title">
+                                                    <a th:src="@{'/image/' + ${product.productImage}}" th:text="${product.name}">
+                                                    </a>
+                                                </h3>
+                                                <span class="cart-item__price-wrap js-price-select" th:utext="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + 'đ | '">
+                                                </span>
+                                                <span class="cart-item__status" th:if="${product.quantity > 0}">Còn hàng</span>
+                                                <span class="cart-item__status" th:unless="${product.quantity > 0}">Hết hàng</span>
+                                                <div class="cart-item__ctrl-wrap">
+                                                    <div class="cart-item__ctrl">
+                                                        <button
+                                                                class="cart-item__ctrl-btn js-toggle"
+                                                                toggle-target="#delete-confirm"
+                                                        >
+                                                            <img th:src="@{/user/assets/icons/trash.svg}" alt="" />
+                                                            Delete
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </th:block>
+                                </article>
+                            </div>
+                            <div class="cart-info__bottom">
+                                <div class="cart-info__row cart-info__row-md--block">
+                                    <div class="cart-info__continue">
+                                        <a href="/" class="cart-info__continue-link">
+                                            <img
+                                                    class="cart-info__continue-icon icon"
+                                                    th:src="@{/user/assets/icons/arrow-down-2.svg}"
+                                                    alt=""
+                                            />
+                                            Continue Shopping
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal: confirm remove shopping cart item -->
+        <div id="delete-confirm" class="modal modal--small hide">
+            <div class="modal__content">
+                <p class="modal__text">Bạn có chắc chắn muốn xóa sản phẩm này khỏi danh sách yêu thích?</p>
+                <div class="modal__bottom">
+                    <button class="btn btn--small btn--outline modal__btn js-toggle" toggle-target="#delete-confirm">
+                        Tiếp tục
+                    </button>
+                    <button
+                            class="btn btn--small btn--danger btn--primary modal__btn btn--no-margin js-toggle"
+                            toggle-target="#delete-confirm"
+                    >
+                        Xóa
+                    </button>
+                </div>
+            </div>
+            <div class="modal__overlay js-toggle" th:toggle-target="${'#delete-confirm'}"></div>
+        </div>
+    </main>
+</div>

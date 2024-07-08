@@ -8,6 +8,7 @@ import vn.zerocoder.Mart.model.User;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class CustomUserDetail implements UserDetails {
@@ -71,5 +72,11 @@ public class CustomUserDetail implements UserDetails {
     }
     public String getEmail() {
         return userConfig.getEmail();
+    }
+    public User getUserConfig() {
+        return userConfig;
+    }
+    public List<Long> getProductIdsFavourite() {
+        return userConfig.getFavourites().stream().map(favourite -> favourite.getProduct().getId()).toList();
     }
 }

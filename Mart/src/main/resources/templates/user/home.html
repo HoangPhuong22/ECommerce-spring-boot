@@ -2,6 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout/user/main.html}"
 >
 <head>
@@ -175,7 +176,12 @@
                                 <img th:src="@{'/image/' + ${product.image}}" alt="" class="product-card__thumb" />
                             </a>
                             <!--like-btn like-btn--liked product-card__like-btn-->
-                            <button class="like-btn like-btn--liked product-card__like-btn">
+                            <button
+                                    sec:authorize="isAuthenticated()"
+                                    class="like-btn product-card__like-btn ajax-favourite__btn"
+                                    th:classappend="${favouriteList != null and favouriteList.contains(product.id) ? 'like-btn--liked' : ''}"
+                                    th:data-product-id="${product.id}"
+                            >
                                 <img src="/user/assets/icons/heart.svg" alt="" class="like-btn__icon icon" />
                                 <img src="/user/assets/icons/heart-red.svg" alt="" class="like-btn__icon--liked" />
                             </button>

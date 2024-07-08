@@ -23,7 +23,7 @@ public class Address {
     @Column(name = "district")
     private String district; // Quận/Huyện
 
-    @ManyToOne(fetch = FetchType.LAZY,
+    @OneToOne(fetch = FetchType.LAZY,
             cascade = {
                 CascadeType.PERSIST,
                 CascadeType.MERGE,
@@ -33,4 +33,8 @@ public class Address {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Override
+    public String toString() {
+        return province + ", " + district;
+    }
 }

@@ -1,11 +1,14 @@
 package vn.zerocoder.Mart.controller.user;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import vn.zerocoder.Mart.configuration.CustomUserDetailService;
 import vn.zerocoder.Mart.dto.response.ProductDetailResponse;
 import vn.zerocoder.Mart.dto.response.ProductResponse;
 import vn.zerocoder.Mart.service.*;
@@ -23,6 +26,7 @@ public class ProductDetailController {
     private final BrandService brandService;
     private final VariationService variationService;
     private final VariationOptionService optionService;
+    private final CustomUserDetailService userService;
 
     @GetMapping("/{id}")
     public String getProductDetail(@PathVariable Long id, Model model) {

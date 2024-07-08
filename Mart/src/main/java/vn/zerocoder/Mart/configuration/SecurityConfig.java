@@ -20,13 +20,19 @@ public class SecurityConfig {
     private final CustomAuthenticationFailureHandler failureHandler;
     private final PasswordEncoderConfig passwordEncoderConfig;
 
+    private String[] AuthUrl = new String[] {
+            "/admin/**",
+            "/favourite/**",
+            "/profile/**",
+            "/cart/**",
+    };
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
          http
                  .authorizeHttpRequests(
                          auth -> auth
+                             .requestMatchers(AuthUrl).authenticated()
                              .requestMatchers("/**").permitAll()
-                             .requestMatchers("/admin/**").authenticated()
                  )
                  .formLogin(
                          form -> form

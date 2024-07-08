@@ -55,8 +55,8 @@ public class User extends BaseEntity {
     )
     private Set<Group> groups;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Address> addresses;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Address addresses;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Review> reviews;
@@ -64,8 +64,6 @@ public class User extends BaseEntity {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Profile profile;
 
-    public void saveProfile(Profile profile) {
-        this.profile = profile;
-        profile.setUser(this);
-    }
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Favourite> favourites;
 }

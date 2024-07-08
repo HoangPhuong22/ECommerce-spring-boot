@@ -1,5 +1,5 @@
-const $ = document.querySelector.bind(document);
-const $$ = document.querySelectorAll.bind(document);
+const q = document.querySelector.bind(document);
+const qa = document.querySelectorAll.bind(document);
 
 /**
  * Hàm tải template
@@ -13,14 +13,14 @@ const $$ = document.querySelectorAll.bind(document);
 function load(selector, path) {
     const cached = localStorage.getItem(path);
     if (cached) {
-        $(selector).innerHTML = cached;
+        q(selector).innerHTML = cached;
     }
 
     fetch(path)
         .then((res) => res.text())
         .then((html) => {
             if (html !== cached) {
-                $(selector).innerHTML = html;
+                q(selector).innerHTML = html;
                 localStorage.setItem(path, html);
             }
         })
@@ -73,9 +73,9 @@ function debounce(func, timeout = 300) {
  * 2. CSS "left" cho arrow qua biến "--arrow-left-pos"
  */
 const calArrowPos = debounce(() => {
-    if (isHidden($(".js-dropdown-list"))) return;
+    if (isHidden(q(".js-dropdown-list"))) return;
 
-    const items = $$(".js-dropdown-list > li");
+    const items = qa(".js-dropdown-list > li");
 
     items.forEach((item) => {
         const arrowPos = item.offsetLeft + item.offsetWidth / 2;
@@ -100,8 +100,8 @@ window.addEventListener("load", calArrowPos);
 window.addEventListener("load", handleActiveMenu);
 
 function handleActiveMenu() {
-    const dropdowns = $$(".js-dropdown");
-    const menus = $$(".js-menu-list");
+    const dropdowns = qa(".js-dropdown");
+    const menus = qa(".js-menu-list");
     const activeClass = "menu-column__item--active";
     const removeActive = (menu) => {
         menu.querySelector(`.${activeClass}`)?.classList.remove(activeClass);
@@ -148,7 +148,7 @@ function handleActiveMenu() {
 window.addEventListener("load", initJsToggle);
 
 function initJsToggle() {
-    $$(".js-toggle").forEach((button) => {
+    qa(".js-toggle").forEach((button) => {
         const target = button.getAttribute("toggle-target");
         if (!target) {
             document.body.innerText = `Cần thêm toggle-target cho: ${button.outerHTML}`;
@@ -156,19 +156,19 @@ function initJsToggle() {
         button.onclick = (e) => {
             e.preventDefault();
 
-            if (!$(target)) {
+            if (!q(target)) {
                 return (document.body.innerText = `Không tìm thấy phần tử "${target}"`);
             }
-            const isHidden = $(target).classList.contains("hide");
+            const isHidden = q(target).classList.contains("hide");
 
             requestAnimationFrame(() => {
-                $(target).classList.toggle("hide", !isHidden);
-                $(target).classList.toggle("show", isHidden);
+                q(target).classList.toggle("hide", !isHidden);
+                q(target).classList.toggle("show", isHidden);
             });
         };
         document.onclick = function (e) {
             if (!e.target.closest(target)) {
-                const isHidden = $(target).classList.contains("hide");
+                const isHidden = q(target).classList.contains("hide");
                 if (!isHidden) {
                     button.click();
                 }
@@ -178,7 +178,7 @@ function initJsToggle() {
 }
 
 window.addEventListener("load", () => {
-    const links = $$(".js-dropdown-list > li > a");
+    const links = qa(".js-dropdown-list > li > a");
 
     links.forEach((link) => {
         link.onclick = () => {
@@ -196,7 +196,7 @@ window.addEventListener("load", () => {
     const tabActive = `${tabsSelector}--current`;
     const contentActive = `${contentsSelector}--current`;
 
-    const tabContainers = $$(".js-tabs");
+    const tabContainers = qa(".js-tabs");
     tabContainers.forEach((tabContainer) => {
         const tabs = tabContainer.querySelectorAll(`.${tabsSelector}`);
         const contents = tabContainer.querySelectorAll(`.${contentsSelector}`);
@@ -288,7 +288,12 @@ window.addEventListener('DOMContentLoaded', function() {
         productDetailElement.addEventListener('change', function (){
             const selectedOption = this.options[this.selectedIndex];
             const price = selectedOption.getAttribute('data-price');
-            document.querySelector('.js-price-select').textContent = formatDecimal(price) + 'đ';
+            const priceElement = document.querySelector('.js-price-select');
+            if(priceElement) {
+                priceElement.textContent = formatDecimal(price) + 'đ';
+            } else {
+                console.error('Không tìm thấy phần tử có class "js-price-select"');
+            }
         });
     } else {
         console.error('Không tìm thấy phần tử có id "product-detail"');
