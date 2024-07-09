@@ -32,6 +32,10 @@ public class FileUtils {
     }
 
     public static void  delete(String path, String fileName) {
+        if(fileName.equals("default/avatar.webp")) {
+            log.error("Không thể xóa ảnh mặc định");
+            return;
+        }
         File file = new File(path + File.separator + fileName);
         if (file.exists()) {
             if (file.delete()) {

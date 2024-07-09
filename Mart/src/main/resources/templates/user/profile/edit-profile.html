@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/user/main.html}"
+>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chỉnh sửa hồ sơ</title>
+</head>
+<div layout:fragment="content">
+    <main class="profile">
+        <div class="container">
+            <!-- Search bar -->
+            <div class="profile-container">
+                <div class="search-bar d-none d-md-flex">
+                    <input type="text" name="" id="" placeholder="Search for item" class="search-bar__input" />
+                    <button class="search-bar__submit">
+                        <img src="/user/assets/icons/search.svg" alt="" class="search-bar__icon icon" />
+                    </button>
+                </div>
+            </div>
+
+            <!-- Profile content -->
+            <div class="profile-container">
+                <div class="row gy-md-3">
+                    <div class="col-3 col-xl-4 d-lg-none">
+                        <aside class="profile__sidebar">
+                            <!-- User -->
+                            <div class="profile-user">
+                                <a href="/profile">
+                                    <img
+                                            th:src="@{'/image/' + ${userAdvice.getAvatarUrl}}"
+                                            alt=""
+                                            class="profile-user__avatar"
+                                    />
+                                </a>
+                                <h1 class="profile-user__name" th:text="${userAdvice.getFullName}"></h1>
+                                <p class="profile-user__desc" th:text="${'Ngày tham gia: ' + #dates.format(userAdvice.getUserConfig.created_at, 'dd/MM/yyyy')}"></p>
+                            </div>
+
+                            <div layout:insert="~{layout/user/leftmenu :: leftmenu}"></div>
+                        </aside>
+                    </div>
+                    <div class="col-9 col-xl-8 col-lg-12">
+                        <div class="cart-info">
+                            <div class="row gy-3">
+                                <div class="col-12">
+                                    <h2 class="cart-info__heading">
+                                        <a href="/profile">
+                                            <img
+                                                    src="/user/assets/icons/arrow-left.svg"
+                                                    alt=""
+                                                    class="icon cart-info__back-arrow"
+                                            />
+                                        </a>
+                                        Thông tin tài khoản
+                                    </h2>
+
+                                    <form action="/profile/edit" method="POST" class="form form-card" th:object="${profileRequest}" enctype="multipart/form-data">
+                                        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                                        <input type="hidden" th:field="*{id}"/>
+                                        <!-- Form row 1 -->
+                                        <div class="form__row">
+                                            <div class="form__group">
+                                                <label for="first-name" class="form__label form-card__label">
+                                                    Họ
+                                                </label>
+                                                <div class="form__text-input">
+                                                    <input
+                                                            type="text"
+                                                            id="first-name"
+                                                            th:field="*{firstName}"
+                                                            placeholder="Nhập họ của bạn"
+                                                            class="form__input"
+                                                    />
+                                                </div>
+                                                <p class="form__error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Vui lòng nhập họ của bạn</p>
+                                            </div>
+                                            <div class="form__group">
+                                                <label for="last-name" class="form__label form-card__label">
+                                                    Tên
+                                                </label>
+                                                <div class="form__text-input">
+                                                    <input
+                                                            type="text"
+                                                            id="last-name"
+                                                            th:field="*{lastName}"
+                                                            placeholder="Nhập tên của bạn"
+                                                            class="form__input"
+                                                    />
+                                                </div>
+                                                <p class="form__error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Vui lòng nhập tên của bạn</p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Form row 2 -->
+                                        <div class="form__row">
+                                            <div class="form__group">
+                                                <label for="phone" class="form__label form-card__label">
+                                                    Số điện thoại
+                                                </label>
+                                                <div class="form__text-input">
+                                                    <input
+                                                            type="text"
+                                                            id="phone"
+                                                            th:field="*{phoneNumber}"
+                                                            placeholder="Nhập số điện thoại của bạn"
+                                                            class="form__input"
+                                                    />
+                                                </div>
+                                                <p class="form__error" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></p>
+                                            </div>
+                                            <div class="form__group">
+                                                <label for="gender" class="form__label form-card__label">
+                                                    Giới tính
+                                                </label>
+                                                <div class="form__text-input">
+                                                    <select
+                                                        style="background: var(--checkout-cart-info-bg)"
+                                                        id="gender"
+                                                        class="form__input"
+                                                        th:field="*{gender}"
+                                                    >
+                                                        <option value="MALE">Nam</option>
+                                                        <option value="FEMALE">Nữ</option>
+                                                        <option value="OTHER">Khác</option>
+                                                    </select>
+                                                </div>
+                                                <p class="form__error" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></p>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form__row">
+                                            <div class="form__group">
+                                                <label for="image" class="form__label form-card__label">
+                                                    Ảnh đại diện
+                                                </label>
+                                                <div class="form__text">
+                                                    <input
+                                                            type="file"
+                                                            id="image"
+                                                            th:field="*{profile_image}"
+                                                            class="form__input"
+                                                            accept="image/*"
+                                                    />
+                                                    <img id="reviewImage" th:src="@{'/image/' + ${userAdvice.getAvatarUrl}}" alt="" height="200"/>
+                                                </div>
+                                                <p class="form__error" th:if="${#fields.hasErrors('profile_image')}" th:errors="*{profile_image}"></p>
+                                            </div>
+                                            <div class="form__group">
+                                                <label for="birthday" class="form__label form-card__label">
+                                                    Ngày sinh
+                                                </label>
+                                                <div class="form__text-input">
+                                                    <input
+                                                            type="date"
+                                                            id="birthday"
+                                                            th:field="*{dateOfBirth}"
+                                                            class="form__input"
+                                                    />
+                                                </div>
+                                                <p class="form__error" th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}"></p>
+                                            </div>
+                                        </div>
+                                        <div class="form-card__bottom">
+                                            <a class="btn btn--text" href="/profile">Quay lại</a>
+                                            <button class="btn btn--primary btn--rounded">Lưu</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

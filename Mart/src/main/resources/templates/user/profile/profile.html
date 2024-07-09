@@ -13,6 +13,28 @@
 <body>
 <!-- MAIN -->
 <div layout:fragment="content">
+    <div>
+        <div th:if="${param.addressSave}">
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    createToast('success', 'fa-solid fa-circle-check', 'Địa chỉ', 'Đã cập nhật địa chỉ thành công');
+                });
+            </script>
+        </div>
+        <div th:if="${param.passwordChange}">
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    createToast('success', 'fa-solid fa-circle-check', 'Đã thay đổi mật khẩu thành công');
+                });
+            </script>
+        </div>
+        <div th:if="${param.profileSave}">
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    createToast('success', 'fa-solid fa-circle-check', 'Thông tin', 'Đã cập nhật thông tin cá nhân thành công');
+                });
+            </script>
+    </div>
     <main class="profile">
         <div class="container">
             <!-- Search bar -->
@@ -32,11 +54,13 @@
                         <aside class="profile__sidebar">
                             <!-- User -->
                             <div class="profile-user">
-                                <img
-                                     th:src="@{'image/' + ${user.avatarUrl}}"
-                                     alt=""
-                                     class="profile-user__avatar"
-                                />
+                                <a href="/profile">
+                                    <img
+                                            th:src="@{'image/' + ${user.avatarUrl}}"
+                                            alt=""
+                                            class="profile-user__avatar"
+                                    />
+                                </a>
                                 <h1 class="profile-user__name" th:text="${user.fullName}"></h1>
                                 <p class="profile-user__desc" th:text="${'Ngày tham gia: ' + #dates.format(user.userConfig.created_at, 'dd/MM/yyyy')}"></p>
                             </div>
@@ -122,9 +146,9 @@
 
                                 <!-- Account info -->
                                 <div class="col-12">
-                                    <h2 class="cart-info__heading">Account info</h2>
+                                    <h2 class="cart-info__heading">Thông tin tài khoản</h2>
                                     <p class="cart-info__desc profile__desc">
-                                        Addresses, contact information and password
+                                        Email, số điện thoại và địa chỉ của bạn
                                     </p>
                                     <div class="row gy-md-2 row-cols-2 row-cols-lg-1">
                                         <!-- Account info 1 -->
@@ -139,7 +163,18 @@
                                                 </div>
                                             </article>
                                         </div>
-
+                                        <!-- Account info 2 -->
+                                        <div class="col" th:if="${user.userConfig.profile.phoneNumber != null}">
+                                            <article class="account-info">
+                                                <div class="account-info__icon">
+                                                    <img th:src="@{/user/assets/icons/message.svg}" alt="" class="icon" />
+                                                </div>
+                                                <div>
+                                                    <h3 class="account-info__title">Số điện thoại</h3>
+                                                    <p class="account-info__desc" th:text="${user.userConfig.profile.phoneNumber}">
+                                                </div>
+                                            </article>
+                                        </div>
                                         <!-- Account info 3 -->
                                         <div class="col" th:if="${user.userConfig.addresses != null}">
                                             <article class="account-info">

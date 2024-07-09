@@ -18,15 +18,16 @@
 
     <!-- Fonts -->
     <link rel="stylesheet" th:href="@{/user/assets/fonts/stylesheet.css}" />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Styles -->
     <link rel="stylesheet" th:href="@{/user/assets/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/user/assets/css/loader.css}" />
 
-    <!-- Scripts -->
-    <script src="/user/assets/js/scripts.js"></script>
 </head>
 <body>
 <main class="auth">
+    <!-- Toast -->
+    <div class="notifications"></div>
     <!-- Auth intro -->
     <div class="auth__intro">
         <a href="/" class="logo auth__intro-logo d-none d-md-flex">
@@ -138,5 +139,9 @@
 <script>
     window.dispatchEvent(new Event("template-loaded"));
 </script>
+<!-- Scripts -->
+<script th:src="@{/user/assets/js/ajax.js}"></script>
+<script th:src="@{/user/assets/js/loader.js}"></script>
+<script th:src="@{/user/assets/js/scripts.js}"></script>
 </body>
 </html>

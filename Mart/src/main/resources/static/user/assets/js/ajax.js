@@ -1,14 +1,9 @@
 function loadFavourite() {
     const select_number = document.querySelector('.ajax-favourite__number');
     const liked_all = document.querySelectorAll('.like-btn--liked').length;
-    console.log('Liked all:', liked_all);
     select_number.innerHTML = liked_all.toString()
 }
-document.addEventListener('DOMContentLoaded', function() {
-    loadFavourite();
-});
 $(document).ready(function() {
-    console.log('Ajax script loaded');
     $('.ajax-favourite__btn').on('click', function() {
         const button = $(this); // Assign this to button
         const productId = button.data('product-id');

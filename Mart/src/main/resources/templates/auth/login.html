@@ -18,15 +18,32 @@
 
     <!-- Fonts -->
     <link rel="stylesheet" th:href="@{/user/assets/fonts/stylesheet.css}" />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Styles -->
     <link rel="stylesheet" th:href="@{/user/assets/css/main.css}" />
-
-    <!-- Scripts -->
-    <script th:src="@{/user/assets/js/scripts.js}"></script>
+    <link rel="stylesheet" th:href="@{/user/assets/css/loader.css}" />
 </head>
 <body>
 <main class="auth">
+
+    <!-- Sự kiện   -->
+    <div>
+        <div th:if="${param.logout}">
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    console.log('logout');
+                    createToast('info', 'fa-solid fa-circle-info', 'Thông báo', 'Bạn đã đăng xuất khỏi hệ thống.');
+                });
+            </script>
+        </div>
+        <div th:if="${param.register}">
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    createToast('info', 'fa-solid fa-circle-info', 'Thông báo', 'Bạn đã đăng kí tài khoản thành công.');
+                });
+            </script>
+        </div>
+    </div>
     <!-- Auth intro -->
     <div class="auth__intro d-md-none">
         <img th:src="@{/user/assets/img/auth/intro.svg}" alt="" class="auth__intro-img" />
@@ -34,7 +51,8 @@
             Giá trị thương hiệu cao cấp nhất, sản phẩm chất lượng cao và dịch vụ sáng tạo nhất.
         </p>
     </div>
-
+    <!-- Toast -->
+    <div class="notifications"></div>
     <!-- Auth content -->
     <div class="auth__content">
         <div class="auth__content-inner">
@@ -94,5 +112,9 @@
         </div>
     </div>
 </main>
+<!-- Scripts -->
+<script th:src="@{/user/assets/js/ajax.js}"></script>
+<script th:src="@{/user/assets/js/loader.js}"></script>
+<script th:src="@{/user/assets/js/scripts.js}"></script>
 </body>
 </html>

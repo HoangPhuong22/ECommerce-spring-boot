@@ -32,30 +32,3 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 });
-document.addEventListener('DOMContentLoaded', function() {
-    var imageElement = document.getElementById('image');
-    if (imageElement) {
-        imageElement.addEventListener('change', function(e) {
-            const img = document.getElementById('reviewImage');
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    img.style.display = 'block';
-                    img.src = e.target.result;
-                }
-                reader.readAsDataURL(file);
-            } else {
-                img.style.display = 'none';
-            }
-        });
-    }
-});
-document.addEventListener('DOMContentLoaded', function() {
-    const img = document.getElementById('reviewImage');
-    if (!img.src || img.src.trim() === "") {
-        img.style.display = 'none';
-    } else {
-        img.style.display = 'block';
-    }
-});

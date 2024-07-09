@@ -10,6 +10,7 @@ import vn.zerocoder.Mart.model.User;
 import vn.zerocoder.Mart.repository.RoleRepository;
 import vn.zerocoder.Mart.repository.UserRepository;
 import vn.zerocoder.Mart.service.UserService;
+import vn.zerocoder.Mart.utils.AuthUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +19,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoderConfig passwordEncoderConfig;
-
+    private final AuthUtils authUtils;
     @Override
     public Long save(UserRequest userRequest) {
 
@@ -40,5 +41,15 @@ public class UserServiceImpl implements UserService {
         if(userRepository.existsByUsername(user.getUsername())) return -1L;
         if(userRepository.existsByEmail(user.getEmail())) return -2L;
         return userRepository.save(user).getId();
+    }
+
+    @Override
+    public Long changePassword(String oldPassword, String newPassword, String confirmPassword) {
+        User user = authUtils.loadUserByUsername().getUserConfig();
+        if(!passwordEncoderConfig.passwordEncoder().matches(oldPassword, user.getPassword())) return -1L;
+        if(!newPassword.equals(confirmPassword)) return -2L;
+        user.setPassword(passwordEncoderConfig.passwordEncoder().encode(newPassword));
+        userRepository.save(user);
+        return user.getId();
     }
 }

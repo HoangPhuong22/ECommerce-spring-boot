@@ -2,6 +2,7 @@ package vn.zerocoder.Mart.controller.auth;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,17 +10,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import vn.zerocoder.Mart.configuration.CustomUserDetail;
 import vn.zerocoder.Mart.dto.request.UserRequest;
 import vn.zerocoder.Mart.service.UserService;
+import vn.zerocoder.Mart.utils.AuthUtils;
 
 @Controller
 @RequiredArgsConstructor
 public class AuthenticationController {
 
     private final UserService userService;
-
+    private final AuthUtils authUtils;
     @GetMapping("/login")
     public String login() {
+        CustomUserDetail user = authUtils.loadUserByUsername();
+        if(user != null) {
+            return "redirect:/";
+        }
         return "auth/login";
     }
     @GetMapping("/register")
@@ -48,6 +55,6 @@ public class AuthenticationController {
             bindingResult.rejectValue("email", "error.user", "Email đã tồn tại");
             return "auth/register";
         }
-        return "redirect:/login";
+        return "redirect:/login?register=true";
     }
 }

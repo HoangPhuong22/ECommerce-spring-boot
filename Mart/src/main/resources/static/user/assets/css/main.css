@@ -1795,6 +1795,7 @@ html {
   height: 50px;
   border-radius: 8px;
   cursor: pointer;
+  object-fit: cover;
 }
 .top-act__dropdown {
   right: -15px !important;

@@ -83,7 +83,7 @@
                                                 Chọn loại sản phẩm
                                             </label>
                                             <div class="form__text-input">
-                                                <select id="product-detail" class="form__input product-detail">
+                                                <select id="product-detail" class="form__input">
                                                     <option th:each="product_detail, index : ${detail}" th:text="${product_detail.sku}" th:data-price="${product_detail.price}"></option>
                                                 </select>
                                             </div>

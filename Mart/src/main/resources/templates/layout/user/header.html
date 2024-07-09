@@ -688,7 +688,7 @@
         <div class="top-act__btn-wrap">
           <a class="top-act__btn" href="">
             <img src="/user/assets/icons/heart.svg" alt="" class="icon top-act__icon" />
-            <span class="top-act__title ajax-favourite__number"></span>
+            <span class="top-act__title ajax-favourite__number" th:text="${userAdvice.getProductIdsFavourite.size()}"></span>
           </a>
         </div>
 
@@ -705,7 +705,7 @@
 
       <div class="top-act__user">
         <img
-                th:src="${'/image/' + #authentication.principal.avatarUrl}"
+                th:src="@{'/image/' + ${userAdvice.getAvatarUrl}}"
                 alt="" class="top-act__avatar"
         />
 
@@ -720,11 +720,11 @@
 
             <div class="user-menu__top">
               <img
-                      th:src="${'/image/' + #authentication.principal.avatarUrl}"
+                      th:src="@{'/image/' + ${userAdvice.getAvatarUrl}}"
                       alt="" class="user-menu__avatar"
               />
               <div>
-                <p class="user-menu__name" th:text="${#authentication.principal.fullName}"></p>
+                <p class="user-menu__name" th:text="${userAdvice.getFullName}"></p>
                 <p th:text="${'@' + #authentication.principal.username}" class="user-menu__email">
               </div>
             </div>
