@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/user/main.html}"
+>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tài khoản ngân hàng</title>
+</head>
+<div layout:fragment="content">
+    <main class="profile">
+        <div class="container">
+            <!-- Search bar -->
+            <div class="profile-container">
+                <div class="search-bar d-none d-md-flex">
+                    <input type="text" name="" id="" placeholder="Search for item" class="search-bar__input" />
+                    <button class="search-bar__submit">
+                        <img src="/user/assets/icons/search.svg" alt="" class="search-bar__icon icon" />
+                    </button>
+                </div>
+            </div>
+
+            <!-- Profile content -->
+            <div class="profile-container">
+                <div class="row gy-md-3">
+                    <div class="col-3 col-xl-4 d-lg-none">
+                        <aside class="profile__sidebar">
+                            <!-- User -->
+                            <div class="profile-user">
+                                <a href="/profile">
+                                    <img
+                                            th:src="@{'/image/' + ${userAdvice.getAvatarUrl}}"
+                                            alt=""
+                                            class="profile-user__avatar"
+                                    />
+                                </a>
+                                <h1 class="profile-user__name" th:text="${userAdvice.getFullName}"></h1>
+                                <p class="profile-user__desc" th:text="${'Ngày tham gia: ' + #dates.format(userAdvice.getUserConfig.created_at, 'dd/MM/yyyy')}"></p>
+                            </div>
+
+                            <div layout:insert="~{layout/user/leftmenu :: leftmenu}"></div>
+                        </aside>
+                    </div>
+                    <div class="col-9 col-xl-8 col-lg-12">
+                        <div class="cart-info">
+                            <div class="row gy-3">
+                                <div class="col-12">
+                                    <h2 class="cart-info__heading">
+                                        <a href="/profile">
+                                            <img
+                                                    src="/user/assets/icons/arrow-left.svg"
+                                                    alt=""
+                                                    class="icon cart-info__back-arrow"
+                                            />
+                                        </a>
+                                        Tài khoản ngân hàng
+                                    </h2>
+
+                                    <form th:action="@{'/profile/payment/' + ${paymentRequest.id}}" method="POST" class="form form-card" th:object="${paymentRequest}">
+                                        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                                        <input type="hidden" th:field="*{id}"/>
+                                        <!-- Form row 1 -->
+                                        <div class="form__row">
+                                            <div class="form__group">
+                                                <label for="payment_type_id" class="form__label form-card__label">
+                                                    Chọn phương thức thanh toán
+                                                </label>
+                                                <div class="form__text-input">
+                                                    <select
+                                                            th:field="*{payment_type_id}"
+                                                            id="payment_type_id"
+                                                            class="form__input"
+                                                    >
+                                                        <option value="">Chọn phương thức thanh toán</option>
+                                                        <option
+                                                                th:each="paymentType : ${paymentTypes}"
+                                                                th:value="${paymentType.id}"
+                                                                th:text="${paymentType.name}"
+                                                        ></option>
+                                                    </select>
+                                                </div>
+                                                <p class="form__error" th:if="${#fields.hasErrors('payment_type_id')}" th:errors="*{payment_type_id}"></p>
+                                            </div>
+                                            <div class="form__group">
+                                                <label for="provider" class="form__label form-card__label">
+                                                    Ngân hàng
+                                                </label>
+                                                <div class="form__text-input">
+                                                    <input
+                                                            type="text"
+                                                            th:field="*{provider}"
+                                                            id="provider"
+                                                            class="form__input"
+                                                            placeholder="Nhập ngân hàng của bạn"
+                                                    />
+                                                </div>
+                                                <p class="form__error" th:if="${#fields.hasErrors('provider')}" th:errors="*{provider}"></p>
+                                            </div>
+                                        </div>
+                                        <div class="form__row">
+                                            <div class="form__group">
+                                                <label for="account_name" class="form__label form-card__label">
+                                                    Tên tài khoản
+                                                </label>
+                                                <div class="form__text-input">
+                                                    <input
+                                                            th:field="*{account_name}"
+                                                            type="text"
+                                                            id="account_name"
+                                                            class="form__input"
+                                                            placeholder="Nhập tên tài khoản của bạn"
+                                                    />
+                                                </div>
+                                                <p class="form__error" th:if="${#fields.hasErrors('account_name')}" th:errors="*{account_name}"></p>
+                                            </div>
+                                            <div class="form__group">
+                                                <label for="account_number" class="form__label form-card__label">
+                                                    Số tài khoản
+                                                </label>
+                                                <div class="form__text-input">
+                                                    <input
+                                                            th:field="*{account_number}"
+                                                            type="text"
+                                                            id="account_number"
+                                                            class="form__input"
+                                                            placeholder="Nhập số tài khoản của bạn"
+                                                    />
+                                                </div>
+                                                <p class="form__error" th:if="${#fields.hasErrors('account_number')}" th:errors="*{account_number}"></p>
+                                            </div>
+                                        </div>
+                                        <div class="form__row">
+                                            <div class="form__group">
+                                                <label for="expired" class="form__label form-card__label">
+                                                    Ngày hết hạn
+                                                </label>
+                                                <div class="form__text-input">
+                                                    <input
+                                                            th:field="*{expired}"
+                                                            type="date"
+                                                            id="expired"
+                                                            class="form__input"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-card__bottom">
+                                            <a class="btn btn--text" href="/profile">Quay lại</a>
+                                            <a
+                                                    class="btn btn--danger btn--rounded"
+                                                    th:href="'/profile/payment/delete/' + ${paymentRequest.id}"
+                                                    onclick="if (!confirm('Bạn có chắc chắn muốn xóa tài khoản này không?')) return false;"
+                                            >
+                                                Xóa tài khoản
+                                            </a>
+                                            <button class="btn btn--primary btn--rounded">Lưu</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

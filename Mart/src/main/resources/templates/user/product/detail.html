@@ -3,6 +3,7 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/user/main.html}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
 <head>
     <meta charset="UTF-8">
@@ -65,8 +66,7 @@
                         </div>
                     </div>
                     <div class="col-7 col-xl-6 col-lg-12">
-                        <form action="" class="form">
-                            <section class="prod-info">
+                        <section class="prod-info">
                                 <h1
                                     class="prod-info__heading"
                                     th:text="${product.name}"
@@ -84,7 +84,11 @@
                                             </label>
                                             <div class="form__text-input">
                                                 <select id="product-detail" class="form__input">
-                                                    <option th:each="product_detail, index : ${detail}" th:text="${product_detail.sku}" th:data-price="${product_detail.price}"></option>
+                                                    <option th:each="product_detail, index : ${detail}"
+                                                            th:text="${product_detail.sku}"
+                                                            th:data-price="${product_detail.price}"
+                                                            th:data-productId="${product_detail.id}"
+                                                    ></option>
                                                 </select>
                                             </div>
                                         </div>
@@ -128,20 +132,36 @@
                                     <div class="col-12">
                                         <div class="prod-info__card">
                                             <div class="prod-info__row">
-                                                <span class="prod-info__price">$500.00</span>
-                                                <span class="prod-info__tax">10%</span>
+                                                <span class="prod-prop__title">Còn tồn kho: </span>
+                                                <span class="prod-info__tax" th:text="${product.quantity}"></span>
+                                                <div class="form__group" style="margin-top: 0px; margin-left: auto;">
+                                                    <div class="form__text-input">
+                                                        <select id="quantity-cart" class="form__input">
+                                                            <option
+                                                                    th:each="i : ${#numbers.sequence(1, product.quantity)}"
+                                                                    th:text="${i}"
+                                                                    th:data-quantity="${i}"
+                                                            >
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <p class="prod-info__total-price js-price-select" th:utext="${#numbers.formatDecimal(product.price - (product.price * product.promotionRate / 100), 0, 'COMMA', 0, 'POINT')} + 'đ'">
-                                            <div class="prod-info__row">
-                                                <button class="btn btn--primary prod-info__add-to-cart">
+                                            <div
+                                                class="prod-info__row"
+                                            >
+                                                <button
+                                                        class="btn btn--primary prod-info__add-to-cart"
+                                                        id = "ajax-cart__add"
+                                                 >
                                                     Thêm vào giỏ hàng
-                                                </button>
+                                                 </button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </section>
-                        </form>
                     </div>
                 </div>
             </div>

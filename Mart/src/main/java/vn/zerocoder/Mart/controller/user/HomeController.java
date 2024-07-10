@@ -17,6 +17,7 @@ public class HomeController {
     private final CategoryService categoryService;
     private final BrandService brandService;
     private final AuthUtils authUtils;
+
     @GetMapping("/")
     public String home(Model theModel) {
         CustomUserDetail customUserDetail = authUtils.loadUserByUsername();

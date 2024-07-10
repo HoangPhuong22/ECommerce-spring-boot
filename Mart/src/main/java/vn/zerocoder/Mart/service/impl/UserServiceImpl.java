@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import vn.zerocoder.Mart.configuration.PasswordEncoderConfig;
 import vn.zerocoder.Mart.dto.request.UserRequest;
 import vn.zerocoder.Mart.enums.UserStatus;
+import vn.zerocoder.Mart.model.Cart;
 import vn.zerocoder.Mart.model.Profile;
 import vn.zerocoder.Mart.model.User;
 import vn.zerocoder.Mart.repository.RoleRepository;
@@ -28,16 +29,20 @@ public class UserServiceImpl implements UserService {
                 .lastName(userRequest.getLastName())
                 .avatar("default/avatar.webp")
                 .build();
+        Cart cart = Cart.builder().build();
 
         User user = User.builder()
                 .username(userRequest.getUsername())
                 .password(passwordEncoderConfig.passwordEncoder().encode(userRequest.getPassword()))
                 .email(userRequest.getEmail())
                 .profile(profile)
+                .cart(cart)
                 .status(UserStatus.ACTIVE)
                 .build();
 
+        cart.setUser(user);
         profile.setUser(user);
+
         if(userRepository.existsByUsername(user.getUsername())) return -1L;
         if(userRepository.existsByEmail(user.getEmail())) return -2L;
         return userRepository.save(user).getId();

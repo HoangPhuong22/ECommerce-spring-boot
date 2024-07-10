@@ -1,0 +1,41 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+<div layout:fragment="toast">
+    <div th:if="${param.addressSave}">
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                createToast('success', 'fa-solid fa-circle-check', 'Địa chỉ', 'Đã cập nhật địa chỉ thành công');
+            });
+        </script>
+    </div>
+    <div th:if="${param.passwordChange}">
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                createToast('success', 'fa-solid fa-circle-check', 'Đã thay đổi mật khẩu thành công');
+            });
+        </script>
+    </div>
+    <div th:if="${param.profileSave}">
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                createToast('success', 'fa-solid fa-circle-check', 'Thông tin', 'Đã cập nhật thông tin cá nhân thành công');
+            });
+        </script>
+    </div>
+    <div th:if="${param.paymentSave}">
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                createToast('success', 'fa-solid fa-circle-check', 'Thông tin', 'Đã cập nhật thông tin thanh toán thành công');
+            });
+        </script>
+    </div>
+    <div th:if="${param.paymentDelete}">
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                createToast('success', 'fa-solid fa-circle-check', 'Thông tin', 'Đã xóa thông tin thanh toán thành công');
+            });
+        </script>
+    </div>
+</div>

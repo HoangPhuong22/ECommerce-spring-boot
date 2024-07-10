@@ -3,6 +3,8 @@ package vn.zerocoder.Mart.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -16,7 +18,7 @@ public class Cart {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {
+    @OneToOne(fetch = FetchType.EAGER, cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE,
             CascadeType.DETACH,
@@ -25,5 +27,7 @@ public class Cart {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToMany(mappedBy = "cart", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<CartDetail> cartDetails;
 
 }

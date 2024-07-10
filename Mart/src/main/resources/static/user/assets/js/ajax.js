@@ -43,3 +43,53 @@ $(document).ready(function() {
         }
     });
 });
+
+// Thêm vào giỏ hàng
+$(document).ready(function() {
+    const selectedOption = $(this).find('option:selected');
+    let quantity = 1,  productId = selectedOption.data('productid');
+
+    $('#quantity-cart').on('change', function() {
+        const selectedOption = $(this).find('option:selected');
+        quantity = selectedOption.data('quantity');
+    });
+
+    $('#product-detail').on('change', function() {
+        const selectedOption = $(this).find('option:selected');
+        productId = selectedOption.data('productid');
+    });
+    $('#ajax-cart__add').on('click', function() {
+        addCart(quantity, productId);
+    });
+});
+function addCart(quantity, productId, isAdd = true) {
+    console.log('Adding product to cart:', productId, quantity);
+    const csrfToken = $('meta[name="csrf-token"]').attr('content'); // Lấy CSRF token
+    $.ajax({
+        url: '/cart/add',
+        method: 'POST',
+        data: {
+            productDetailId: productId,
+            quantity: quantity,
+            isAdd: isAdd
+        },
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+        },
+        success: function(response) {
+            if(!isNaN(response)) {
+                if (response > 0) {
+                    createToast('success', 'fa-solid fa-circle-check', 'Giỏ hàng', 'Đã thêm sản phẩm vào giỏ hàng.');
+                } else {
+                    createToast('warning', 'fa-solid fa-circle-exclamation', 'Giỏ hàng', 'Vượt quá số lượng tồn kho.');
+                }
+            } else {
+                createToast('warning', 'fa-solid fa-circle-exclamation', 'Yêu cầu', 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log('Error adding product to cart:', error);
+            createToast('error', 'fa-solid fa-circle-xmark', 'Lỗi', 'Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng.');
+        }
+    });
+}

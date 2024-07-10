@@ -1,11 +1,12 @@
 package vn.zerocoder.Mart.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.cglib.core.Local;
 
+import java.time.LocalDate;
+
+@Getter
 @Setter
 @Entity
 @Builder
@@ -18,10 +19,13 @@ public class PaymentMethod extends BaseEntity{
     private String provider; // Ví dụ: Momo, ZaloPay, Visa, MasterCard, PayPal, ...
 
     @Column(name = "account_number")
-    private String account_number; // Số tài khoản hoặc số thẻ
+    private String accountNumber; // Số tài khoản hoặc số thẻ
 
     @Column(name = "account_name")
-    private String account_name; // Tên chủ tài khoản hoặc tên trên thẻ
+    private String accountName; // Tên chủ tài khoản hoặc tên trên thẻ
+
+    @Column(name = "expired")
+    private LocalDate expired; // Ngày hết hạn thẻ
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {
             CascadeType.PERSIST,

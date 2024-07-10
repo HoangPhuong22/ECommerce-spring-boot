@@ -44,9 +44,9 @@ public class ProductDetailController {
         model.addAttribute("detail", detail);
         model.addAttribute("product", productResponse);
 
-        model.addAttribute(("brandService"), brandService);
+        model.addAttribute("brandService", brandService);
 
         model.addAttribute("similar_product", productService.findAllByCategoryIdAndBrandId(category_id, brand_id));
-        return "user/product-detail";
+        return "user/product/detail";
     }
 }

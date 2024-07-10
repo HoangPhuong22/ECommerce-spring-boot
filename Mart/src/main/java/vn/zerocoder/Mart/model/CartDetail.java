@@ -32,9 +32,9 @@ public class CartDetail {
             CascadeType.DETACH,
             CascadeType.REFRESH
     })
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_detail_id")
     private ProductDetail productDetail;
 
     @Column(name = "qty")
-    private Integer qty;
+    private Long quantity;
 }

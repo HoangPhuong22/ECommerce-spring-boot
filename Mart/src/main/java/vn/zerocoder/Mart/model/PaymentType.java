@@ -1,11 +1,9 @@
 package vn.zerocoder.Mart.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+@Getter
 @Setter
 @Entity
 @Builder
@@ -23,4 +21,7 @@ public class PaymentType {
 
     @Column(name = "description")
     private String description;
+
+    @Column(name = "requires_account")
+    private Boolean requiresAccount;
 }

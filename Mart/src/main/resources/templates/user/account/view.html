@@ -13,28 +13,6 @@
 <body>
 <!-- MAIN -->
 <div layout:fragment="content">
-    <div>
-        <div th:if="${param.addressSave}">
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    createToast('success', 'fa-solid fa-circle-check', 'Địa chỉ', 'Đã cập nhật địa chỉ thành công');
-                });
-            </script>
-        </div>
-        <div th:if="${param.passwordChange}">
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    createToast('success', 'fa-solid fa-circle-check', 'Đã thay đổi mật khẩu thành công');
-                });
-            </script>
-        </div>
-        <div th:if="${param.profileSave}">
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    createToast('success', 'fa-solid fa-circle-check', 'Thông tin', 'Đã cập nhật thông tin cá nhân thành công');
-                });
-            </script>
-    </div>
     <main class="profile">
         <div class="container">
             <!-- Search bar -->
@@ -72,73 +50,49 @@
                             <div class="row gy-3">
                                 <!-- My Wallet -->
                                 <div class="col-12">
-                                    <h2 class="cart-info__heading">My Wallet</h2>
-                                    <p class="cart-info__desc profile__desc">Payment methods</p>
+                                    <h2 class="cart-info__heading">Ví của tôi</h2>
+                                    <p class="cart-info__desc profile__desc">Thanh toán</p>
 
                                     <div class="row gy-md-2 row-cols-3 row-cols-xl-2 row-cols-lg-1">
                                         <!-- Payment card 1 -->
-                                        <div class="col">
-                                            <article class="payment-card" style="--bg-color: #1e2e69">
-                                                <img
-                                                        th:src="@{/user/assets/img/card/plane-bg.svg}"
-                                                        alt=""
-                                                        class="payment-card__img"
-                                                />
-                                                <div class="payment-card__top">
-                                                    <img th:src="@{/user/assets/img/card/plane.svg}" alt="" />
-                                                    <span class="payment-card__type">FeatherCard</span>
-                                                </div>
-                                                <div class="payment-card__number">1234 4567 8901 2221</div>
-                                                <div class="payment-card__bottom">
-                                                    <div>
-                                                        <p class="payment-card__label">Card Holder</p>
-                                                        <p class="payment-card__value">Imran Khan</p>
+                                        <div class="col" th:each="card : ${user.userConfig.paymentMethods}">
+                                            <a th:href="@{'/profile/payment/' + ${card.id}}">
+                                                <article class="payment-card" style="--bg-color: #1e2e69">
+                                                    <img
+                                                            th:src="@{/user/assets/img/card/plane-bg.svg}"
+                                                            alt=""
+                                                            class="payment-card__img"
+                                                    />
+                                                    <div class="payment-card__top">
+                                                        <img th:src="@{/user/assets/img/card/plane.svg}" alt="" />
+                                                        <span class="payment-card__type" th:text="${card.provider}"></span>
                                                     </div>
-                                                    <div class="payment-card__expired">
-                                                        <p class="payment-card__label">Expired</p>
-                                                        <p class="payment-card__value">10/22</p>
+                                                    <div class="payment-card__number" th:text="${card.accountNumber}"></div>
+                                                    <div class="payment-card__bottom">
+                                                        <div>
+                                                            <p class="payment-card__label" th:text="${card.provider}"></p>
+                                                            <p class="payment-card__value" th:text="${card.accountName}"></p>
+                                                        </div>
+                                                        <div class="payment-card__expired">
+                                                            <p class="payment-card__label">Expired</p>
+                                                            <p class="payment-card__value" th:text="${#temporals.format(card.expired, 'dd/MM/yyyy')}"></p>
+                                                        </div>
+                                                        <div class="payment-card__circle"></div>
                                                     </div>
-                                                    <div class="payment-card__circle"></div>
-                                                </div>
-                                            </article>
+                                                </article>
+                                            </a>
                                         </div>
 
-                                        <!-- Payment card 2 -->
-                                        <div class="col">
-                                            <article class="payment-card" style="--bg-color: #354151">
-                                                <img
-                                                        th:src="@{/user/assets/img/card/leaf-bg.svg}"
-                                                        alt=""
-                                                        class="payment-card__img"
-                                                />
-                                                <div class="payment-card__top">
-                                                    <img th:src="@{/user/assets/img/card/leaf.svg}" alt="" />
-                                                    <span class="payment-card__type">FeatherCard</span>
-                                                </div>
-                                                <div class="payment-card__number">1234 4567 2221 8901</div>
-                                                <div class="payment-card__bottom">
-                                                    <div>
-                                                        <p class="payment-card__label">Card Holder</p>
-                                                        <p class="payment-card__value">Imran Khan</p>
-                                                    </div>
-                                                    <div class="payment-card__expired">
-                                                        <p class="payment-card__label">Expired</p>
-                                                        <p class="payment-card__value">11/22</p>
-                                                    </div>
-                                                    <div class="payment-card__circle"></div>
-                                                </div>
-                                            </article>
-                                        </div>
 
                                         <!-- Add new payment card -->
                                         <div class="col">
-                                            <a class="new-card" href="./add-new-card.html">
+                                            <a class="new-card" href="/profile/payment">
                                                 <img
                                                         th:src="@{/user/assets/icons/plus.svg}"
                                                         alt=""
                                                         class="new-card__icon icon"
                                                 />
-                                                <p class="new-card__text">Add New Card</p>
+                                                <p class="new-card__text">Thêm thẻ mới</p>
                                             </a>
                                         </div>
                                     </div>

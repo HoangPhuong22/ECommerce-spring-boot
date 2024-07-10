@@ -29,7 +29,9 @@
     <!-- Header -->
     <header id="header" class="header" layout:insert="~{layout/user/header :: header}"></header>
     <!-- Toast -->
-    <div class="notifications"></div>
+    <div class="notifications">
+    </div>
+    <div layout:insert="~{layout/user/toast :: toast}"></div>
     <!-- MAIN -->
     <div layout:fragment="content"></div>
 
