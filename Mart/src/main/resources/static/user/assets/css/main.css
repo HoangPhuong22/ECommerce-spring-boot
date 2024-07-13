@@ -4333,13 +4333,13 @@ html {
   appearance: none;
 }
 .cart-info__checkbox-input::before {
-  content: url("/static/user/assets/icons/checkbox-uncheck.svg");
+  content: url("/user/assets/icons/checkbox-uncheck.svg");
 }
 .cart-info__checkbox-input:not(:checked)::before {
   filter: var(--icon-color);
 }
 .cart-info__checkbox-input:checked::before {
-  content: url("/static/user/assets/icons/checkbox-checked.svg");
+  content: url("/user/assets/icons/checkbox-checked.svg");
 }
 .cart-info__form-row {
   flex-direction: row;

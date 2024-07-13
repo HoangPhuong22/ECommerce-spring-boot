@@ -23,7 +23,7 @@ public class BrandMapper {
                 .product_count(productCount(brand))
                 .build();
     }
-    private Integer productCount(Brand brand) {
-        return brand.getProducts().stream().map(Product::getQuantity).reduce(0, Integer::sum);
+    private Long productCount(Brand brand) {
+        return brand.getProducts().stream().map(Product::getQuantity).reduce(0L, Long::sum);
     }
 }

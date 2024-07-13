@@ -2,7 +2,6 @@ package vn.zerocoder.Mart.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import vn.zerocoder.Mart.dto.request.CartDetailRequest;
 import vn.zerocoder.Mart.model.Cart;
 import vn.zerocoder.Mart.model.CartDetail;
 import vn.zerocoder.Mart.model.ProductDetail;
@@ -24,7 +23,7 @@ public class CartDetailServiceImpl implements CartDetailService {
     private final ProductRepository productRepository;
 
     @Override
-    public Long save(Long quantity, Long productDetailId, Boolean isAdd) {
+    public Long save(Long quantity, Long productDetailId, Integer isAdd) {
 
         // Lấy thông tin giỏ hàng của người dùng
         Cart cart = authUtils.loadUserByUsername().getUserConfig().getCart();
@@ -33,7 +32,7 @@ public class CartDetailServiceImpl implements CartDetailService {
         ProductDetail productDetail = productDetailRepository.findById(productDetailId).orElseThrow();
 
         // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
-        CartDetail cartDetail = cartDetailRepository.findByProductDetailId(productDetailId);
+        CartDetail cartDetail = cartDetailRepository.findByProductDetailIdAndCartId(productDetailId, cart.getId());
 
         // Nếu chưa có thì tạo mới
         if(cartDetail == null) {
@@ -44,9 +43,17 @@ public class CartDetailServiceImpl implements CartDetailService {
                     .build();
         }  // Nếu có rồi thì cập nhật số lượng
         else {
-            if(isAdd) cartDetail.setQuantity(cartDetail.getQuantity() + quantity);
+            if(isAdd == 1) cartDetail.setQuantity(cartDetail.getQuantity() + quantity);
+            else if(isAdd == -1) {
+                cart.getCartDetails().remove(cartDetail);
+                cartRepository.save(cart);
+                cartDetailRepository.delete(cartDetail);
+                return 0L;
+            }
             else cartDetail.setQuantity(cartDetail.getQuantity() - quantity);
             if(cartDetail.getQuantity() <= 0) {
+                cart.getCartDetails().remove(cartDetail);
+                cartRepository.save(cart);
                 cartDetailRepository.delete(cartDetail);
                 return 0L;
             }
@@ -60,6 +67,6 @@ public class CartDetailServiceImpl implements CartDetailService {
     @Override
     public Long delete(Long id) {
         cartDetailRepository.deleteById(id);
-        return id;
+        return 0L;
     }
 }

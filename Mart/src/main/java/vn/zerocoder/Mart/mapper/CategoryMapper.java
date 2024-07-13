@@ -36,7 +36,7 @@ public class CategoryMapper {
                 .build()).toList();
     }
 
-    public Integer productCount(Category category) {
-        return category.getProducts().stream().map(Product::getQuantity).reduce(0, Integer::sum);
+    public Long productCount(Category category) {
+        return category.getProducts().stream().map(Product::getQuantity).reduce(0L, Long::sum);
     }
 }

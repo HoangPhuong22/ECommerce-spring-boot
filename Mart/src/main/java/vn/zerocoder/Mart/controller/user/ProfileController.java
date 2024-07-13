@@ -31,6 +31,10 @@ public class ProfileController {
         theModel.addAttribute("user", user);
         return "user/account/view";
     }
+
+
+
+
     @GetMapping("/edit")
     public String editProfile(Model theModel) {
         ProfileRequest profile = authUtils.loadProfile();
@@ -38,6 +42,9 @@ public class ProfileController {
         theModel.addAttribute("profileRequest", profile);
         return "user/account/edit";
     }
+
+
+
     @PostMapping("/edit")
     public String editProfile(@Valid @ModelAttribute("profileRequest") ProfileRequest profileRequest,
                               BindingResult bindingResult, Model theModel
@@ -48,6 +55,9 @@ public class ProfileController {
         profileService.update(profileRequest);
         return "redirect:/profile?profileSave=true";
     }
+
+
+
     @GetMapping("/address")
     public String address(Model theModel) {
         theModel.addAttribute("addressRequest", authUtils.loadAddress() == null ? new AddressRequest() : authUtils.loadAddress());
@@ -66,10 +76,16 @@ public class ProfileController {
             addressService.update(addressRequest);
         return "redirect:/profile?addressSave=true";
     }
+
+
+
     @GetMapping("/change-password")
     public String changePassword() {
         return "user/account/change-password";
     }
+
+
+
     @PostMapping("/change-password")
     public String changePassword(@RequestParam("oldPassword") String oldPassword,
                                  @RequestParam("passwordNew") String newPassword,
@@ -85,12 +101,15 @@ public class ProfileController {
         return "redirect:/profile?passwordChange=true";
     }
 
+
     @GetMapping("/payment")
     public String payment(Model theModel) {
         theModel.addAttribute("paymentTypes", paymentTypeService.findAllByRequiresAccount(true));
         theModel.addAttribute("paymentRequest", new PaymentMethodRequest());
         return "user/payment/add";
     }
+
+
     @PostMapping("/payment")
     public String payment(@Valid @ModelAttribute("paymentRequest") PaymentMethodRequest request, BindingResult bindingResult, Model theModel) {
         if (bindingResult.hasErrors()) {
@@ -105,12 +124,16 @@ public class ProfileController {
         }
         return "redirect:/profile?paymentSave=true";
     }
+
+
     @GetMapping("/payment/{id}")
     public String payment(@PathVariable("id") Long id, Model theModel) {
         theModel.addAttribute("paymentTypes", paymentTypeService.findAllByRequiresAccount(true));
         theModel.addAttribute("paymentRequest", paymentMethodService.findById(id));
         return "user/payment/edit";
     }
+
+
     @PostMapping("/payment/{id}")
     public String payment(@PathVariable("id") Long id, @Valid @ModelAttribute("paymentRequest") PaymentMethodRequest request, BindingResult bindingResult, Model theModel) {
         if (bindingResult.hasErrors()) {
@@ -125,9 +148,17 @@ public class ProfileController {
         }
         return "redirect:/profile?paymentSave=true";
     }
+
+
     @GetMapping("/payment/delete/{id}")
     public String deletePayment(@PathVariable("id") Long id) {
         paymentMethodService.delete(id);
         return "redirect:/profile?paymentDelete=true";
+    }
+
+    @GetMapping("/order")
+    public String order(Model theModel) {
+        theModel.addAttribute("orders", authUtils.loadUserByUsername().getUserConfig().getOrders());
+        return "user/order/list";
     }
 }

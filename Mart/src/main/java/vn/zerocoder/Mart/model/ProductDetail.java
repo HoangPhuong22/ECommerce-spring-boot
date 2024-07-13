@@ -18,7 +18,7 @@ public class ProductDetail extends BaseEntity{
     private String sku;
 
     @Column(name = "qty")
-    private Integer qty;
+    private Long qty;
 
     @Column(name = "product_image")
     private String productImage;
@@ -51,6 +51,6 @@ public class ProductDetail extends BaseEntity{
     @PrePersist
     @PreUpdate
     private void updateQuantity() {
-        this.product.setQuantity(this.product.getQuantity() + this.qty);
+        this.product.updateQuantity();
     }
 }

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/user/main.html}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Giỏ hàng</title>
+</head>
+<div layout:fragment="content">
+    <!-- MAIN -->
+    <main class="checkout-page">
+        <div class="container">
+            <!-- Search bar -->
+            <div class="checkout-container">
+                <div class="search-bar d-none d-md-flex">
+                    <input type="text" name="" id="" placeholder="Search for item" class="search-bar__input" />
+                    <button class="search-bar__submit">
+                        <img src="/user/assets/icons/search.svg" alt="" class="search-bar__icon icon" />
+                    </button>
+                </div>
+            </div>
+
+            <!-- Breadcrumbs -->
+            <div class="checkout-container">
+                <ul class="breadcrumbs checkout-page__breadcrumbs">
+                    <li>
+                        <a href="/" class="breadcrumbs__link">
+                            Home
+                            <img src="/user/assets/icons/arrow-right.svg" alt="" />
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/cart" class="breadcrumbs__link">
+                            Giỏ hàng
+                            <div style="color: red;" th:if="${cartDetail.size() == 0}">
+                                ( Giỏ hàng trống )
+                            </div>
+                            <img src="/user/assets/icons/arrow-right.svg" alt="">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/shipping" class="breadcrumbs__link breadcrumbs__link--current">
+                            Giao hàng
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Checkout content -->
+            <form action="/shipping/order" method="POST">
+                <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                <div class="checkout-container">
+                    <div class="row gy-xl-3">
+                        <div class="col-8 col-xl-12">
+                            <div class="cart-info">
+                                <h1 class="cart-info__heading">Thông tin mua hàng</h1>
+                                <div class="cart-info__separate"></div>
+                                <div class="user-address">
+                                    <div class="user-address__top">
+                                        <div >
+                                            <h2 class="user-address__title">Địa chỉ giao hàng </h2>
+                                            <p class="user-address__desc">Chúng tôi nên giao hàng cho bạn ở đâu</p>
+                                        </div>
+                                        <button class="user-address__btn btn btn--primary btn--rounded btn--small js-toggle" toggle-target="#add-new-address">
+                                            <img src="/user/assets/icons/plus.svg" alt="">
+                                            Thêm địa chỉ mới
+                                        </button>
+                                    </div>
+                                    <div class="user-address__list" >
+
+                                        <p class="user-address__message" th:if="${userAdvice.getShippingAddresses.size() == 0}">
+                                            Không có địa chỉ giao hàng nào được lưu.
+                                            <a class="user-address__link js-toggle" href="#!" toggle-target="#add-new-address">Tạo địa chỉ mới</a>
+                                        </p>
+
+                                        <!-- Address card 1 -->
+                                        <article class="address-card"
+                                                 th:each="address, index : ${userAdvice.getShippingAddresses}"
+                                        >
+                                            <div class="address-card__left">
+                                                <div class="address-card__choose">
+                                                    <label class="cart-info__checkbox">
+                                                        <input
+                                                                type="radio"
+                                                                name="addressId"
+                                                                class="cart-info__checkbox-input"
+                                                                th:checked="${index.count == 1}"
+                                                                th:value="${address.id}"
+                                                        />
+                                                    </label>
+                                                </div>
+                                                <div class="address-card__info">
+                                                    <h3 class="address-card__title" th:text="${address.recipientName}"></h3>
+                                                    <p class="address-card__desc" th:text="${address.phoneNumber}">
+                                                    <p class="address-card__desc" th:text="${address}">
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="address-card__right">
+                                                <div class="address-card__ctrl">
+                                                    <a
+                                                            class="cart-item__ctrl-btn"
+                                                            th:href="@{'/shipping/address/delete/' + ${address.id}}"
+                                                            onclick="if (!confirm('Bạn có chắc chắn muốn xóa địa chỉ này không?')) return false;"
+                                                    >
+                                                        <img src="/user/assets/icons/trash.svg" alt="" />
+                                                        Xóa
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </article>
+
+                                    </div>
+                                </div>
+                                <div class="cart-info__separate" ></div>
+                                <h3 class="cart-info__sub-heading">Phương thức giao hàng</h3>
+                                <label th:each="shippingMethod , index: ${shippingMethods}">
+                                    <article class="payment-item payment-item--pointer">
+                                        <img
+                                                src="/user/assets/img/payment/delivery-1.png"
+                                                alt=""
+                                                class="payment-item__thumb"
+                                        />
+                                        <div class="payment-item__content">
+                                            <div class="payment-item__info">
+                                                <h3 class="payment-item__title" th:text="${shippingMethod.name}"></h3>
+                                                <p class="payment-item__desc payment-item__desc--low" th:text="${shippingMethod.description}"></p>
+                                                </p>
+                                            </div>
+
+                                            <span class="cart-info__checkbox payment-item__checkbox">
+                                        <input
+                                                type="radio"
+                                                name="shippingMethodId"
+                                                th:checked="${index.count == 1}"
+                                                th:value="${shippingMethod.id}"
+                                                class="cart-info__checkbox-input payment-item__checkbox-input"
+                                        />
+                                        <span class="payment-item__cost" th:if="${shippingMethod.price == 0}">Free</span>
+                                        <span class="payment-item__cost" th:unless="${shippingMethod.price == 0}" th:text="${#numbers.formatDecimal(shippingMethod.price, 0, 'COMMA', 0, 'POINT') + ' đ'}"></span>
+                                    </span>
+                                        </div>
+                                    </article>
+                                </label>
+                                <div class="cart-info__separate" ></div>
+                                <h2 class="cart-info__sub-heading">Chi tiết đơn hàng</h2>
+                                <div class="cart-info__list">
+                                    <!-- Cart item 1 -->
+                                    <article class="cart-item" th:each="cart : ${cartDetail}">
+                                        <a th:href="@{'/product/' + ${cart.productDetail.product.id}}">
+                                            <img
+                                                    th:src="@{'/image/' + ${cart.productDetail.productImage}}"
+                                                    alt=""
+                                                    class="cart-item__thumb"
+                                            />
+                                        </a>
+                                        <div class="cart-item__content">
+                                            <div class="cart-item__content-left">
+                                                <h3 class="cart-item__title">
+                                                    <a th:href="@{'/product/' + ${cart.productDetail.product.id}}"
+                                                       th:text="${cart.productDetail.sku}">
+                                                    </a>
+                                                </h3>
+                                                <p class="cart-item__price-wrap"></p>
+                                                <span
+                                                        class="cart-item__price-wrap"
+                                                        th:text="${#numbers.formatDecimal(cart.productDetail.price, 0, 'COMMA', 0, 'POINT')} + ' đ'"
+                                                >
+                                        </span>
+                                                <span class="cart-item__status" th:if="${cart.productDetail.qty > 0}"> | Còn hàng</span>
+                                                <span class="cart-item__status" th:unless="${cart.productDetail.qty > 0}"> | Hết hàng</span>
+                                                <p class="cart-item__price-wrap"></p>
+                                                <div class="cart-item__ctrl cart-item__ctrl--md-block">
+                                                    <div class="cart-item__input">
+                                                        <span th:text="${cart.quantity}"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="cart-item__content-right">
+                                                <p class="cart-item__total-price" th:text="${#numbers.formatDecimal(cart.productDetail.price * cart.quantity, 0, 'COMMA', 0, 'POINT')} + ' đ'">
+                                                <div class="cart-item__ctrl">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Modal: confirm remove shopping cart item -->
+                                        <div id="delete-confirm" class="modal modal--small hide">
+                                            <div class="modal__content">
+                                                <p class="modal__text">Bạn có chắc chắn muốn xóa sản phẩm này khỏi danh sách mua hàng?</p>
+                                                <div class="modal__bottom">
+                                                    <button class="btn btn--small btn--outline modal__btn js-toggle" toggle-target="#delete-confirm">
+                                                        Tiếp tục
+                                                    </button>
+                                                    <button
+                                                            th:onclick="'addCart(1, ' + ${cart.productDetail.id} + ', -1)'"
+                                                            class="btn btn--small btn--danger btn--primary modal__btn btn--no-margin"
+                                                            toggle-target="#delete-confirm"
+                                                    >
+                                                        Xóa
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="modal__overlay js-toggle" th:toggle-target="${'#delete-confirm'}"></div>
+                                        </div>
+                                    </article>
+                                </div>
+                                <div class="cart-info__bottom d-md-none">
+                                    <div class="row">
+                                        <div class="col-8 col-xxl-7">
+                                            <div class="cart-info__continue">
+                                                <a href="/cart" class="cart-info__continue-link">
+                                                    <img
+                                                            class="cart-info__continue-icon icon"
+                                                            src="/user/assets/icons/arrow-down-2.svg"
+                                                            alt=""
+                                                    />
+                                                    Quay lại giỏ hàng
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4 col-xl-12" th:if="${cartDetail.size() > 0}">
+                            <div class="cart-info">
+                                <div class="cart-info__row">
+                                    <span>Số sản phẩm: </span>
+                                    <span th:text="${userAdvice.getTotalQtyCart}"></span>
+                                </div>
+                                <div class="cart-info__row">
+                                    <span>Tổng tiền: </span>
+                                    <span th:text="${#numbers.formatDecimal(userAdvice.getTotalPriceCart, 0, 'COMMA', 0, 'POINT')} + ' đ'"></span>
+                                </div>
+                                <div class="cart-info__separate"></div>
+                                <div class="cart-info__row">
+                                    <span>Tổng giá trị đơn hàng</span>
+                                    <span th:text="${#numbers.formatDecimal(userAdvice.getTotalPriceCart, 0, 'COMMA', 0, 'POINT')} + ' đ'"></span>
+                                </div>
+                                <button class="cart-info__next-btn btn btn--primary btn--rounded ajax-order__add" style="width: 100%">
+                                    Mua hàng
+                                </button>
+                            </div>
+                            <div class="cart-info">
+                                <a href="#!">
+                                    <article class="gift-item">
+                                        <div class="gift-item__icon-wrap">
+                                            <img src="/user/assets/icons/gift.svg" alt="" class="gift-item__icon" />
+                                        </div>
+                                        <div class="gift-item__content">
+                                            <h3 class="gift-item__title">Gửi đơn hàng như một món quà</h3>
+                                            <p class="gift-item__desc">
+                                                Các mặt hàng có sẵn sẽ được chuyển đến người nhận bằng tình yêu thương.
+                                            </p>
+                                        </div>
+                                    </article>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- Modal: address new shipping address -->
+        <div id="add-new-address" style="--content-width: 650px"
+             th:classappend="${saveShippingAddressFailed != null and saveShippingAddressFailed == true ? 'modal show' : 'modal hide'}"
+        >
+            <div class="modal__content">
+                <form action="/shipping/address/add" method="post" class="form" th:object="${addressRequest}">
+                    <h2 class="modal__heading">Thêm địa chỉ mới</h2>
+                    <input type="hidden" name="id" th:field="*{id}" />
+                    <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                    <div class="modal__body">
+                        <div class="form__row">
+                            <div class="form__group">
+                                <label for="name" class="form__label form__label--small">Tên người nhận</label>
+                                <div class="form__text-input form__text-input--small">
+                                    <input
+                                            type="text"
+                                            th:field="*{recipientName}"
+                                            id="name"
+                                            placeholder="Nhập tên người nhận"
+                                            class="form__input"
+                                    />
+                                </div>
+                                <p class="form__error" th:if="${#fields.hasErrors('recipientName')}" th:errors="*{recipientName}">Tên người nhận không được để trống</p>
+                            </div>
+                            <div class="form__group">
+                                <label for="phone" class="form__label form__label--small">Số điện thoại</label>
+                                <div class="form__text-input form__text-input--small">
+                                    <input
+                                            type="tel"
+                                            th:field="*{phoneNumber}"
+                                            id="phone"
+                                            placeholder="Nhập số điện thoại"
+                                            class="form__input"
+                                    />
+                                </div>
+                                <p class="form__error" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}">Số điện thoại không được để trống</p>
+                            </div>
+                        </div>
+                        <div class="form__row">
+                            <div class="form__group">
+                                <label for="address" class="form__label form__label--small">Tỉnh/ Thành phố</label>
+                                <div class="form__text-input form__text-input--small">
+                                    <input
+                                            type="text"
+                                            th:field="*{province}"
+                                            id="address"
+                                            placeholder="Nhập tỉnh/ thành phố"
+                                            class="form__input"
+                                    />
+                                </div>
+                                <p class="form__error" th:if="${#fields.hasErrors('province')}" th:errors="*{province}">Tỉnh/ Thành phố không được để trống</p>
+                            </div>
+                            <div class="form__group">
+                                <label for="district" class="form__label form__label--small">Quận/ Huyện</label>
+                                <div class="form__text-input form__text-input--small">
+                                    <input
+                                            type="text"
+                                            th:field="*{district}"
+                                            id="district"
+                                            placeholder="Nhập quận/ huyện"
+                                            class="form__input"
+                                    />
+                                </div>
+                                <p class="form__error" th:if="${#fields.hasErrors('district')}" th:errors="*{district}">Quận/ Huyện không được để trống</p>
+                            </div>
+                        </div>
+                        <div class="form__row">
+                            <div class="form__group">
+                                <label for="street" class="form__label form__label--small">Phường/ Xã / Đường</label>
+                                <div class="form__text-input form__text-input--small">
+                                    <input
+                                            type="text"
+                                            th:field="*{street}"
+                                            id="street"
+                                            placeholder="Nhập phường/ xã/ đường"
+                                            class="form__input"
+                                    />
+                                </div>
+                                <p class="form__error" th:if="${#fields.hasErrors('street')}" th:errors="*{street}">Phường/ Xã/ Đường không được để trống</p>
+                            </div>
+                            <div class="form__group">
+                                <label for="apartment" class="form__label form__label--small">Số nhà</label>
+                                <div class="form__text-input form__text-input--small">
+                                    <input
+                                            type="text"
+                                            th:field="*{apartment}"
+                                            id="apartment"
+                                            placeholder="Nhập số nhà"
+                                            class="form__input"
+                                    />
+                                </div>
+                                <p class="form__error" th:if="${#fields.hasErrors('apartment')}" th:errors="*{apartment}">Số nhà không được để trống</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal__bottom">
+                        <button class="btn btn--small btn--text modal__btn js-toggle" toggle-target="#add-new-address">
+                            Quay lại
+                        </button>
+                        <button
+                                class="btn btn--small btn--primary modal__btn btn--no-margin"
+                                toggle-target="#add-new-address"
+                        >
+                            Tạo mới
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal__overlay"></div>
+        </div>
+    </main>
+</div>

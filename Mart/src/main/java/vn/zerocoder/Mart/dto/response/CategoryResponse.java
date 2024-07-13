@@ -13,7 +13,7 @@ public class CategoryResponse {
     private Long id;
     private String name;
     private Long parent_id;
-    private Integer product_count;
+    private Long product_count;
     private List<Long> products_id;
     private List<Long> children_id;
     private List<Long> variations_id;

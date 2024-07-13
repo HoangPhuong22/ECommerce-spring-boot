@@ -38,4 +38,39 @@
             });
         </script>
     </div>
+    <div th:if="${param.shippingCartEmpty}">
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                createToast('error', 'fa-solid fa-circle-xmark', 'Giỏ hàng', 'Giỏ hàng trống, không thể vào trang thanh toán');
+            });
+        </script>
+    </div>
+    <div th:if="${param.saveShippingAddressSuccess}">
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                createToast('success', 'fa-solid fa-circle-check', 'Địa chỉ', 'Đã lưu địa chỉ giao hàng thành công');
+            });
+        </script>
+    </div>
+    <div th:if="${param.deleteShippingAddressSuccess}">
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                createToast('success', 'fa-solid fa-circle-check', 'Địa chỉ', 'Đã xóa địa chỉ giao hàng thành công');
+            });
+        </script>
+    </div>
+    <div th:if="${param.orderFailed}">
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                createToast('error', 'fa-solid fa-circle-xmark', 'Đơn hàng', 'Đơn hàng có sản phẩm vượt quá số lượng tồn kho, vui lòng kiểm tra lại');
+            });
+        </script>
+    </div>
+    <div th:if="${param.orderSuccess}">
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                createToast('success', 'fa-solid fa-circle-check', 'Đơn hàng', 'Đặt hàng thành công');
+            });
+        </script>
+    </div>
 </div>

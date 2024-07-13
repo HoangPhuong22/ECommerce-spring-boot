@@ -42,7 +42,7 @@ public class ProductMapper {
                 .price(productRequest.getPrice())
                 .promotionRate(productRequest.getPromotionRate())
                 .description(productRequest.getDescription())
-                .quantity(0)
+                .quantity(0L)
                 .productImage(FileUtils.save(Path, productRequest.getImage()))
                 .status(productRequest.getStatus())
                 .brand(brand)

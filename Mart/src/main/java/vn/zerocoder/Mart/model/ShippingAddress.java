@@ -1,11 +1,9 @@
 package vn.zerocoder.Mart.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+@Getter
 @Setter
 @Entity
 @Builder
@@ -17,6 +15,9 @@ public class ShippingAddress {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @Column(name = "recipient_name")
+    private String recipientName; // Tên người nhận
 
     @Column(name = "province")
     private String province; // Tỉnh/Thành phố
@@ -41,4 +42,9 @@ public class ShippingAddress {
     })
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Override
+    public String toString() {
+        return apartment + ", " + street + ", " + district + ", " + province;
+    }
 }

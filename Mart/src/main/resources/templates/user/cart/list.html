@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/user/main.html}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Giỏ hàng</title>
+</head>
+<div layout:fragment="content">
+    <!-- MAIN -->
+    <main class="checkout-page">
+        <div class="container">
+            <!-- Search bar -->
+            <div class="checkout-container">
+                <div class="search-bar d-none d-md-flex">
+                    <input type="text" name="" id="" placeholder="Search for item" class="search-bar__input" />
+                    <button class="search-bar__submit">
+                        <img src="/user/assets/icons/search.svg" alt="" class="search-bar__icon icon" />
+                    </button>
+                </div>
+            </div>
+
+            <!-- Breadcrumbs -->
+            <div class="checkout-container">
+                <ul class="breadcrumbs checkout-page__breadcrumbs">
+                    <li>
+                        <a href="/" class="breadcrumbs__link">
+                            Home
+                            <img src="/user/assets/icons/arrow-right.svg" alt="" />
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/cart" class="breadcrumbs__link breadcrumbs__link--current">
+                            Giỏ hàng
+                            <div style="color: red;" th:if="${cartDetail.size() == 0}">
+                                ( Giỏ hàng trống )
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Checkout content -->
+            <div class="checkout-container">
+                <div class="row gy-xl-3">
+                    <div class="col-8 col-xl-12">
+                        <div class="cart-info">
+                            <div class="cart-info__list">
+                                <!-- Cart item 1 -->
+                                <article class="cart-item" th:each="cart : ${cartDetail}">
+                                    <a th:href="@{'/product/' + ${cart.productDetail.product.id}}">
+                                        <img
+                                                th:src="@{'/image/' + ${cart.productDetail.productImage}}"
+                                                alt=""
+                                                class="cart-item__thumb"
+                                        />
+                                    </a>
+                                    <div class="cart-item__content">
+                                        <div class="cart-item__content-left">
+                                            <h3 class="cart-item__title">
+                                                <a th:href="@{'/product/' + ${cart.productDetail.product.id}}"
+                                                   th:text="${cart.productDetail.sku}">
+                                                </a>
+                                            </h3>
+                                            <p class="cart-item__price-wrap"></p>
+                                            <span
+                                                    class="cart-item__price-wrap"
+                                                    th:text="${#numbers.formatDecimal(cart.productDetail.price, 0, 'COMMA', 0, 'POINT')} + ' đ'"
+                                            >
+                                            </span>
+                                            <span class="cart-item__status" th:if="${cart.productDetail.qty > 0}"> | Còn hàng</span>
+                                            <span class="cart-item__status" th:unless="${cart.productDetail.qty > 0}"> | Hết hàng</span>
+                                            <p class="cart-item__price-wrap"></p>
+                                            <div class="cart-item__ctrl cart-item__ctrl--md-block">
+                                                <div class="cart-item__input">
+                                                    <button class="cart-item__input-btn" th:onclick="'addCart(1, ' + ${cart.productDetail.id} + ', 0)'">
+                                                        <img class="icon" src="/user/assets/icons/minus.svg" alt="" />
+                                                    </button>
+                                                    <span th:text="${cart.quantity}"></span>
+                                                    <button class="cart-item__input-btn" th:onclick="'addCart(1, ' + ${cart.productDetail.id} + ')'">
+                                                        <img class="icon" src="/user/assets/icons/plus.svg" alt="" />
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="cart-item__content-right">
+                                            <p class="cart-item__total-price" th:text="${#numbers.formatDecimal(cart.productDetail.price * cart.quantity, 0, 'COMMA', 0, 'POINT')} + ' đ'">
+                                            <div class="cart-item__ctrl">
+                                                <button
+                                                        class="cart-item__ctrl-btn js-toggle"
+                                                        toggle-target="#delete-confirm"
+                                                >
+                                                    <img src="/user/assets/icons/trash.svg" alt="" />
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Modal: confirm remove shopping cart item -->
+                                    <div id="delete-confirm" class="modal modal--small hide">
+                                        <div class="modal__content">
+                                            <p class="modal__text">Bạn có chắc chắn muốn xóa sản phẩm này khỏi danh sách yêu thích?</p>
+                                            <div class="modal__bottom">
+                                                <button class="btn btn--small btn--outline modal__btn js-toggle" toggle-target="#delete-confirm">
+                                                    Tiếp tục
+                                                </button>
+                                                <button
+                                                        th:onclick="'addCart(1, ' + ${cart.productDetail.id} + ', -1)'"
+                                                        class="btn btn--small btn--danger btn--primary modal__btn btn--no-margin"
+                                                        toggle-target="#delete-confirm"
+                                                >
+                                                    Xóa
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="modal__overlay js-toggle" th:toggle-target="${'#delete-confirm'}"></div>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="cart-info__bottom d-md-none">
+                                <div class="row">
+                                    <div class="col-8 col-xxl-7">
+                                        <div class="cart-info__continue">
+                                            <a href="/" class="cart-info__continue-link">
+                                                <img
+                                                        class="cart-info__continue-icon icon"
+                                                        src="/user/assets/icons/arrow-down-2.svg"
+                                                        alt=""
+                                                />
+                                                Tiếp tục mua hàng
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4 col-xl-12" th:if="${cartDetail.size() > 0}">
+                        <div class="cart-info">
+                            <div class="cart-info__row">
+                                <span>Số sản phẩm: </span>
+                                <span th:text="${userAdvice.getTotalQtyCart}"></span>
+                            </div>
+                            <div class="cart-info__row">
+                                <span>Tổng tiền: </span>
+                                <span th:text="${#numbers.formatDecimal(userAdvice.getTotalPriceCart, 0, 'COMMA', 0, 'POINT')} + ' đ'"></span>
+                            </div>
+                            <div class="cart-info__separate"></div>
+                            <div class="cart-info__row">
+                                <span>Tổng giá trị đơn hàng</span>
+                                <span th:text="${#numbers.formatDecimal(userAdvice.getTotalPriceCart, 0, 'COMMA', 0, 'POINT')} + ' đ'"></span>
+                            </div>
+                            <a href="/shipping" class="cart-info__next-btn btn btn--primary btn--rounded">
+                                Mua hàng
+                            </a>
+                        </div>
+                        <div class="cart-info">
+                            <a href="#!">
+                                <article class="gift-item">
+                                    <div class="gift-item__icon-wrap">
+                                        <img src="/user/assets/icons/gift.svg" alt="" class="gift-item__icon" />
+                                    </div>
+                                    <div class="gift-item__content">
+                                        <h3 class="gift-item__title">Gửi đơn hàng như một món quà</h3>
+                                        <p class="gift-item__desc">
+                                            Các mặt hàng có sẵn sẽ được chuyển đến người nhận bằng tình yêu thương.
+                                        </p>
+                                    </div>
+                                </article>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>

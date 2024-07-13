@@ -14,6 +14,6 @@ public class BrandResponse {
     private Long id;
     private String name;
     private String description;
-    private Integer product_count;
+    private Long product_count;
     List<Long> products_id;
 }

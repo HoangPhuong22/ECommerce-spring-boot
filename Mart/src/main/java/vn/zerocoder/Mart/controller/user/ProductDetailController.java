@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import vn.zerocoder.Mart.configuration.CustomUserDetailService;
 import vn.zerocoder.Mart.dto.response.ProductDetailResponse;
 import vn.zerocoder.Mart.dto.response.ProductResponse;
+import vn.zerocoder.Mart.model.SpecValue;
 import vn.zerocoder.Mart.service.*;
 
 import java.util.List;
@@ -27,6 +28,8 @@ public class ProductDetailController {
     private final VariationService variationService;
     private final VariationOptionService optionService;
     private final CustomUserDetailService userService;
+    private final SpecService specService;
+    private final SpecValueService specValueService;
 
     @GetMapping("/{id}")
     public String getProductDetail(@PathVariable Long id, Model model) {
@@ -43,8 +46,10 @@ public class ProductDetailController {
 
         model.addAttribute("detail", detail);
         model.addAttribute("product", productResponse);
+        model.addAttribute("specValues", specValueService.findAll());
 
         model.addAttribute("brandService", brandService);
+        model.addAttribute("specService", specService);
 
         model.addAttribute("similar_product", productService.findAllByCategoryIdAndBrandId(category_id, brand_id));
         return "user/product/detail";

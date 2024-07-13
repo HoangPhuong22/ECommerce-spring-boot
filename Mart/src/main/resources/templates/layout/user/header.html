@@ -18,21 +18,23 @@
 
     <!-- Navbar -->
     <nav id="navbar" class="navbar hide">
-      <button class="navbar__close-btn js-toggle" toggle-target="#navbar">
-        <img class="icon" th:src="@{/user/assets/icons/arrow-left.svg}" alt="" />
-      </button>
+      <div sec:authorize="isAuthenticated()">
+        <button class="navbar__close-btn js-toggle" toggle-target="#navbar">
+          <img class="icon" th:src="@{/user/assets/icons/arrow-left.svg}" alt="" />
+        </button>
 
-      <a href="./checkout.html" class="nav-btn d-none d-md-flex">
-        <img th:src="@{/user/assets/icons/buy.svg}" alt="" class="nav-btn__icon icon" />
-        <span class="nav-btn__title">Cart</span>
-        <span class="nav-btn__qnt">3</span>
-      </a>
+        <a href="/cart" class="nav-btn d-none d-md-flex">
+          <img th:src="@{/user/assets/icons/buy.svg}" alt="" class="nav-btn__icon icon" />
+          <span class="nav-btn__title">Giỏ hàng</span>
+          <span class="nav-btn__qnt" th:text="${userAdvice.getTotalQtyCart}"></span>
+        </a>
 
-      <a href="#!" class="nav-btn d-none d-md-flex">
-        <img th:src="@{/user/assets/icons/heart.svg}" alt="" class="nav-btn__icon icon" />
-        <span class="nav-btn__title">Favorite</span>
-        <span class="nav-btn__qnt">3</span>
-      </a>
+        <a href="/favourite" class="nav-btn d-none d-md-flex">
+          <img th:src="@{/user/assets/icons/heart.svg}" alt="" class="nav-btn__icon icon" />
+          <span class="nav-btn__title">Yêu thích</span>
+          <span class="nav-btn__qnt" th:text="${userAdvice.getProductIdsFavourite.size()}"></span>
+        </a>
+      </div>
 
       <ul class="navbar__list js-dropdown-list">
         <li class="navbar__item">
@@ -686,7 +688,7 @@
 
       <div class="top-act__group d-md-none">
         <div class="top-act__btn-wrap">
-          <a class="top-act__btn" href="">
+          <a class="top-act__btn" href="/favourite">
             <img src="/user/assets/icons/heart.svg" alt="" class="icon top-act__icon" />
             <span class="top-act__title ajax-favourite__number" th:text="${userAdvice.getProductIdsFavourite.size()}"></span>
           </a>
@@ -695,9 +697,9 @@
         <div class="top-act__separate"></div>
 
         <div class="top-act__btn-wrap">
-          <a class="top-act__btn" href="">
+          <a class="top-act__btn" href="/cart">
             <img src="/user/assets/icons/buy.svg" alt="" class="icon top-act__icon" />
-            <span class="top-act__title ajax-cart__price">$65.42</span>
+            <span class="top-act__title ajax-cart__price" th:text="${#numbers.formatDecimal(userAdvice.getTotalPriceCart, 0, 'COMMA', 0, 'POINT')} + ' đ'"></span>
           </a>
 
         </div>

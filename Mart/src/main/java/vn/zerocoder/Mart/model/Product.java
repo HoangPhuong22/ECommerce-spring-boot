@@ -28,7 +28,7 @@ public class Product extends BaseEntity{
     private Long price;
 
     @Column(name = "quantity")
-    private Integer quantity;
+    private Long quantity;
 
     @Column(name ="status")
     @Enumerated(EnumType.STRING)
@@ -79,4 +79,12 @@ public class Product extends BaseEntity{
 
     @OneToMany(mappedBy = "product", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<Advertise> advertises;
+
+    public void updateQuantity() {
+        long totalQuantity = 0;
+        for (ProductDetail detail : this.productDetails) {
+            totalQuantity += detail.getQty();
+        }
+        this.quantity = totalQuantity;
+    }
 }

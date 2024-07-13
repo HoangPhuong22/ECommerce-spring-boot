@@ -16,7 +16,7 @@ public class FavouriteController {
     @GetMapping
     public String index(Model model) {
         model.addAttribute("favourites", favouriteService.findAllFavouriteByUserName());
-        return "user/favourite";
+        return "user/favourite/list";
     }
 
     @PostMapping("/toggle")

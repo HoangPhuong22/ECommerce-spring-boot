@@ -4,17 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.List;
-
 @Getter
 @Builder
 @AllArgsConstructor
-public class ProductDetailResponse {
+public class ShippingMethodResponse {
     private Long id;
-    private String sku;
-    private String image;
+    private String name;
     private Long price;
-    private Long quantity;
-    private Long product_id;
-    private List<Long> options;
+    private String description;
 }

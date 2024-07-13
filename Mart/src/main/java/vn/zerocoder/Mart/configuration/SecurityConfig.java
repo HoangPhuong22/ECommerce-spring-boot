@@ -25,6 +25,8 @@ public class SecurityConfig {
             "/favourite/**",
             "/profile/**",
             "/cart/**",
+            "/shipping/**",
+            "/payment/**",
     };
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

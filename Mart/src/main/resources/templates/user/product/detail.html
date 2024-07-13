@@ -3,7 +3,6 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/user/main.html}"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
 <head>
     <meta charset="UTF-8">
@@ -87,6 +86,7 @@
                                                     <option th:each="product_detail, index : ${detail}"
                                                             th:text="${product_detail.sku}"
                                                             th:data-price="${product_detail.price}"
+                                                            th:data-detailQty="${product_detail.quantity}"
                                                             th:data-productId="${product_detail.id}"
                                                     ></option>
                                                 </select>
@@ -133,19 +133,7 @@
                                         <div class="prod-info__card">
                                             <div class="prod-info__row">
                                                 <span class="prod-prop__title">Còn tồn kho: </span>
-                                                <span class="prod-info__tax" th:text="${product.quantity}"></span>
-                                                <div class="form__group" style="margin-top: 0px; margin-left: auto;">
-                                                    <div class="form__text-input">
-                                                        <select id="quantity-cart" class="form__input">
-                                                            <option
-                                                                    th:each="i : ${#numbers.sequence(1, product.quantity)}"
-                                                                    th:text="${i}"
-                                                                    th:data-quantity="${i}"
-                                                            >
-                                                            </option>
-                                                        </select>
-                                                    </div>
-                                                </div>
+                                                <span class="prod-info__tax js-quantity-select" th:text="${product.quantity}"></span>
                                             </div>
                                             <p class="prod-info__total-price js-price-select" th:utext="${#numbers.formatDecimal(product.price - (product.price * product.promotionRate / 100), 0, 'COMMA', 0, 'POINT')} + 'đ'">
                                             <div
@@ -287,50 +275,26 @@
                         <div class="prod-tab__content">
                             <div class="prod-content">
                                 <h2 class="prod-content__heading">Thông số kĩ thuật</h2>
-                                <div class="prod-content__table">
+                                <section class="table__body">
                                     <table>
+                                        <thead>
                                         <tr>
-                                            <td>Thương hiệu</td>
-                                            <td>Apple</td>
+                                            <th> STT </th>
+                                            <th> Tên thông số </th>
+                                            <th> Thuộc tính </th>
                                         </tr>
-                                        <tr>
-                                            <td>Model</td>
-                                            <td>iPhone 12 Pro Max</td>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="spec, index : ${specValues}"
+                                            th:if="${spec.product_id == product.id}"
+                                        >
+                                            <td th:text="${index.count}"></td>
+                                            <td th:text="${specService.findById(spec.spec_id).name}"></td>
+                                            <td th:text="${spec.value}"></td>
                                         </tr>
-                                        <tr>
-                                            <td>Màu sắc</td>
-                                            <td>Đen</td>
-                                        </tr>
-                                        <tr>
-                                            <td>RAM</td>
-                                            <td>6GB</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Bộ nhớ trong</td>
-                                            <td>128GB</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Camera sau</td>
-                                            <td>12MP + 12MP + 12MP</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Camera trước</td>
-                                            <td>12MP</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Pin</td>
-                                            <td>3687mAh</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Chipset</td>
-                                            <td>Apple A14 Bionic</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Màn hình</td>
-                                            <td>6.7 inch</td>
-                                        </tr>
+                                        </tbody>
                                     </table>
-                                </div>
+                                </section>
                             </div>
                         </div>
                     </div>

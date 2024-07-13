@@ -282,13 +282,32 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+document.addEventListener('DOMContentLoaded', function() {
+    const productDetailElement = document.getElementById('product-detail');
+    if (productDetailElement && productDetailElement.options.length > 0) {
+        const selectLoad = productDetailElement.options[0];
+        const quantityTemp = selectLoad.getAttribute('data-detailQty');
+        const quantityElementTemp = document.querySelector('.js-quantity-select');
+        if (quantityElementTemp) {
+            quantityElementTemp.textContent = quantityTemp;
+        }
+    }
+});
+
 window.addEventListener('DOMContentLoaded', function() {
     const productDetailElement = document.getElementById('product-detail');
     if (productDetailElement) {
         productDetailElement.addEventListener('change', function (){
             const selectedOption = this.options[this.selectedIndex];
             const price = selectedOption.getAttribute('data-price');
+            const quantity = selectedOption.getAttribute('data-detailQty');
             const priceElement = document.querySelector('.js-price-select');
+            const quantityElement = document.querySelector('.js-quantity-select');
+            if(quantityElement) {
+                quantityElement.textContent = quantity;
+            } else {
+                console.error('Không tìm thấy phần tử có class "js-quantity-select"');
+            }
             if(priceElement) {
                 priceElement.textContent = formatDecimal(price) + 'đ';
             } else {
