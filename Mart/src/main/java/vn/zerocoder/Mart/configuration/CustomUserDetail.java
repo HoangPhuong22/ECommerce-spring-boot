@@ -36,16 +36,6 @@ public class CustomUserDetail implements UserDetails {
             );
         });
 
-        // Thêm quyền từ nhóm (group)
-        userConfig.getGroups().forEach(group -> {
-            authorities.add(new SimpleGrantedAuthority(group.getName()));
-            group.getRoles().forEach(role -> {
-                authorities.add(new SimpleGrantedAuthority(role.getName()));
-                role.getPermissions().forEach(permission ->
-                        authorities.add(new SimpleGrantedAuthority(permission.getName()))
-                );
-            });
-        });
         return authorities;
     }
 

@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import vn.zerocoder.Mart.configuration.PasswordEncoderConfig;
 import vn.zerocoder.Mart.dto.request.UserRequest;
+import vn.zerocoder.Mart.dto.response.UserResponse;
 import vn.zerocoder.Mart.enums.UserStatus;
+import vn.zerocoder.Mart.mapper.UserMapper;
 import vn.zerocoder.Mart.model.Cart;
 import vn.zerocoder.Mart.model.Profile;
 import vn.zerocoder.Mart.model.User;
@@ -12,6 +14,8 @@ import vn.zerocoder.Mart.repository.RoleRepository;
 import vn.zerocoder.Mart.repository.UserRepository;
 import vn.zerocoder.Mart.service.UserService;
 import vn.zerocoder.Mart.utils.AuthUtils;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +25,8 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final PasswordEncoderConfig passwordEncoderConfig;
     private final AuthUtils authUtils;
+    private final UserMapper userMapper;
+
     @Override
     public Long save(UserRequest userRequest) {
 
@@ -56,5 +62,10 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoderConfig.passwordEncoder().encode(newPassword));
         userRepository.save(user);
         return user.getId();
+    }
+
+    @Override
+    public List<UserResponse> findAll() {
+        return userRepository.findAll().stream().map(userMapper::toUserResponse).toList();
     }
 }

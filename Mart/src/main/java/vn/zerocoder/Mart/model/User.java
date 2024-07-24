@@ -42,19 +42,6 @@ public class User extends BaseEntity {
     )
     private Set<Role> roles;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE,
-            CascadeType.DETACH,
-            CascadeType.REFRESH
-    })
-    @JoinTable(
-            name = "tbl_user_group",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "group_id")
-    )
-    private Set<Group> groups;
-
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Address addresses;
 
@@ -67,7 +54,7 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Favourite> favourites;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ShippingAddress> shippingAddresses;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

@@ -31,6 +31,7 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
                 .street(shippingAddressRequest.getStreet())
                 .apartment(shippingAddressRequest.getApartment())
                 .phoneNumber(shippingAddressRequest.getPhoneNumber())
+                .isActive(true)
                 .user(user)
                 .build();
         return shippingAddressRepository.save(address).getId();
@@ -62,8 +63,7 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
             throw new AccessDeniedException("Bạn không có quyền xóa địa chỉ này");
         }
         ShippingAddress address = shippingAddressRepository.findById(id).orElseThrow();
-        user.getShippingAddresses().remove(address);
-        userRepository.save(user);
-        shippingAddressRepository.delete(address);
+        address.setIsActive(false);
+        shippingAddressRepository.save(address);
     }
 }

@@ -8,6 +8,8 @@ import vn.zerocoder.Mart.configuration.CustomUserDetail;
 import vn.zerocoder.Mart.configuration.CustomUserDetailService;
 import vn.zerocoder.Mart.dto.request.AddressRequest;
 import vn.zerocoder.Mart.dto.request.ProfileRequest;
+import vn.zerocoder.Mart.model.Order;
+import vn.zerocoder.Mart.model.OrderDetail;
 import vn.zerocoder.Mart.model.Profile;
 import vn.zerocoder.Mart.model.User;
 
@@ -54,5 +56,20 @@ public class AuthUtils {
                             .build();
         }
         return null;
+    }
+    public Boolean productIsOrdered(Long productId) {
+        CustomUserDetail user = loadUserByUsername();
+        boolean isOrdered = false;
+        if(user != null) {
+            for(Order order : user.getUserConfig().getOrders()) {
+                for(OrderDetail orderDetail : order.getOrderDetails()) {
+                    if(orderDetail.getProductDetail().getProduct().getId().equals(productId)) {
+                        isOrdered = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return isOrdered;
     }
 }

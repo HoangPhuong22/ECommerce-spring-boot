@@ -2,6 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout/user/main.html}"
 >
 <head>
@@ -174,53 +175,124 @@
                         </div>
                         <div class="prod-tab__content">
                             <div class="prod-content">
-                                <h2 class="prod-content__heading">Khách hàng của chúng tôi đã nói gì ?</h2>
+                                <div sec:authorize="isAuthenticated()" th:if="${checkUserReview}">
+                                    <div th:if="${isOrdered}" class="col-8 col-md-12">
+                                        <h2 class="prod-content__heading">Bạn đã sử dụng sản phẩm này ?</h2>
+                                        <form action="/review/save" method="post" class="form-card" th:object="${review}">
+                                            <input type="hidden" name="product_id" th:value="${product.id}">
+                                            <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                                            <div class="form__row">
+                                                <div class="form__group">
+                                                    <label for="rating" class="form__label form-card__label">
+                                                        Chọn mức đánh giá
+                                                    </label>
+                                                    <div class="form__text-input">
+                                                        <select id="rating" class="form__input" style="background: var(--product-detail-bg)" th:field="*{rating}">
+                                                            <option value="1">1 - Rất tệ</option>
+                                                            <option value="2">2 - Tệ</option>
+                                                            <option value="3">3 - Bình thường</option>
+                                                            <option value="4">4 - Tốt</option>
+                                                            <option value="5">5 - Rất tốt</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form__row">
+                                                <div class="form__group">
+                                                    <label for="review" class="form__label form-card__label">
+                                                        Nhận xét của bạn
+                                                    </label>
+                                                    <div class="form__text-area">
+                                                    <textarea
+                                                            id="review"
+                                                            th:field="*{comment}"
+                                                            placeholder="Nhập đánh giá của bạn"
+                                                            class="form__text-area-input"
+                                                    ></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-card__bottom">
+                                                <button class="btn btn--primary">Đánh giá</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <h2 class="prod-content__heading" style="margin-top: 10px">Khách hàng của chúng tôi đã nói gì ?</h2>
                                 <div class="row row-cols-3 gx-lg-2 row-cols-md-1 gy-md-3">
                                     <!-- Review card 1 -->
-                                    <div class="col">
+                                    <div class="col" th:each="item : ${reviews}">
                                         <div class="review-card">
                                             <div class="review-card__content">
                                                 <img
-                                                        th:src="@{/user/assets/img/avatar/avatar-1.png}"
+                                                        th:src="@{'/image/' + ${item.avatar}}"
                                                         alt=""
                                                         class="review-card__avatar"
                                                 />
                                                 <div class="review-card__info">
-                                                    <h4 class="review-card__title">Jakir Hussen</h4>
-                                                    <p class="review-card__desc">
-                                                        Great product, I love this Coffee Beans
+                                                    <h4 class="review-card__title" th:text="${item.username}"></h4>
+                                                    <p class="review-card__desc" th:text="${item.comment}">
                                                     </p>
                                                 </div>
                                             </div>
                                             <div class="review-card__rating">
                                                 <div class="review-card__star-list">
                                                     <img
+                                                            th:if="${item.rating >= 1}"
                                                             th:src="@{/user/assets/icons/star.svg}"
                                                             alt=""
                                                             class="review-card__star"
                                                     />
                                                     <img
+                                                            th:if="${item.rating >= 2}"
                                                             th:src="@{/user/assets/icons/star.svg}"
                                                             alt=""
                                                             class="review-card__star"
                                                     />
                                                     <img
+                                                            th:if="${item.rating < 2}"
+                                                            th:src="@{/user/assets/icons/star-blank.svg}"
+                                                            alt=""
+                                                            class="review-card__star"
+                                                    />
+                                                    <img
+                                                            th:if="${item.rating >= 3}"
                                                             th:src="@{/user/assets/icons/star.svg}"
                                                             alt=""
                                                             class="review-card__star"
                                                     />
                                                     <img
-                                                            th:src="@{/user/assets/icons/star-half.svg}"
+                                                            th:if="${item.rating < 3}"
+                                                            th:src="@{/user/assets/icons/star-blank.svg}"
                                                             alt=""
                                                             class="review-card__star"
                                                     />
                                                     <img
+                                                            th:if="${item.rating >= 4}"
+                                                            th:src="@{/user/assets/icons/star.svg}"
+                                                            alt=""
+                                                            class="review-card__star"
+                                                    />
+                                                    <img
+                                                            th:if="${item.rating < 4}"
+                                                            th:src="@{/user/assets/icons/star-blank.svg}"
+                                                            alt=""
+                                                            class="review-card__star"
+                                                    />
+                                                    <img
+                                                            th:if="${item.rating >= 5}"
+                                                            th:src="@{/user/assets/icons/star.svg}"
+                                                            alt=""
+                                                            class="review-card__star"
+                                                    />
+                                                    <img
+                                                            th:if="${item.rating < 5}"
                                                             th:src="@{/user/assets/icons/star-blank.svg}"
                                                             alt=""
                                                             class="review-card__star"
                                                     />
                                                 </div>
-                                                <span class="review-card__rating-title">(3.5) Review</span>
+                                                <span class="review-card__rating-title" th:text="${'(' + item.rating + ')' + ' ' + 'sao'}"></span>
                                             </div>
                                         </div>
                                     </div>

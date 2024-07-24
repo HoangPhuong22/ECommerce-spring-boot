@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -19,7 +21,7 @@ public class SecurityConfig {
     private final CustomUserDetailService customUserDetailService;
     private final CustomAuthenticationFailureHandler failureHandler;
     private final PasswordEncoderConfig passwordEncoderConfig;
-
+    
     private String[] AuthUrl = new String[] {
             "/admin/**",
             "/favourite/**",
@@ -27,6 +29,8 @@ public class SecurityConfig {
             "/cart/**",
             "/shipping/**",
             "/payment/**",
+            "/order/**",
+            "/review/save/**",
     };
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -49,6 +53,8 @@ public class SecurityConfig {
                                  .logoutSuccessUrl("/login?logout=true")
 
                  );
+
+
         return http.build();
     }
 

@@ -56,8 +56,9 @@
                                             />
                                         </a>
                                         Danh sách đơn hàng đã đặt
+                                        <span class="cart-info__heading__count" th:text="'(' + ${orders.size()} + ')'"></span>
                                     </h2>
-                                    <section class="table__body">
+                                    <section class="table__body" th:if="${orders.size() > 0}">
                                         <table>
                                             <thead>
                                             <tr>

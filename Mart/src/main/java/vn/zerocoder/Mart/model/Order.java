@@ -68,4 +68,8 @@ public class Order extends BaseEntity{
 
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<OrderDetail> orderDetails;
+
+    public Long getTotalQuantity() {
+        return orderDetails.stream().mapToLong(OrderDetail::getQuantity).sum();
+    }
 }

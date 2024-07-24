@@ -46,16 +46,4 @@ public class Role extends BaseEntity {
     )
     private Set<Permission> permissions;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE,
-            CascadeType.DETACH,
-            CascadeType.REFRESH
-    })
-    @JoinTable(
-            name = "tbl_group_role",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "group_id")
-    )
-    private Set<Group> groups;
 }

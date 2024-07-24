@@ -36,39 +36,57 @@ public class ShippingController {
         theModel.addAttribute("shippingMethods", shippingMethodService.findAll());
         return "user/shipping/list";
     }
-    @PostMapping("/order")
-    public String order(@RequestParam("shippingMethodId") Long shippingMethodId,
-                        @RequestParam("addressId") Long addressId
-    ) {
-        Cart cart = authUtils.loadUserByUsername().getUserConfig().getCart();
-        if(cart.getCartDetails().isEmpty()) {
-            return "redirect:/cart?shippingCartEmpty=true";
-        }
-        Long id = orderService.save(shippingMethodId, addressId);
-        if(id == -1) {
-            return "redirect:/cart?orderFailed=true";
-        }
-        return "redirect:/cart?orderSuccess=true";
-    }
+
+
     @PostMapping("/address/add")
     public String addAddress(@Valid @ModelAttribute("addressRequest") ShippingAddressRequest addressRequest,
                              BindingResult bindingResult, Model theModel
     ) {
-        Cart cart = authUtils.loadUserByUsername().getUserConfig().getCart();
-        if(cart.getCartDetails().isEmpty()) {
-            return "redirect:/cart?shippingCartEmpty=true";
-        }
         if(bindingResult.hasErrors()) {
+
+            Cart cart = authUtils.loadUserByUsername().getUserConfig().getCart();
             theModel.addAttribute("cartDetail", cart.getCartDetails());
+            // Thông báo lỗi để hiện thị
             theModel.addAttribute("saveShippingAddressFailed", true);
+
             return "user/shipping/list";
         }
+        // Lưu địa chỉ
         shippingAddressService.save(addressRequest);
         return "redirect:/shipping?saveShippingAddressSuccess=true";
     }
+
     @GetMapping("/address/delete/{id}")
     public String deleteAddress(@PathVariable Long id) {
         shippingAddressService.delete(id);
         return "redirect:/shipping?deleteShippingAddressSuccess=true";
+    }
+
+
+    @PostMapping("/order")
+    public String order(@RequestParam("shippingMethodId") Long shippingMethodId,
+                        @RequestParam(value = "addressId", required = false) Long addressId
+    ) {
+
+        // Kiểm tra xem giỏ hàng có rỗng không
+        Cart cart = authUtils.loadUserByUsername().getUserConfig().getCart();
+        // Nếu rỗng thì chuyển hướng về trang giỏ hàng
+        if(cart.getCartDetails().isEmpty()) {
+            return "redirect:/cart?shippingCartEmpty=true";
+        }
+        // Kiểm tra xem địa chỉ và phương thức vận chuyển có null không
+        if(addressId == null || shippingMethodId == null) {
+            return "redirect:/shipping?adship=true";
+        }
+
+        // Lưu đơn hàng
+        Long id = orderService.save(shippingMethodId, addressId);
+
+        // Nếu lưu thất bại thì chuyển hướng về trang giỏ hàng
+        if(id == -1) {
+            return "redirect:/cart?orderFailed=true"; // Giỏ hàng có sản phẩm không đủ số lượng trong kho
+        }
+
+        return "redirect:/order/" + id + "?orderSuccess=true";
     }
 }

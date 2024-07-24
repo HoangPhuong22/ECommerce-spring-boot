@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/user/main.html}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Giỏ hàng</title>
+</head>
+<div layout:fragment="content">
+    <!-- MAIN -->
+    <main class="checkout-page">
+        <div class="container">
+            <!-- Breadcrumbs -->
+            <div class="checkout-container">
+                <ul class="breadcrumbs checkout-page__breadcrumbs">
+                    <li>
+                        <a href="/profile" class="breadcrumbs__link">
+                            Hồ sơ
+                            <img src="/user/assets/icons/arrow-right.svg" alt="">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/profile/order" class="breadcrumbs__link">
+                            Đơn hàng
+                            <img src="/user/assets/icons/arrow-right.svg" alt="">
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{'/order/' + ${order.id}}" class="breadcrumbs__link breadcrumbs__link--current">
+                            Chi tiết đơn hàng
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Checkout content -->
+            <div class="checkout-container">
+                <div class="row gy-xl-3">
+                    <div class="col-8 col-xl-12">
+                        <div class="cart-info">
+                            <h1 class="cart-info__heading">Thông tin mua hàng</h1>
+                            <div class="cart-info__separate"></div>
+                            <div class="user-address">
+                                <div class="user-address__top">
+                                    <div >
+                                        <h2 class="user-address__title">Địa chỉ giao hàng </h2>
+                                    </div>
+                                </div>
+                                <div class="user-address__list" >
+                                    <!-- Address card 1 -->
+                                    <article class="address-card">
+                                        <div class="address-card__left">
+                                            <div class="address-card__info">
+                                                <h3 class="address-card__title" th:text="${order.shippingAddress.recipientName}"></h3>
+                                                <p class="address-card__desc" th:text="${order.shippingAddress.phoneNumber}"></p>
+                                                <p class="address-card__desc" th:text="${order.shippingAddress}">
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </article>
+
+                                </div>
+                            </div>
+                            <div class="cart-info__separate" ></div>
+                            <h3 class="cart-info__sub-heading">Phương thức giao hàng</h3>
+                            <label>
+                                <article class="payment-item payment-item--pointer">
+                                    <img
+                                            src="/user/assets/img/payment/delivery-1.png"
+                                            alt=""
+                                            class="payment-item__thumb"
+                                    />
+                                    <div class="payment-item__content">
+                                        <div class="payment-item__info">
+                                            <h3 class="payment-item__title" th:text="${order.shippingMethod.name}"></h3>
+                                            <p class="payment-item__desc payment-item__desc--low" th:text="${order.shippingMethod.description}"></p>
+                                        </div>
+                                        <span class="cart-info__checkbox payment-item__checkbox">
+                                            <span class="payment-item__cost" th:if="${order.shippingMethod.price == 0}">Miễn phí</span>
+                                            <span class="payment-item__cost" th:unless="${order.shippingMethod.price == 0}" th:text="${#numbers.formatDecimal(order.shippingMethod.price, 0, 'COMMA', 0, 'POINT') + ' đ'}"></span>
+                                        </span>
+                                    </div>
+                                </article>
+                            </label>
+                            <div class="cart-info__separate" ></div>
+                            <h2 class="cart-info__sub-heading">Chi tiết đơn hàng</h2>
+                            <div class="cart-info__list">
+                                <!-- Cart item 1 -->
+                                <article class="cart-item" th:each="detail : ${order.orderDetails}">
+                                    <a th:href="@{'/product/' + ${detail.productDetail.product.id}}">
+                                        <img
+                                                th:src="@{'/image/' + ${detail.productDetail.productImage}}"
+                                                alt=""
+                                                class="cart-item__thumb"
+                                        />
+                                    </a>
+                                    <div class="cart-item__content">
+                                        <div class="cart-item__content-left">
+                                            <h3 class="cart-item__title">
+                                                <a th:href="@{'/product/' + ${detail.productDetail.product.id}}"
+                                                   th:text="${detail.productDetail.sku}">
+                                                </a>
+                                            </h3>
+                                            <p class="cart-item__price-wrap"></p>
+                                            <span
+                                                    class="cart-item__price-wrap"
+                                                    th:text="${#numbers.formatDecimal(detail.productDetail.price, 0, 'COMMA', 0, 'POINT')} + ' đ'"
+                                            >
+                                    </span>
+                                            <span class="cart-item__status" th:if="${detail.productDetail.qty > 0}"> | Còn hàng</span>
+                                            <span class="cart-item__status" th:unless="${detail.productDetail.qty > 0}"> | Hết hàng</span>
+                                            <p class="cart-item__price-wrap"></p>
+                                            <div class="cart-item__ctrl cart-item__ctrl--md-block">
+                                                <div class="cart-item__input">
+                                                    <span th:text="${detail.quantity}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="cart-item__content-right">
+                                            <p class="cart-item__total-price" th:text="${#numbers.formatDecimal(detail.productDetail.price * detail.quantity, 0, 'COMMA', 0, 'POINT')} + ' đ'">
+                                            <div class="cart-item__ctrl">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4 col-xl-12">
+                        <div class="cart-info">
+                            <div class="cart-info__row">
+                                <span>Số sản phẩm: </span>
+                                <span th:text="${order.totalQuantity}"></span>
+                            </div>
+                            <div class="cart-info__row">
+                                <span>Tổng tiền sản phẩm: </span>
+                                <span th:text="${#numbers.formatDecimal(order.total - order.shippingMethod.price, 0, 'COMMA', 0, 'POINT')} + ' đ'"></span>
+                            </div>
+                            <div class="cart-info__row">
+                                <span>Phí giao hàng: </span>
+                                <span th:text="${#numbers.formatDecimal(order.shippingMethod.price, 0, 'COMMA', 0, 'POINT')} + ' đ'"></span>
+                            </div>
+                            <div class="cart-info__separate"></div>
+                            <div class="cart-info__row">
+                                <span>Tổng giá trị đơn hàng</span>
+                                <span th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'POINT')} + ' đ'"></span>
+                            </div>
+                            <div class="cart-info__separate"></div>
+                            <div class="cart-info__row">
+                                <span>Ngày đặt hàng: </span>
+                                <span th:text="${#dates.format(order.created_at, 'HH:mm dd/MM/yyyy ')}"></span>
+                            </div>
+                            <div class="cart-info__row">
+                                <span>Trạng thái đơn hàng: </span>
+                                <span th:text="${order.status}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        </div>
+    </main>
+</div>

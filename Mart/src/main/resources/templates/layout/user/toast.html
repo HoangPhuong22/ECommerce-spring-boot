@@ -73,4 +73,11 @@
             });
         </script>
     </div>
+    <div th:if = "${param.adship}">
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                createToast('warning', 'fa-solid fa-circle-xmark', 'Thông báo', 'Vui lòng chọn địa chỉ giao hàng và phương thức giao hàng');
+            });
+        </script>
+    </div>
 </div>

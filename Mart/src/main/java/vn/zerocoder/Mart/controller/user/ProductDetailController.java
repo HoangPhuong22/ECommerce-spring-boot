@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import vn.zerocoder.Mart.configuration.CustomUserDetailService;
+import vn.zerocoder.Mart.dto.request.ReviewRequest;
 import vn.zerocoder.Mart.dto.response.ProductDetailResponse;
 import vn.zerocoder.Mart.dto.response.ProductResponse;
 import vn.zerocoder.Mart.model.SpecValue;
 import vn.zerocoder.Mart.service.*;
+import vn.zerocoder.Mart.utils.AuthUtils;
 
 import java.util.List;
 
@@ -30,6 +32,8 @@ public class ProductDetailController {
     private final CustomUserDetailService userService;
     private final SpecService specService;
     private final SpecValueService specValueService;
+    private final AuthUtils authUtils;
+    private final ReviewService reviewService;
 
     @GetMapping("/{id}")
     public String getProductDetail(@PathVariable Long id, Model model) {
@@ -44,13 +48,21 @@ public class ProductDetailController {
         Long category_id = productResponse.getCategory_id();
         Long brand_id = productResponse.getBrand_id();
 
+        // Kiểm tra xem sản phẩm đã được đặt hàng chưa
+        Boolean productIsOrdered = authUtils.productIsOrdered(id);
+
         model.addAttribute("detail", detail);
         model.addAttribute("product", productResponse);
         model.addAttribute("specValues", specValueService.findAll());
 
         model.addAttribute("brandService", brandService);
         model.addAttribute("specService", specService);
+        model.addAttribute("isOrdered", productIsOrdered);
 
+
+        model.addAttribute("review", new ReviewRequest());
+        model.addAttribute("reviews", reviewService.findAllByProductId(id));
+        model.addAttribute("checkUserReview", reviewService.checkUserReview(id));
         model.addAttribute("similar_product", productService.findAllByCategoryIdAndBrandId(category_id, brand_id));
         return "user/product/detail";
     }

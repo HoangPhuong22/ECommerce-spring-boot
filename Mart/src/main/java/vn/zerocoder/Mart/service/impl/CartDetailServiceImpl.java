@@ -8,7 +8,6 @@ import vn.zerocoder.Mart.model.ProductDetail;
 import vn.zerocoder.Mart.repository.CartDetailRepository;
 import vn.zerocoder.Mart.repository.CartRepository;
 import vn.zerocoder.Mart.repository.ProductDetailRepository;
-import vn.zerocoder.Mart.repository.ProductRepository;
 import vn.zerocoder.Mart.service.CartDetailService;
 import vn.zerocoder.Mart.utils.AuthUtils;
 
@@ -20,7 +19,6 @@ public class CartDetailServiceImpl implements CartDetailService {
     private final AuthUtils authUtils;
     private final CartRepository cartRepository;
     private final ProductDetailRepository productDetailRepository;
-    private final ProductRepository productRepository;
 
     @Override
     public Long save(Long quantity, Long productDetailId, Integer isAdd) {
@@ -43,30 +41,34 @@ public class CartDetailServiceImpl implements CartDetailService {
                     .build();
         }  // Nếu có rồi thì cập nhật số lượng
         else {
-            if(isAdd == 1) cartDetail.setQuantity(cartDetail.getQuantity() + quantity);
+            // Nếu isAdd = 1 thì tăng số lượng sản phẩm
+            if(isAdd == 1) {
+                cartDetail.setQuantity(cartDetail.getQuantity() + quantity);
+            }
+            // Nếu isAdd = -1 thì xoá sản phẩm khỏi giỏ hàng
             else if(isAdd == -1) {
-                cart.getCartDetails().remove(cartDetail);
-                cartRepository.save(cart);
-                cartDetailRepository.delete(cartDetail);
+                delete(cart, cartDetail);
                 return 0L;
             }
-            else cartDetail.setQuantity(cartDetail.getQuantity() - quantity);
+            else {
+                cartDetail.setQuantity(cartDetail.getQuantity() - quantity);
+            }
+
+            // Nếu số lượng sản phẩm bằng 0 thì xóa sản phẩm khỏi giỏ hàng
             if(cartDetail.getQuantity() <= 0) {
-                cart.getCartDetails().remove(cartDetail);
-                cartRepository.save(cart);
-                cartDetailRepository.delete(cartDetail);
-                return 0L;
+                delete(cart, cartDetail);
+                return 0L; // Trả về 0 thông bá xóa sản phẩm khỏi giỏ hàng
             }
         }
         if(cartDetail.getQuantity() > productDetail.getQty()) {
-            return -1L;
+            return -1L; // Trả về -1 nếu số lượng sản phẩm vượt quá số lượng tồn kho
         }
         return cartDetailRepository.save(cartDetail).getId();
     }
 
-    @Override
-    public Long delete(Long id) {
-        cartDetailRepository.deleteById(id);
-        return 0L;
+    public void delete(Cart cart, CartDetail cartDetail) {
+        cart.getCartDetails().remove(cartDetail);
+        cartRepository.save(cart);
+        cartDetailRepository.delete(cartDetail);
     }
 }

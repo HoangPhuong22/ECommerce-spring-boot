@@ -78,6 +78,7 @@
                                         <!-- Address card 1 -->
                                         <article class="address-card"
                                                  th:each="address, index : ${userAdvice.getShippingAddresses}"
+                                                 th:if="${address.isActive}"
                                         >
                                             <div class="address-card__left">
                                                 <div class="address-card__choose">
@@ -131,16 +132,16 @@
                                             </div>
 
                                             <span class="cart-info__checkbox payment-item__checkbox">
-                                        <input
-                                                type="radio"
-                                                name="shippingMethodId"
-                                                th:checked="${index.count == 1}"
-                                                th:value="${shippingMethod.id}"
-                                                class="cart-info__checkbox-input payment-item__checkbox-input"
-                                        />
-                                        <span class="payment-item__cost" th:if="${shippingMethod.price == 0}">Free</span>
-                                        <span class="payment-item__cost" th:unless="${shippingMethod.price == 0}" th:text="${#numbers.formatDecimal(shippingMethod.price, 0, 'COMMA', 0, 'POINT') + ' đ'}"></span>
-                                    </span>
+                                                <input
+                                                        type="radio"
+                                                        name="shippingMethodId"
+                                                        th:checked="${index.count == 1}"
+                                                        th:value="${shippingMethod.id}"
+                                                        class="cart-info__checkbox-input payment-item__checkbox-input"
+                                                />
+                                                <span class="payment-item__cost" th:if="${shippingMethod.price == 0}">Free</span>
+                                                <span class="payment-item__cost" th:unless="${shippingMethod.price == 0}" th:text="${#numbers.formatDecimal(shippingMethod.price, 0, 'COMMA', 0, 'POINT') + ' đ'}"></span>
+                                            </span>
                                         </div>
                                     </article>
                                 </label>
@@ -240,7 +241,7 @@
                                     <span th:text="${#numbers.formatDecimal(userAdvice.getTotalPriceCart, 0, 'COMMA', 0, 'POINT')} + ' đ'"></span>
                                 </div>
                                 <button class="cart-info__next-btn btn btn--primary btn--rounded ajax-order__add" style="width: 100%">
-                                    Mua hàng
+                                    Đặt hàng
                                 </button>
                             </div>
                             <div class="cart-info">

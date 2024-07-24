@@ -34,6 +34,9 @@ public class ShippingAddress {
     @Column(name = "phone_number")
     private String phoneNumber; // Số điện thoại
 
+    @Column(name = "is_active")
+    private Boolean isActive;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE,
