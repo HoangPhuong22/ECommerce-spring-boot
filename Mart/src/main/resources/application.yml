@@ -3,17 +3,3 @@ spring:
     url: jdbc:mysql://localhost:3306/tona_mart
     username: root
     password: 0985060124p
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: 649529584926-tvcrdv7u0sg3iujqi3qqsp4u9fpcn4nd.apps.googleusercontent.com
-            client-secret: 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
-            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
-            scope:
-              - email
-              - profile
-logging:
-  level:
-    org.springframework.security: DEBUG
