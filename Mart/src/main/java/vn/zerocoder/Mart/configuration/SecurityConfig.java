@@ -4,13 +4,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
-import static org.springframework.security.config.Customizer.withDefaults;
+
 
 @Configuration
 @EnableWebSecurity
@@ -37,8 +39,13 @@ public class SecurityConfig {
          http
                  .authorizeHttpRequests(
                          auth -> auth
+                             .requestMatchers("/admin/**").hasAuthority("ADMIN")
                              .requestMatchers(AuthUrl).authenticated()
                              .requestMatchers("/**").permitAll()
+                 )
+                 .exceptionHandling(
+                         exception -> exception
+                                 .accessDeniedHandler(accessDeniedHandler())
                  )
                  .formLogin(
                          form -> form
@@ -56,6 +63,13 @@ public class SecurityConfig {
 
 
         return http.build();
+    }
+
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return (request, response, accessDeniedException) -> {
+            response.sendRedirect("/403");
+        };
     }
 
     @Autowired

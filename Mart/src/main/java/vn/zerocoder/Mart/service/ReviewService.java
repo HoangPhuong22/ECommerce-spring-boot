@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ReviewService {
     Long save(ReviewRequest reviewRequest);
-
+    Double getRating(Long productId);
     List<ReviewResponse> findAll();
     List<ReviewResponse> findAllByProductId(Long productId);
     Boolean checkUserReview(Long productId);

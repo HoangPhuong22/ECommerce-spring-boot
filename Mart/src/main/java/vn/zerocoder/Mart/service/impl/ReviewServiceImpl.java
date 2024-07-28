@@ -38,6 +38,12 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    public Double getRating(Long productId) {
+        List<Review> reviews = reviewRepository.findAllByProductId(productId);
+        return reviews.stream().mapToDouble(Review::getRating).average().orElse(0);
+    }
+
+    @Override
     public List<ReviewResponse> findAll() {
         return reviewRepository.findAll().stream().map(reviewMapper::toResponse).toList();
     }

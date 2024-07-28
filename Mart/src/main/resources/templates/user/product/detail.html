@@ -76,7 +76,8 @@
                                     <div class="col-xl-12">
                                         <div class="prod-prop">
                                             <img th:src="@{/user/assets/icons/star.svg}" alt="" class="prod-prop__icon" />
-                                            <h4 class="prod-prop__title">(3.5) 1100 reviews</h4>
+                                            <h4 class="prod-prop__title" th:text="${'(' + rating + ')'} + ' có ' + ${reviews.size()} + ' đánh giá'">
+                                            </h4>
                                         </div>
                                         <div class="form__group">
                                             <label for="product-detail" class="form__label form-card__label">

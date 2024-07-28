@@ -22,6 +22,7 @@ public class HomeController {
     public String home(Model theModel) {
         CustomUserDetail customUserDetail = authUtils.loadUserByUsername();
         if(customUserDetail != null) {
+            System.out.println(customUserDetail.getAuthorities());
             theModel.addAttribute("favouriteList", customUserDetail.getProductIdsFavourite());
         }
         theModel.addAttribute("products", productService.findAll());

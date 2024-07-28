@@ -8,7 +8,7 @@ CREATE TABLE tbl_user (
     username VARCHAR(100) UNIQUE NOT NULL,
     password TEXT NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
-    status ENUM('Đang hoạt động', 'Dừng hoạt động', 'Khóa') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'Đang hoạt động',
+    status ENUM('ACTIVE', 'INACTIVE', 'KICKED') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'ACTIVE',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -21,13 +21,6 @@ CREATE TABLE tbl_role (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-CREATE TABLE tbl_group (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci UNIQUE NOT NULL,
-    description TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
 
 CREATE TABLE tbl_permission (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -44,15 +37,6 @@ CREATE TABLE tbl_user_role (
     FOREIGN KEY (user_id) REFERENCES tbl_user(id),
     FOREIGN KEY (role_id) REFERENCES tbl_role(id)
 );
-
-CREATE TABLE tbl_group_role (
-    group_id BIGINT,
-    role_id BIGINT,
-    PRIMARY KEY (group_id, role_id),
-    FOREIGN KEY (group_id) REFERENCES tbl_group(id),
-    FOREIGN KEY (role_id) REFERENCES tbl_role(id)
-);
-
 CREATE TABLE tbl_role_permission (
     role_id BIGINT,
     permission_id BIGINT,
@@ -61,13 +45,6 @@ CREATE TABLE tbl_role_permission (
     FOREIGN KEY (permission_id) REFERENCES tbl_permission(id)
 );
 
-CREATE TABLE tbl_user_group (
-    user_id BIGINT,
-    group_id BIGINT,
-    PRIMARY KEY (user_id, group_id),
-    FOREIGN KEY (user_id) REFERENCES tbl_user(id),
-    FOREIGN KEY (group_id) REFERENCES tbl_group(id)
-);
 
 -- Thông tin tài khoản
 CREATE TABLE tbl_profile (
@@ -359,6 +336,22 @@ CREATE TABLE tbl_review (
 
 
 #. CHUẨN HÓA DỮ LIỆU
+
+INSERT INTO tbl_role (name, description) VALUES
+('ADMIN', 'Quản trị viên với toàn quyền truy cập'),
+('MANAGER', 'Quản lý với quyền truy cập hạn chế'),
+('USER', 'Người dùng thông thường');
+
+INSERT INTO tbl_permission (name, description) VALUES
+('CREATED', 'Quyền tạo mới'),
+('DELETED', 'Quyền xóa'),
+('UPDATED', 'Quyền cập nhật'),
+('VIEW', 'Quyền xem'),
+('FULL_ACCESS', 'Toàn quyền truy cập');
+
+INSERT INTO tbl_role_permission (role_id, permission_id) VALUES
+(1, 1), (1, 2), (1, 3), (1, 4), (1, 5), -- Admin có tất cả các quyền
+(2, 1), (2, 3), (2, 4); -- Manager có quyền CREATED, UPDATED và VIEW
 
 
 -- Thêm dữ liệu cho các danh mục lớn

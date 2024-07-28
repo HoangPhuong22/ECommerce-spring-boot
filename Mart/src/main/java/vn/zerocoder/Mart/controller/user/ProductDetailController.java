@@ -1,8 +1,6 @@
 package vn.zerocoder.Mart.controller.user;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,10 +10,10 @@ import vn.zerocoder.Mart.configuration.CustomUserDetailService;
 import vn.zerocoder.Mart.dto.request.ReviewRequest;
 import vn.zerocoder.Mart.dto.response.ProductDetailResponse;
 import vn.zerocoder.Mart.dto.response.ProductResponse;
-import vn.zerocoder.Mart.model.SpecValue;
 import vn.zerocoder.Mart.service.*;
 import vn.zerocoder.Mart.utils.AuthUtils;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 @Controller
@@ -25,11 +23,7 @@ public class ProductDetailController {
 
     private final ProductService productService;
     private final ProductDetailService productDetailService;
-    private final CategoryService categoryService;
     private final BrandService brandService;
-    private final VariationService variationService;
-    private final VariationOptionService optionService;
-    private final CustomUserDetailService userService;
     private final SpecService specService;
     private final SpecValueService specValueService;
     private final AuthUtils authUtils;
@@ -58,7 +52,7 @@ public class ProductDetailController {
         model.addAttribute("brandService", brandService);
         model.addAttribute("specService", specService);
         model.addAttribute("isOrdered", productIsOrdered);
-
+        model.addAttribute("rating", new DecimalFormat("#.0").format(reviewService.getRating(id)));
 
         model.addAttribute("review", new ReviewRequest());
         model.addAttribute("reviews", reviewService.findAllByProductId(id));
