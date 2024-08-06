@@ -151,7 +151,7 @@
                             <div class="cart-info__separate"></div>
                             <div class="cart-info__row">
                                 <span>Ngày đặt hàng: </span>
-                                <span th:text="${#dates.format(order.created_at, 'HH:mm dd/MM/yyyy ')}"></span>
+                                <span th:text="${#temporals.format(order.createdAt, 'HH:mm dd/MM/yyyy ')}"></span>
                             </div>
                             <div class="cart-info__row">
                                 <span>Trạng thái đơn hàng: </span>

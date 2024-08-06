@@ -16,5 +16,7 @@ public class UserResponse {
     private String email;
     @Enumerated(EnumType.STRING)
     private UserStatus status;
-    List<Long> roleId;
+    private String avatar;
+    private String createdAt;
+    List<Long> roles;
 }

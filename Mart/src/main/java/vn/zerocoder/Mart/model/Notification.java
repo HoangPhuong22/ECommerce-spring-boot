@@ -3,6 +3,8 @@ package vn.zerocoder.Mart.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -18,15 +20,19 @@ public class Notification extends BaseEntity {
     @Column(name = "message")
     private String message;
 
-    @Column(name = "is_read")
-    private Boolean isRead;
-
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE,
-            CascadeType.DETACH,
-            CascadeType.REFRESH
-    })
-    @JoinColumn(name = "user_id")
-    private User user;
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE,
+                    CascadeType.REFRESH,
+                    CascadeType.DETACH
+            }
+    )
+    @JoinTable(
+            name = "tbl_notification_user",
+            joinColumns = @JoinColumn(name = "notification_id"),
+            inverseJoinColumns = @JoinColumn(name = "subscribed_user_id")
+    )
+    private List<SubscribedUser> subscribedUsers;
 }

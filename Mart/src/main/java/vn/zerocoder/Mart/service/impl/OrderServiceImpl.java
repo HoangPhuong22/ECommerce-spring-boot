@@ -54,8 +54,26 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Long updateStatus(Long id, String status) {
+        Order order = orderRepository.findById(id).orElseThrow();
+        order.setStatus(OrderStatus.valueOf(status));
+        orderRepository.save(order);
+        return order.getId();
+    }
+
+    @Override
+    public List<Order> findTop6ByOrderByCreatedAtDesc() {
+        return orderRepository.findTop6ByOrderByCreatedAtDesc();
+    }
+
+    @Override
     public Order findById(Long id) {
         return orderRepository.findById(id).orElseThrow();
+    }
+
+    @Override
+    public List<Order> findAll() {
+        return orderRepository.findAll();
     }
 
     private Long checkAndTotalQuantity(Cart cart) {

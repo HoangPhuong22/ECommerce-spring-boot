@@ -222,17 +222,24 @@ CREATE TABLE tbl_cart_detail (
 );
 
 #. THÔNG BÁO
-
 CREATE TABLE tbl_notification (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    user_id BIGINT,
     title VARCHAR(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
     message TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-    is_read BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES tbl_user(id)
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
+CREATE TABLE tbl_subscribed_user (
+	id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    email VARCHAR(100)
+);
+CREATE TABLE tbl_notification_user (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    subscribed_user_id BIGINT,
+    notification_id BIGINT,
+    FOREIGN KEY (subscribed_user_id) REFERENCES tbl_subscribed_user(id),
+    FOREIGN KEY (notification_id) REFERENCES tbl_notification(id)
+);
 #. THANH TOÁN
 
 CREATE TABLE tbl_payment_type (
@@ -281,7 +288,7 @@ CREATE TABLE tbl_order (
     payment_method_id BIGINT,
     order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     total DECIMAL(18, 0),
-    status ENUM('Chờ xác nhận', 'Đang trên đường giao', 'Đã giao thành công', 'Đã hủy') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'Chờ xác nhận',
+    status ENUM('PENDING', 'CONFIRMED', 'SHIPPING', 'DELIVERED', 'CANCELLED') DEFAULT 'PENDING',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES tbl_user(id),
@@ -290,6 +297,7 @@ CREATE TABLE tbl_order (
 	FOREIGN KEY (payment_method_id) REFERENCES tbl_user_payment_method(id)
 );
 
+
 CREATE TABLE tbl_transaction (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     user_id BIGINT,
@@ -297,12 +305,11 @@ CREATE TABLE tbl_transaction (
     payment_method_id BIGINT,
     amount DECIMAL(18, 2),
     transaction_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status ENUM('Đang xử lý', 'Hoàn thành', 'Thất bại', 'Đã hoàn tiền') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'Đang xử lý',
+    status ENUM('PENDING', 'PROCESSING', 'COMPLETED', 'CANCELLED', 'REFUNDED') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'PENDING',
     FOREIGN KEY (user_id) REFERENCES tbl_user(id),
     FOREIGN KEY (order_id) REFERENCES tbl_order(id),
     FOREIGN KEY (payment_method_id) REFERENCES tbl_user_payment_method(id)
 );
-
 
 CREATE TABLE tbl_order_detail (
 	id BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -327,9 +334,13 @@ CREATE TABLE tbl_review (
     FOREIGN KEY (user_id) REFERENCES tbl_user(id)
 );
 
-
-
-
+CREATE TABLE tbl_password_reset_token (
+	id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    token TEXT,
+    user_id BIGINT,
+    expiry_date DATETIME,
+    FOREIGN KEY (user_id) REFERENCES tbl_user(id)
+);
 
 
 

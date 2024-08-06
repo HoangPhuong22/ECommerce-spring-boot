@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin/main.html}"
+>
+<div layout:fragment="content">
+    <div class="page-header">
+        <h3 class="fw-bold mb-3">Thông báo</h3>
+        <ul class="breadcrumbs mb-3">
+            <li class="nav-home">
+                <a href="/admin">
+                    <i class="icon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/notification">Thông báo</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h4 class="card-title">Quản lý thông báo</h4>
+                <a href="/admin/notification/add" style="margin-left: auto">
+                    <button
+                            class="btn btn-primary btn-round ms-auto"
+                            data-bs-toggle="modal"
+                            data-bs-target="#addRowModal"
+                    >
+                        <i class="fa fa-plus"></i>
+                        Thêm mới
+                    </button>
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <span class="text-danger" th:if = "${notifications.size() == 0}">Không có thông báo nào được quản lý</span>
+                <table
+                        id="add-row"
+                        class="display table table-striped table-bordered "
+                        th:if = "${notifications.size() > 0}"
+                >
+                    <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Tiêu đề</th>
+                        <th>Nội dung</th>
+                        <th>Thao tác</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="notification, index : ${notifications}">
+                        <td th:text="${index.count}"></td>
+                        <td th:text="${notification.title}"></td>
+                        <td th:text="${notification.message}"></td>
+                        <td>
+                            <a
+                                    th:href="@{/admin/notification/delete/{id}(id=${notification.id})}"
+                                    class="btn btn-link btn--primary"
+                                    onclick="if(!confirm('Bạn có chắc chắn muốn xóa thông báo này không?')) return false;"
+                            >
+                                <i class="fa fa-trash"></i>
+                                Xóa
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

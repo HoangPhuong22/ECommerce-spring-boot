@@ -70,7 +70,7 @@
                                         <h4 th:text="${#authentication.principal.fullName}"></h4>
                                         <p class="text-muted" th:text="${#authentication.principal.email}"></p>
                                         <a
-                                                href="profile.html"
+                                                href="/profile"
                                                 class="btn btn-xs btn-secondary btn-sm"
                                         >View Profile</a
                                         >
@@ -79,9 +79,8 @@
                             </li>
                             <li>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/">Hồ sơ</a>
+                                <a class="dropdown-item" href="/profile">Hồ sơ</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Account Setting</a>
                                 <div class="dropdown-divider"></div>
                                 <form id="logoutForm" action="/logout" method="post" style="display:none;">
                                     <input type="hidden" name="_csrf" th:value="${_csrf.token}" />

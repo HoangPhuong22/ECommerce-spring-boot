@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/admin/main.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm danh mục</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="page-header">
+        <h3 class="fw-bold mb-3">Thông báo</h3>
+        <ul class="breadcrumbs mb-3">
+            <li class="nav-home">
+                <a href="/admin">
+                    <i class="icon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/notification">Thông báo</a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/notification/add">Thêm mới</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h4 class="card-title">Thêm mới thông báo</h4>
+            </div>
+            <div>
+                <p class="text-primary">
+                    Lưu ý rằng thông báo này sẽ được gửi đến tất cả người dùng đã đăng kí, vui lòng kiểm tra kỹ trước khi gửi, thận trọng.
+                </p>
+            </div>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/admin/notification/add}" method="post">
+                <div class="row">
+                    <div class="form-group">
+                        <label for="title">Tiêu đề</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Nhập tiêu đề"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Nội dung</label>
+                        <textarea class="form-control" id="message" name="message" rows="5" placeholder="Nhập nội dung"></textarea>
+                        <p class="text-danger" th:if="${error} != null" th:text="${error}"></p>
+                    </div>
+                </div>
+                <div class="card-action">
+                    <input type="submit" class="btn btn-success" value="Gửi"/>
+                    <a href="/admin/notification" class="btn btn-danger">Quay lại</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

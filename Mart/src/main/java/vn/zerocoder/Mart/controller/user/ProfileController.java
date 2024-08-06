@@ -10,6 +10,7 @@ import vn.zerocoder.Mart.configuration.CustomUserDetail;
 import vn.zerocoder.Mart.dto.request.AddressRequest;
 import vn.zerocoder.Mart.dto.request.PaymentMethodRequest;
 import vn.zerocoder.Mart.dto.request.ProfileRequest;
+import vn.zerocoder.Mart.model.User;
 import vn.zerocoder.Mart.service.*;
 import vn.zerocoder.Mart.utils.AuthUtils;
 
@@ -24,6 +25,7 @@ public class ProfileController {
     private final UserService userService;
     private final PaymentTypeService paymentTypeService;
     private final PaymentMethodService paymentMethodService;
+    private final EmailService emailService;
 
     @GetMapping
     public String profile(Model theModel) {
@@ -98,6 +100,13 @@ public class ProfileController {
             if(id == -2) theModel.addAttribute("confirmPasswordError", "Mật khẩu mới không khớp");
             return "user/account/change-password";
         }
+        User user = authUtils.loadUserByUsername().getUserConfig();
+        String text = "Xin chào " + user.getProfile().getFirstName() + ",\n\n"
+                + "Mật khẩu của tài khoản " + user.getUsername() + " đã được thay đổi.\n"
+                + "Nếu bạn không thực hiện thay đổi này, vui lòng liên hệ với chúng tôi ngay lập tức.\n\n"
+                + "Trân trọng,\n"
+                + "Zero Coder";
+        emailService.sendSimpleMessage(user.getEmail(), "Thay đổi mật khẩu", text);
         return "redirect:/profile?passwordChange=true";
     }
 

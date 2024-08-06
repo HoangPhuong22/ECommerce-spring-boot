@@ -8,10 +8,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import vn.zerocoder.Mart.dto.request.ShippingAddressRequest;
 import vn.zerocoder.Mart.model.Cart;
-import vn.zerocoder.Mart.service.CartDetailService;
-import vn.zerocoder.Mart.service.OrderService;
-import vn.zerocoder.Mart.service.ShippingAddressService;
-import vn.zerocoder.Mart.service.ShippingMethodService;
+import vn.zerocoder.Mart.model.User;
+import vn.zerocoder.Mart.service.*;
 import vn.zerocoder.Mart.utils.AuthUtils;
 
 @Controller
@@ -24,7 +22,7 @@ public class ShippingController {
     private final AuthUtils authUtils;
     private final ShippingMethodService shippingMethodService;
     private final OrderService orderService;
-
+    private final EmailService emailService;
     @GetMapping
     public String index(Model theModel) {
         Cart cart = authUtils.loadUserByUsername().getUserConfig().getCart();
@@ -86,7 +84,16 @@ public class ShippingController {
         if(id == -1) {
             return "redirect:/cart?orderFailed=true"; // Giỏ hàng có sản phẩm không đủ số lượng trong kho
         }
-
+        User user = authUtils.loadUserByUsername().getUserConfig();
+        String text = "Xin chào " + user.getProfile().getFirstName() + ",\n\n"
+                + "Đơn hàng của bạn đã được đặt thành công.\n"
+                + "Mã đơn hàng: #" + id + "\n"
+                + "Tổng tiền: " + orderService.findById(id).getTotal() + " VNĐ\n"
+                + "Bạn có thể xem chi tiết đơn hàng tại đây: " + "http://localhost:8080/order/" + id + "\n\n"
+                + "Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất.\n\n"
+                + "Trân trọng,\n"
+                + "Zero Coder";
+        emailService.sendSimpleMessage(user.getEmail(), "Đặt hàng thành công", text);
         return "redirect:/order/" + id + "?orderSuccess=true";
     }
 }

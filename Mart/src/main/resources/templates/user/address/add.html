@@ -38,7 +38,7 @@
                                     />
                                 </a>
                                 <h1 class="profile-user__name" th:text="${userAdvice.getFullName}"></h1>
-                                <p class="profile-user__desc" th:text="${'Ngày tham gia: ' + #dates.format(userAdvice.getUserConfig.created_at, 'dd/MM/yyyy')}"></p>
+                                <p class="profile-user__desc" th:text="${'Ngày tham gia: ' + #temporals.format(userAdvice.getUserConfig.createdAt, 'dd/MM/yyyy')}"></p>
                             </div>
 
                             <div layout:insert="~{layout/user/leftmenu :: leftmenu}"></div>

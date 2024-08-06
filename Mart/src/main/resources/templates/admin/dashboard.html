@@ -5,5 +5,187 @@
       layout:decorate="~{layout/admin/main.html}"
 >
 <div layout:fragment="content">
-    <h1>Hello</h1>
+    <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
+        <div>
+            <h3 class="fw-bold mb-3">Tổng quan</h3>
+            <h6 class="op-7 mb-2">Xem thông tin tổng quan về hệ thống</h6>
+        </div>
+        <div class="ms-md-auto py-2 py-md-0">
+            <a href="/admin/user/add" class="btn btn-primary btn-round">Thêm người dùng</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-md-3">
+            <div class="card card-stats card-round">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-icon">
+                            <div class="icon-big text-center icon-primary bubble-shadow-small">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                        <div class="col col-stats ms-3 ms-sm-0">
+                            <div class="numbers">
+                                <p class="card-category">Khách Hàng</p>
+                                <h4 class="card-title">1,294</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="card card-stats card-round">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-icon">
+                            <div class="icon-big text-center icon-info bubble-shadow-small">
+                                <i class="fas fa-user-check"></i>
+                            </div>
+                        </div>
+                        <div class="col col-stats ms-3 ms-sm-0">
+                            <div class="numbers">
+                                <p class="card-category">Người đăng kí</p>
+                                <h4 class="card-title">1303</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="card card-stats card-round">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-icon">
+                            <div class="icon-big text-center icon-success bubble-shadow-small">
+                                <i class="fas fa-luggage-cart"></i>
+                            </div>
+                        </div>
+                        <div class="col col-stats ms-3 ms-sm-0">
+                            <div class="numbers">
+                                <p class="card-category">Sản phẩm</p>
+                                <h4 class="card-title">3112</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="card card-stats card-round">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-icon">
+                            <div class="icon-big text-center icon-secondary bubble-shadow-small">
+                                <i class="far fa-check-circle"></i>
+                            </div>
+                        </div>
+                        <div class="col col-stats ms-3 ms-sm-0">
+                            <div class="numbers">
+                                <p class="card-category">Đơn hàng</p>
+                                <h4 class="card-title">576</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card card-round">
+                <div class="card-body">
+                    <div class="card-head-row card-tools-still-right">
+                        <div class="card-title">Khách hàng mới</div>
+                        <div class="card-tools">
+                            <div class="dropdown">
+                                <button class="btn btn-icon btn-clean me-0" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="/admin/user">Xem tất cả</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-list py-4">
+                        <div class="item-list" th:each="user: ${users}">
+                            <div class="avatar">
+                                <img    th:src="@{'image/' + ${user.avatar}}"
+                                     alt="..."
+                                     class="avatar-img rounded-circle"
+                                >
+                            </div>
+                            <div class="info-user ms-3">
+                                <div class="username" th:text="${user.username}"></div>
+                                <div class="status" th:text="${user.email}"></div>
+                            </div>
+                            <div class="info-user ms-3">
+                                <div class="status" th:text="${user.createdAt}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card card-round">
+                <div class="card-header">
+                    <div class="card-head-row card-tools-still-right">
+                        <div class="card-title">Các đơn hàng mới</div>
+                        <div class="card-tools">
+                            <div class="dropdown">
+                                <button class="btn btn-icon btn-clean me-0" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <!-- Projects table -->
+                        <table class="table align-items-center mb-0">
+                            <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Mã đơn hàng</th>
+                                <th scope="col" class="text-end">Thời gian</th>
+                                <th scope="col" class="text-end">Tổng tiền</th>
+                                <th scope="col" class="text-end">Trạng thái</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="order: ${orders}">
+                                <th scope="row">
+                                    <button class="btn btn-icon btn-round btn-success btn-sm me-2">
+                                        <i class="fa fa-check"></i>
+                                    </button>
+                                    [['#' + ${order.id}]]
+                                </th>
+                                <td class="text-end" th:text="${#temporals.format(order.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
+                                <td class="text-end"
+                                    th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'POINT')} + 'đ'">
+                                >
+                                </td>
+                                <td class="text-end" th:switch="${order.status}">
+                                    <span th:case="${order.status.PENDING}" class="badge badge-warning">Chờ xác nhận</span>
+                                    <span th:case="${order.status.CONFIRMED}" class="badge badge-primary">Đã xác nhận</span>
+                                    <span th:case="${order.status.SHIPPING}" class="badge badge-info">Đang giao hàng</span>
+                                    <span th:case="${order.status.DELIVERED}" class="badge badge-success">Đã giao hàng</span>
+                                    <span th:case="${order.status.CANCELLED}" class="badge badge-danger">Đã hủy</span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

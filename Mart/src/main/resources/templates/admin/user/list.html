@@ -5,18 +5,36 @@
       layout:decorate="~{layout/admin/main.html}"
 >
 <div layout:fragment="content">
+    <div class="page-header">
+        <h3 class="fw-bold mb-3">Danh sách người dùng</h3>
+        <ul class="breadcrumbs mb-3">
+            <li class="nav-home">
+                <a href="/admin">
+                    <i class="icon-home"></i>
+                </a>
+            </li>
+            <li class="separator">
+                <i class="icon-arrow-right"></i>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/user">Người dùng</a>
+            </li>
+        </ul>
+    </div>
     <div class="card">
         <div class="card-header">
             <div class="d-flex align-items-center">
                 <h4 class="card-title">Quản lý người dùng</h4>
-                <button
-                        class="btn btn-primary btn-round ms-auto"
-                        data-bs-toggle="modal"
-                        data-bs-target="#addRowModal"
-                >
-                    <i class="fa fa-plus"></i>
-                    Thêm người dùng mới
-                </button>
+                <a href="/admin/user/add" style="margin-left: auto">
+                    <button
+                            class="btn btn-primary btn-round ms-auto"
+                            data-bs-toggle="modal"
+                            data-bs-target="#addRowModal"
+                    >
+                        <i class="fa fa-plus"></i>
+                        Thêm mới
+                    </button>
+                </a>
             </div>
         </div>
         <div class="card-body">
@@ -49,21 +67,18 @@
                             <span class="badge badge-danger">Bị khóa</span>
                         </td>
                         <td>
-                            <div class="form-button-action">
+                            <div class="form-button-action" th:if="${user.id != userAdvice.userConfig.id}">
                                 <a
-                                        th:href="@{'/admin/user/' + ${user.id}}"
-                                        class="btn btn-link btn-primary btn-lg"
-                                >
-                                    <i class="fa fa-eye"></i>
-                                    Xem
-                                </a>
-                                <a
-                                        th:href="@{'/admin/user/' + ${user.id} + '/edit'}"
+                                        th:href="@{'/admin/user/edit/' + ${user.id}}"
                                         class="btn btn-link btn-warning btn-lg"
                                 >
                                     <i class="fa fa-edit"></i>
                                     Sửa
                                 </a>
+                            </div>
+                            <div class="form-button-action" th:if="${user.id == userAdvice.userConfig.id}">
+                                <i class="fa fa-lock"></i>
+                                Chính bạn
                             </div>
                         </td>
                     </tr>

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -20,10 +21,10 @@ public abstract class BaseEntity {
     @Column(name = "created_at")
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    private Date created_at;
+    private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    private Date updated_at;
+    private LocalDateTime updatedAt;
 }

@@ -17,6 +17,13 @@
             });
         </script>
     </div>
+    <div th:if="${param.subscribed}">
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                createToast('success', 'fa-solid fa-circle-check', 'Đã đăng kí', 'Đã đăng kí nhận thông báo thành công');
+            });
+        </script>
+    </div>
     <div th:if="${param.profileSave}">
         <script>
             document.addEventListener('DOMContentLoaded', function () {

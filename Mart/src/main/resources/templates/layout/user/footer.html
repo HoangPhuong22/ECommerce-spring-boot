@@ -16,8 +16,9 @@
       </p>
 
       <p class="footer__help-text">Đăng kí email để nhận thông báo từ chúng tôi.</p>
-      <form action="" class="footer__form">
-        <input type="text" class="footer__input" placeholder="Địa chỉ email" />
+      <form action="/subscribe" method="post" class="footer__form">
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+        <input type="text" name="email" class="footer__input" placeholder="Địa chỉ email" />
         <button class="btn btn--primary">Gửi</button>
       </form>
     </div>
@@ -27,64 +28,61 @@
       <h3 class="footer__heading">Shop</h3>
       <ul class="footer__list">
         <li>
-          <a href="#!" class="footer__link">All Departments</a>
+          <a href="#!" class="footer__link">Giảm giá</a>
         </li>
         <li>
-          <a href="#!" class="footer__link">Fashion Deals</a>
+          <a href="#!" class="footer__link">Sản phẩm mới</a>
         </li>
         <li>
-          <a href="#!" class="footer__link">Electronics Discounts</a>
+          <a href="#!" class="footer__link">Bán chạy</a>
         </li>
         <li>
-          <a href="#!" class="footer__link">Home & Living Specials</a>
-        </li>
-        <li>
-          <a href="#!" class="footer__link">Beauty Bargains</a>
+          <a href="#!" class="footer__link">Tin tức</a>
         </li>
       </ul>
     </div>
 
     <!-- Footer column 3 -->
     <div class="footer__col">
-      <h3 class="footer__heading">Support</h3>
+      <h3 class="footer__heading"> Trợ giúp</h3>
       <ul class="footer__list">
         <li>
-          <a href="#!" class="footer__link">Store locator</a>
+          <a href="#!" class="footer__link">Giao hàng</a>
         </li>
         <li>
-          <a href="#!" class="footer__link">Order status</a>
+          <a href="#!" class="footer__link">Trạng thái đơn hàng</a>
         </li>
       </ul>
     </div>
 
     <!-- Footer column 4 -->
     <div class="footer__col">
-      <h3 class="footer__heading">Company</h3>
+      <h3 class="footer__heading">Công ty</h3>
       <ul class="footer__list">
         <li>
-          <a href="#!" class="footer__link">Customer Service</a>
+          <a href="#!" class="footer__link">Dịch vụ khách hàng</a>
         </li>
         <li>
-          <a href="#!" class="footer__link">Terms of Use</a>
+          <a href="#!" class="footer__link">Điều khoản</a>
         </li>
         <li>
-          <a href="#!" class="footer__link">Privacy</a>
+          <a href="#!" class="footer__link">Chính sách bảo mật</a>
         </li>
         <li>
-          <a href="#!" class="footer__link">Careers</a>
+          <a href="#!" class="footer__link">Chính sách hoàn trả</a>
         </li>
         <li>
-          <a href="#!" class="footer__link">About</a>
+          <a href="#!" class="footer__link">Chính sách cookie</a>
         </li>
         <li>
-          <a href="#!" class="footer__link">Affiliates</a>
+          <a href="#!" class="footer__link">Chính sách bảo mật</a>
         </li>
       </ul>
     </div>
 
     <!-- Footer column 5 -->
     <div class="footer__col">
-      <h3 class="footer__heading">Contact</h3>
+      <h3 class="footer__heading">Liên hệ</h3>
       <ul class="footer__list">
         <li>
           <p class="footer__label">Email</p>
@@ -95,14 +93,16 @@
           <a href="tel:18008888" class="footer__link">18008888</a>
         </li>
         <li>
-          <p class="footer__label">Address</p>
+          <p class="footer__label">Địa chỉ</p>
           <p class="footer__text">
-            No. 11D, Lot A10, Nam Trung Yen urban area, Yen Hoa Ward, Cau Giay District, City. Hanoi
+            357 Lê Hoàng Phương, Cầu Giấy, Hà Nội
           </p>
         </li>
         <li>
-          <p class="footer__label">Hours</p>
-          <p class="footer__text">M - F 08:00am - 06:00pm</p>
+          <p class="footer__label">Giờ làm việc</p>
+          <p class="footer__text">
+            Thứ 2 - Thứ 6: 8:00 - 17:00
+            </p>
         </li>
       </ul>
     </div>

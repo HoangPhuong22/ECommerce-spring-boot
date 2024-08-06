@@ -13,6 +13,9 @@ import vn.zerocoder.Mart.model.OrderDetail;
 import vn.zerocoder.Mart.model.Profile;
 import vn.zerocoder.Mart.model.User;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Component
 @RequiredArgsConstructor
 public class AuthUtils {
@@ -71,5 +74,8 @@ public class AuthUtils {
             }
         }
         return isOrdered;
+    }
+    public static boolean validatePasswordToken(LocalDateTime expiryDate) {
+        return expiryDate.isAfter(LocalDateTime.now());
     }
 }

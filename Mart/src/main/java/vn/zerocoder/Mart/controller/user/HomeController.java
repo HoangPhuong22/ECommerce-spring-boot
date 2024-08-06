@@ -3,10 +3,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import vn.zerocoder.Mart.configuration.CustomUserDetail;
 import vn.zerocoder.Mart.service.BrandService;
 import vn.zerocoder.Mart.service.CategoryService;
 import vn.zerocoder.Mart.service.ProductService;
+import vn.zerocoder.Mart.service.SubscribedUserService;
 import vn.zerocoder.Mart.utils.AuthUtils;
 
 @Controller
@@ -17,7 +20,7 @@ public class HomeController {
     private final CategoryService categoryService;
     private final BrandService brandService;
     private final AuthUtils authUtils;
-
+    private final SubscribedUserService subscribedUserService;
     @GetMapping("/")
     public String home(Model theModel) {
         CustomUserDetail customUserDetail = authUtils.loadUserByUsername();
@@ -29,5 +32,10 @@ public class HomeController {
         theModel.addAttribute("categoryService", categoryService);
         theModel.addAttribute("brandService", brandService);
         return "user/home";
+    }
+    @PostMapping("/subscribe")
+    public String subscribe(@RequestParam("email") String email) {
+        subscribedUserService.save(email);
+        return "redirect:/?subscribed=true";
     }
 }

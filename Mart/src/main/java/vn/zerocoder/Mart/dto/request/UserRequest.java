@@ -2,8 +2,12 @@ package vn.zerocoder.Mart.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import vn.zerocoder.Mart.enums.UserStatus;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -28,4 +32,8 @@ public class UserRequest {
 
     @NotBlank(message = "Tên không được để trống")
     private String lastName;
+
+    private UserStatus status;
+
+    private List<Long> roles;
 }
