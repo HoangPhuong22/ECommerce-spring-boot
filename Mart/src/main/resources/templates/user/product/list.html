@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/user/main.html}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Trang chủ</title>
+</head>
+<div layout:fragment="content">
+    <main class="container home">
+        <section class="home__container">
+            <div class="home__row">
+                <h2 class="home__heading">Tất cả sản phẩm</h2>
+            </div>
+
+            <div class="row row-cols-5 row-cols-xl-3 row-cols-md-2 g-3 g-md-2 g-sm-1">
+                <!-- Product card 1 -->
+                <div class="col" th:each="product : *{products}">
+                    <article class="product-card">
+                        <div class="product-card__img-wrap">
+                            <a th:href="@{'/product/' + ${product.id}}">
+                                <img th:src="@{'/image/' + ${product.image}}" alt="" class="product-card__thumb" />
+                            </a>
+                            <!--like-btn like-btn--liked product-card__like-btn-->
+                            <button
+                                    sec:authorize="isAuthenticated()"
+                                    class="like-btn product-card__like-btn ajax-favourite__btn"
+                                    th:classappend="${favouriteList != null and favouriteList.contains(product.id) ? 'like-btn--liked' : ''}"
+                                    th:data-product-id="${product.id}"
+                            >
+                                <img src="/user/assets/icons/heart.svg" alt="" class="like-btn__icon icon" />
+                                <img src="/user/assets/icons/heart-red.svg" alt="" class="like-btn__icon--liked" />
+                            </button>
+                        </div>
+                        <h3 class="product-card__title">
+                            <a th:href="@{'/product/' + ${product.id}}"
+                               th:text="${product.name}"></a>
+                        </h3>
+                        <div class="product-card__row">
+                            <p class="product-card__brand" th:text="${brandService.findById(product.brand_id).name}"></p>
+                            <img th:src="@{/user/assets/icons/star.svg}" alt="" class="product-card__star" />
+                            <span class="product-card__score">4.3</span>
+                        </div>
+                        <div class="product-card__row">
+                            <span
+                                    class="product-card__price"
+                                    th:utext="${#numbers.formatDecimal(product.price - (product.price * product.promotionRate / 100), 0, 'COMMA', 0, 'POINT')} + 'đ'"
+                            >
+                            </span>
+                            <span
+                                    class="product-card__discount"
+                                    th:utext="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + 'đ'"
+                            >
+                            </span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>

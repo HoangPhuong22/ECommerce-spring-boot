@@ -39,8 +39,8 @@ public class SecurityConfig {
          http
                  .authorizeHttpRequests(
                          auth -> auth
-                             .requestMatchers("/admin/**").hasAuthority("ADMIN")
                              .requestMatchers("/admin/notification/delete/**").hasAuthority("DELETED")
+                             .requestMatchers("/admin/**").hasAnyAuthority("ADMIN", "MANAGER")
                              .requestMatchers(AuthUrl).authenticated()
                              .requestMatchers("/**").permitAll()
                  )

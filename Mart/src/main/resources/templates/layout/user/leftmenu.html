@@ -51,7 +51,7 @@
     </div>
 
     <!-- Menu 3 -->
-    <div class="profile-menu" sec:authorize="hasAuthority('ADMIN')">
+    <div class="profile-menu" sec:authorize="hasAnyAuthority('ADMIN', 'MANAGER')">
         <h3 class="profile-menu__title">Quản trị</h3>
         <ul class="profile-menu__list">
             <li>

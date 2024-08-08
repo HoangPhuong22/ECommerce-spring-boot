@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import vn.zerocoder.Mart.dto.request.ProductRequest;
 import vn.zerocoder.Mart.dto.response.ProductResponse;
+import vn.zerocoder.Mart.dto.search.ProductSearchDTO;
 import vn.zerocoder.Mart.mapper.ProductMapper;
 import vn.zerocoder.Mart.model.*;
 import vn.zerocoder.Mart.repository.BrandRepository;
@@ -91,6 +92,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductResponse> findAll() {
         return productRepository.findAll().stream()
+                .map(productMapper::toProductResponse)
+                .toList();
+    }
+
+    @Override
+    public List<ProductResponse> findAllAndSearch(ProductSearchDTO searchDTO) {
+        return productRepository.findAllAndSearch(searchDTO).stream()
                 .map(productMapper::toProductResponse)
                 .toList();
     }

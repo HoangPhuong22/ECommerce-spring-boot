@@ -48,91 +48,69 @@
                     <div id="home-filter" class="filter hide">
                         <img src="/user/assets/icons/arrow-up.png" alt="" class="filter__arrow" />
                         <h3 class="filter__heading">Bộ lọc</h3>
-                        <form action="" class="filter__form form">
+                        <form action="/product" method="get" class="filter__form form">
                             <div class="filter__row filter__content">
-                                <!-- Filter column 1 -->
                                 <div class="filter__col">
-                                    <label for="" class="form__label">Price</label>
-                                    <div class="filter__form-group">
-                                        <div
-                                                class="filter__form-slider"
-                                                style="--min-value: 10%; --max-value: 60%"
-                                        ></div>
-                                    </div>
-                                    <div class="filter__form-group filter__form-group--inline">
-                                        <div>
-                                            <label for="" class="form__label form__label--small"> Minimum </label>
-                                            <div class="filter__form-text-input filter__form-text-input--small">
-                                                <input
-                                                        type="text"
-                                                        name=""
-                                                        id=""
-                                                        class="filter__form-input"
-                                                        value="$30.00"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <label for="" class="form__label form__label--small"> Maximum </label>
-                                            <div class="filter__form-text-input filter__form-text-input--small">
-                                                <input
-                                                        type="text"
-                                                        name=""
-                                                        id=""
-                                                        class="filter__form-input"
-                                                        value="$100.00"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="filter__separate"></div>
-
-                                <!-- Filter column 2 -->
-                                <div class="filter__col">
-                                    <label for="" class="form__label">Size/Weight</label>
-                                    <div class="filter__form-group">
-                                        <div class="form__select-wrap">
-                                            <div class="form__select" style="--width: 158px">
-                                                500g
-                                                <img
-                                                        src="./assets/icons/select-arrow.svg"
-                                                        alt=""
-                                                        class="form__select-arrow icon"
-                                                />
-                                            </div>
-                                            <div class="form__select">
-                                                Gram
-                                                <img
-                                                        src="./assets/icons/select-arrow.svg"
-                                                        alt=""
-                                                        class="form__select-arrow icon"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="filter__form-group">
-                                        <div class="form__tags">
-                                            <button class="form__tag">Small</button>
-                                            <button class="form__tag">Medium</button>
-                                            <button class="form__tag">Large</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="filter__separate"></div>
-
-                                <!-- Filter column 3 -->
-                                <div class="filter__col">
-                                    <label for="" class="form__label">Brand</label>
+                                    <label for="keyword" class="form__label">Tên sản phẩm</label>
                                     <div class="filter__form-group">
                                         <div class="filter__form-text-input">
                                             <input
                                                     type="text"
-                                                    name=""
-                                                    id=""
-                                                    placeholder="Search brand name"
+                                                    th:name="keyword"
+                                                    id="keyword"
+                                                    placeholder="Nhập tên (VD: iPhone15, Samsung, Máy tính,...)"
+                                                    class="filter__form-input"
+                                            />
+                                            <img
+                                                    src="./assets/icons/search.svg"
+                                                    alt=""
+                                                    class="filter__form-input-icon icon"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="filter__separate"></div>
+                                <!-- Filter column 1 -->
+                                <div class="filter__col">
+                                    <label class="form__label">Giá tiền</label>
+                                    <div class="filter__form-group filter__form-group--inline">
+                                        <div>
+                                            <label for="price_min" class="form__label form__label--small"> Tối thiểu </label>
+                                            <div class="filter__form-text-input filter__form-text-input--small">
+                                                <input
+                                                        type="text"
+                                                        name="price_min"
+                                                        id="price_min"
+                                                        class="filter__form-input"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label for="price_max" class="form__label form__label--small"> Tối đa </label>
+                                            <div class="filter__form-text-input filter__form-text-input--small">
+                                                <input
+                                                        type="text"
+                                                        name="price_max"
+                                                        id="price_max"
+                                                        class="filter__form-input"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="filter__separate"></div>
+
+                                <div class="filter__col">
+                                    <label for="category" class="form__label">Danh mục</label>
+                                    <div class="filter__form-group">
+                                        <div class="filter__form-text-input">
+                                            <input
+                                                    type="text"
+                                                    th:name="category"
+                                                    id="category"
+                                                    placeholder="Nhập loại (VD: Điện thoại, Máy tính, ...)"
                                                     class="filter__form-input"
                                             />
                                             <img
@@ -144,22 +122,206 @@
                                     </div>
                                     <div class="filter__form-group">
                                         <div class="form__tags">
-                                            <button class="form__tag">Lavazza</button>
-                                            <button class="form__tag">Nescafe</button>
-                                            <button class="form__tag">Starbucks</button>
+                                            <div class="search-form">
+                                                <label class="cart-info__checkbox">
+                                                    <input type="checkbox" id="tech" th:name="category" class="cart-info__checkbox-input" value="Công nghệ">
+                                                </label>
+                                                <label for="tech">Công nghệ</label>
+                                            </div>
+                                            <div class="search-form">
+                                                <label class="cart-info__checkbox">
+                                                    <input type="checkbox" id="clothes" th:name="category" class="cart-info__checkbox-input" value="Thời trang">
+                                                </label>
+                                                <label for="clothes">Thời trang</label>
+                                            </div>
+                                            <div class="search-form">
+                                                <label class="cart-info__checkbox">
+                                                    <input type="checkbox" id="house" th:name="category" class="cart-info__checkbox-input" value="Gia dụng">
+                                                </label>
+                                                <label for="house">Gia dụng</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="filter__separate"></div>
+
+                                <div class="filter__col">
+                                    <label for="brand" class="form__label">Thương hiệu</label>
+                                    <div class="filter__form-group">
+                                        <div class="filter__form-text-input">
+                                            <input
+                                                    type="text"
+                                                    name="brand"
+                                                    id="brand"
+                                                    placeholder="Nhập tên thương hiệu (VD: iphone, lenovo, ...)"
+                                                    class="filter__form-input"
+                                            />
+                                            <img
+                                                    src="./assets/icons/search.svg"
+                                                    alt=""
+                                                    class="filter__form-input-icon icon"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="filter__form-group">
+                                        <div class="form__tags">
+                                            <div class="search-form">
+                                                <label class="cart-info__checkbox">
+                                                    <input type="checkbox" id="apple" name="brand" class="cart-info__checkbox-input" value="apple">
+                                                </label>
+                                                <label for="apple">Apple</label>
+                                            </div>
+                                            <div class="search-form">
+                                                <label class="cart-info__checkbox">
+                                                    <input type="checkbox" id="samsung" name="brand" class="cart-info__checkbox-input" value="samsung">
+                                                </label>
+                                                <label for="samsung">SamSung</label>
+                                            </div>
+                                            <div class="search-form">
+                                                <label class="cart-info__checkbox">
+                                                    <input type="checkbox" id="oppo" name="brand" class="cart-info__checkbox-input" value="opppo">
+                                                </label>
+                                                <label for="oppo">Oppo</label>
+                                            </div>
+                                            <div class="search-form">
+                                                <label class="cart-info__checkbox">
+                                                    <input type="checkbox" id="xiaomi" name="brand" class="cart-info__checkbox-input" value="xiaomi">
+                                                </label>
+                                                <label for="xiaomi">Xiaomi</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="filter__separate"></div>
+                                <div class="filter__col">
+                                    <label class="form__label">Bộ nhớ trong</label>
+                                    <div class="filter__form-group">
+                                        <div class="filter__form-text-input">
+                                            <input
+                                                    type="text"
+                                                    th:name="memory"
+                                                    id="memory"
+                                                    placeholder="Nhập bộ nhớ (VD: 32GB, 64GB, 128GB,...)"
+                                                    class="filter__form-input"
+                                            />
+                                            <img
+                                                    src="./assets/icons/search.svg"
+                                                    alt=""
+                                                    class="filter__form-input-icon icon"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="filter__form-group">
+                                        <div class="form__tags">
+                                            <div class="search-form">
+                                                <label class="cart-info__checkbox">
+                                                    <input type="checkbox" id="32gb" name="memory" class="cart-info__checkbox-input" value="32GB">
+                                                </label>
+                                                <label for="32gb">32gb</label>
+                                            </div>
+                                            <div class="search-form">
+                                                <label class="cart-info__checkbox">
+                                                    <input type="checkbox" id="64gb" name="memory" class="cart-info__checkbox-input" value="64GB">
+                                                </label>
+                                                <label for="64gb">64GB</label>
+                                            </div>
+                                            <div class="search-form">
+                                                <label class="cart-info__checkbox">
+                                                    <input type="checkbox" id="128GB" name="memory" class="cart-info__checkbox-input" value="128GB">
+                                                </label>
+                                                <label for="128GB">128GB</label>
+                                            </div>
+                                            <div class="search-form">
+                                                <label class="cart-info__checkbox">
+                                                    <input type="checkbox" id="254gb" name="memory" class="cart-info__checkbox-input" value="254GB">
+                                                </label>
+                                                <label for="254gb">254GB</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="filter__separate"></div>
+                                <div class="filter__col">
+                                    <label for="ram" class="form__label">Ram</label>
+                                    <div class="filter__form-group">
+                                        <div class="filter__form-text-input">
+                                            <input
+                                                    type="text"
+                                                    th:name="ram"
+                                                    id="ram"
+                                                    placeholder="Nhập ram(VD: 4GB, 8GB, 16GB,...)"
+                                                    class="filter__form-input"
+                                            />
+                                            <img
+                                                    src="./assets/icons/search.svg"
+                                                    alt=""
+                                                    class="filter__form-input-icon icon"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="filter__form-group">
+                                        <div class="form__tags">
+                                            <div class="search-form">
+                                                <label class="cart-info__checkbox">
+                                                    <input type="checkbox" id="ram4gb" name="memory" class="cart-info__checkbox-input" value="4GB">
+                                                </label>
+                                                <label for="ram4gb">4GB</label>
+                                            </div>
+                                            <div class="search-form">
+                                                <label class="cart-info__checkbox">
+                                                    <input type="checkbox" id="ram8gb" name="memory" class="cart-info__checkbox-input" value="8GB">
+                                                </label>
+                                                <label for="ram8gb">8GB</label>
+                                            </div>
+                                            <div class="search-form">
+                                                <label class="cart-info__checkbox">
+                                                    <input type="checkbox" id="ram16gb" name="memory" class="cart-info__checkbox-input" value="16GB">
+                                                </label>
+                                                <label for="ram16gb">16GB</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="filter__separate"></div>
+                                <div class="filter__col">
+                                    <label for="ram" class="form__label">Sắp xếp</label>
+                                    <div class="filter__form-group">
+                                        <div class="form__tags">
+                                            <div class="search-form">
+                                                <label class="cart-info__checkbox">
+                                                    <input type="checkbox" id="price-desc" name="orderBy" class="cart-info__checkbox-input" value="price_desc">
+                                                </label>
+                                                <label for="price-desc">Giá cao -> thấp</label>
+                                            </div>
+                                            <div class="search-form">
+                                                <label class="cart-info__checkbox">
+                                                    <input type="checkbox" id="price-asc" name="orderBy" class="cart-info__checkbox-input" value="price_asc">
+                                                </label>
+                                                <label for="price-asc">Giá thấp -> cao</label>
+                                            </div>
+                                            <div class="search-form">
+                                                <label class="cart-info__checkbox">
+                                                    <input type="checkbox" id="tồn kho" name="orderBy" class="cart-info__checkbox-input" value="quantity_desc">
+                                                </label>
+                                                <label for="tồn kho">Số lượng tồn kho</label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="filter__row filter__footer">
                                 <button class="btn btn--text filter__cancel js-toggle" toggle-target="#home-filter">
-                                    Cancel
+                                    Tiếp tục
                                 </button>
                                 <button
-                                        class="btn btn--primary filter__submit js-toggle"
+                                        class="btn btn--primary filter__submit"
                                         toggle-target="#home-filter"
                                 >
-                                    Show Result
+                                    Tìm kiếm
                                 </button>
                             </div>
                         </form>

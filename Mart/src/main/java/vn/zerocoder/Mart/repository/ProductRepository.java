@@ -7,7 +7,7 @@ import vn.zerocoder.Mart.model.Product;
 import java.util.List;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface ProductRepository extends JpaRepository<Product, Long>, ProductRepositoryCustom {
     Boolean existsByName(String productName);
     Boolean existsByNameAndIdNot(String productName, Long id);
 
